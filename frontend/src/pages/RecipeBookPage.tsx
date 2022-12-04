@@ -3,8 +3,10 @@ import * as React from "react";
 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Button, Collapse} from 'antd';
-import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {ListItem, ListItemText} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Container from "@mui/material/Container";
 
 const recipeTmp = ['Barszcz z uszkami', 'Bigos', 'Pierogi']
 const ingredientTmp = ['burak', 'uszko', 'ziemniaki']
@@ -33,6 +35,17 @@ function RecipeBookPage() {
 
     return (
         <div className="App">
+            <Box boxShadow={20}
+                 px={{ xs: 3, sm:1 }}
+                 py={{ xs: 3, sm:1 }}
+                 bgcolor="#b9e3ba">
+                <Container maxWidth="xl" >
+                    <Box>przepisy</Box>
+                    <Box>popularność</Box>
+                    <Box><Button shape="circle" icon={<PlusCircleOutlined />} href="/"/> </Box>
+
+                </Container>
+            </Box>
             <Box>
                 <Collapse onChange={onChange}>
                     {recipeTmp.map((value) => (
