@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
 
-import { Collapse } from 'antd';
+import {Button, Collapse} from 'antd';
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 
 const recipeTmp = ['Barszcz z uszkami', 'Bigos', 'Pierogi']
 
@@ -19,12 +20,20 @@ const text = `
 
 function RecipeBookPage() {
 
+    const genExtra = () => (
+        <Box>
+            <Button shape="circle" icon={<EditOutlined />} href="/"/>
+            <Button shape="circle" icon={<DeleteOutlined />} href="/"/>
+        </Box>
+
+    );
+
     return (
         <div className="App">
             <Box>
-                <Collapse defaultActiveKey={['1']} onChange={onChange}>
+                <Collapse onChange={onChange}>
                     {recipeTmp.map((value) => (
-                        <Panel header={`${value}`} key={value}>
+                        <Panel header={`${value}`} key={value} extra={genExtra()}>
                             <p>{text}</p>
                         </Panel>
                     ))}
