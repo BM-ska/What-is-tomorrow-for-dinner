@@ -1,10 +1,13 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
 
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Button, Collapse} from 'antd';
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {ListItem, ListItemText} from "@mui/material";
 
 const recipeTmp = ['Barszcz z uszkami', 'Bigos', 'Pierogi']
+const ingredientTmp = ['burak', 'uszko', 'ziemniaki']
 
 const { Panel } = Collapse;
 
@@ -34,7 +37,15 @@ function RecipeBookPage() {
                 <Collapse onChange={onChange}>
                     {recipeTmp.map((value) => (
                         <Panel header={`${value}`} key={value} extra={genExtra()}>
-                            <p>{text}</p>
+                            {ingredientTmp.map((value) => (
+                                <ListItem
+                                    key={value}
+                                    disableGutters
+                                >
+                                    <ArrowRightIcon />
+                                    <ListItemText primary={`${value}`} />
+                                </ListItem>
+                            ))}
                         </Panel>
                     ))}
                 </Collapse>
