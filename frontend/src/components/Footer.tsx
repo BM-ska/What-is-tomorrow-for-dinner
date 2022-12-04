@@ -12,12 +12,13 @@ import Typography from "@mui/material/Typography";
 
 export default function Footer(){
     return (
-    <footer>
-        <Box px={{ xs: 3, sm:4 }}
+    <footer >
+        <Box boxShadow={20}
+             px={{ xs: 3, sm:4 }}
              py={{ xs: 3, sm:4 }}
              bgcolor="#7cc27d">
             <Container maxWidth="xl" >
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                     <Grid item xs={12} sm={2}>
                         <Box>
                             <Typography
@@ -59,6 +60,9 @@ export default function Footer(){
                         </Box>
 
                     </Grid>
+
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}></Box>
+
                     <Box>
                         <IconButton  sx={{p: 1}}>
                             <Avatar>

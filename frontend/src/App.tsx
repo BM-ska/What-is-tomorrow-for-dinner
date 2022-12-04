@@ -1,19 +1,20 @@
 import './App.css';
-import Appbar from "./components/Appbar";
+import MainPage from "./pages/MainPage";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Box from "@mui/material/Box";
+import { Route, Routes } from 'react-router-dom';
+import RecipeBookPage from "./pages/RecipeBookPage";
 
 function App() {
     return (
         <div className="App">
 
-            <Appbar />
-            <Box px={{ xs: 3, sm:10 }}
-                   py={{ xs: 3, sm:10 }}>
-
-            </Box>
-            <Footer />
-
+                <Header />
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/recipe-book" element={<RecipeBookPage />} />
+                </Routes>
+                <Footer />
         </div>
     );
 }
