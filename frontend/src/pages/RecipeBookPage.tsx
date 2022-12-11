@@ -24,7 +24,7 @@ const amountRecipesInBarszczTmp = new Map<string, number>([
 ]);
 
 function ConfirmDelete(s: string) {
-    if (window.confirm("Are you sure you want to delete " + s +" from your recipe book?")) {
+    if (window.confirm("Are you sure you want to delete " + s + " from your recipe book?")) {
 
     }
 }
@@ -38,11 +38,11 @@ const onChange = (key: string | string[]) => {
 
 function RecipeBookPage() {
 
-    const genExtra = (s: string) => (
+    const genExtra = (mealName: string) => (
         <Box>
-            <Button shape="circle" icon={<EditOutlined/>} href="/"/>
+            <Button shape="circle" icon={<EditOutlined/>} href={`/${mealName}`}/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                ConfirmDelete(s)
+                ConfirmDelete(mealName)
             }}/>
         </Box>
 
@@ -110,7 +110,7 @@ function RecipeBookPage() {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<PlusCircleOutlined/>} href="/"/>
+                            <Button shape="circle" icon={<PlusCircleOutlined/>} href="/new_recipe"/>
                         </Col>
                     </Row>
 
