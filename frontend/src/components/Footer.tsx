@@ -34,6 +34,7 @@ export default function Footer(){
                                     letterSpacing: '.3rem',
                                     color: 'white',
                                     textDecoration: 'none',
+                                    fontSize: 14
                                 }}
                             >
                                 About
@@ -53,6 +54,7 @@ export default function Footer(){
                                     letterSpacing: '.3rem',
                                     color: 'white',
                                     textDecoration: 'none',
+                                    fontSize: 14
                                 }}
                             >
                                 Contact
