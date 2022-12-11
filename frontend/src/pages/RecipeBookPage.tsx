@@ -23,8 +23,8 @@ const amountRecipesInBarszczTmp = new Map<string, number>([
     ["ziemniak", 2354]
 ]);
 
-function ConfirmDelete() {
-    if (window.confirm("Are you sure you want to delete?")) {
+function ConfirmDelete(s: string) {
+    if (window.confirm("Are you sure you want to delete " + s +" from your recipe book?")) {
 
     }
 }
@@ -38,11 +38,11 @@ const onChange = (key: string | string[]) => {
 
 function RecipeBookPage() {
 
-    const genExtra = () => (
+    const genExtra = (s: string) => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href="/"/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                ConfirmDelete()
+                ConfirmDelete(s)
             }}/>
         </Box>
 
@@ -121,7 +121,7 @@ function RecipeBookPage() {
                     {recipeTmp.map((value) => (
                         <Panel header={calories(`${value}`, 1234)}
                                key={value}
-                               extra={genExtra()}>
+                               extra={genExtra(`${value}`)}>
                             {ingredientTmp.map((value) => (
                                 <ListItem
                                     key={value}
