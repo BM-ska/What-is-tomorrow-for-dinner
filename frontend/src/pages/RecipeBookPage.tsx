@@ -10,11 +10,6 @@ import Typography from "@mui/material/Typography";
 
 const recipeTmp = ['Barszcz', 'Bigos', 'Pierogi']
 const ingredientTmp = ['burak', 'woda', 'ziemniak']
-const caloriesTmp = new Map<string, number>([
-    ["burak", 100],
-    ["woda", 300],
-    ["ziemniak", 4000]
-]);
 
 // const amountRecipesInBarszczTmp = new Map<string, Object>([
 //     ["burak", [500,"g"]],
@@ -28,11 +23,12 @@ const amountRecipesInBarszczTmp = new Map<string, number>([
     ["ziemniak", 2354]
 ]);
 
-const mealCaloriesTmp = new Map<string, number>([
-    ["Barszcz", 234],
-    ["Bigos", 432],
-    ["Pierogi", 4000]
-]);
+function ConfirmDelete() {
+    if (window.confirm("Are you sure you want to delete?")) {
+
+    }
+}
+
 
 const {Panel} = Collapse;
 
@@ -45,7 +41,9 @@ function RecipeBookPage() {
     const genExtra = () => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href="/"/>
-            <Button shape="circle" icon={<DeleteOutlined/>} href="/"/>
+            <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
+                ConfirmDelete()
+            }}/>
         </Box>
 
     );
