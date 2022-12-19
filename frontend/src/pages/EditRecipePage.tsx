@@ -15,16 +15,11 @@ const EditRecipePage = () => {
     const initialListTMP = [
         {
             id: 'a',
-            name: 'Robin',
+            name: '1',
             amount: '200',
             unit: 'g'
         },
-        {
-            id: 'd',
-            name: 'Robatsgdfin',
-            amount: '200',
-            unit: 'g'
-        }
+
     ];
 
     const [list, setList] = React.useState(initialListTMP);
@@ -32,8 +27,9 @@ const EditRecipePage = () => {
 
     function newRecipe() {
         defaultNameValue = "";
+        //todo zmien id
         const newList = list.concat({
-            id: '',
+            id: Math.random().toString(16),
             name: '',
             amount: '',
             unit: ''
@@ -41,19 +37,64 @@ const EditRecipePage = () => {
 
         setList(newList);
         console.log(list)
+
     }
 
-    function deleteRecipe(item: {
-        id: string,
-        name: string,
-        amount: string,
-        unit: string
-    }) {
-        setList((list) =>
-            list.filter((i) => i.name !== item.name)
-        );
+    function deleteRecipe(id: string) {
+        const newList = list.filter((item) => item.id !== id);
+        setList(newList);
+
         console.log(list)
     }
+
+
+// @ts-ignore
+    const List = ({list, onRemove}) => (
+        <Box
+            px={{xs: 3, sm: 1}}
+            py={{xs: 3, sm: 1}}
+            bgcolor="#white">
+            <Form
+                layout="horizontal"
+            >
+                {list.map((item: { id: React.Key | null | undefined; }) => (
+                    <Item key={item.id} item={item} onRemove={onRemove || newRecipe}/>
+                ))}
+            </Form>
+        </Box>
+    );
+
+    // @ts-ignore
+    const Item = ({item, onRemove}) => (
+            <Space>
+
+                <Form.Item label="Name:">
+                    <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                               item.name = e.target.value
+                           }}/>
+                </Form.Item>
+                <Form.Item label="Amount:">
+                    <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}/>
+                </Form.Item>
+                <Form.Item label="Unit:">
+                    <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
+                            onChange={(e: string) => {
+                                item.unit = e.valueOf()
+                            }}>
+                        <Select.Option value="g">g</Select.Option>
+                        <Select.Option value="ml">ml</Select.Option>
+                        <Select.Option value="teaspoon">teaspoon</Select.Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item>
+                    <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
+                        onRemove(item.id)
+                    }}/>
+                </Form.Item>
+            </Space>
+        )
+    ;
 
     return (
 
@@ -89,7 +130,7 @@ const EditRecipePage = () => {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<SaveOutlined/>} href="/new_recipe"/>
+                            <Button shape="circle" icon={<SaveOutlined/>} />
                         </Col>
                     </Row>
 
@@ -156,46 +197,8 @@ const EditRecipePage = () => {
 
                 </Container>
             </Box>
-            <Box
-                px={{xs: 3, sm: 1}}
-                py={{xs: 3, sm: 1}}
-                bgcolor="#white">
 
-                <Form
-                    layout="horizontal"
-                >
-                    {list.map((item) => (
-                        <Space>
-                            <Form.Item label="Name:">
-                                <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
-                                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                           item.name = e.target.value
-                                       }}/>
-                            </Form.Item>
-                            <Form.Item label="Amount:">
-                                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}/>
-                            </Form.Item>
-                            <Form.Item label="Unit:">
-                                <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
-                                        onChange={(e: string) => {
-                                            item.unit = e.valueOf()
-                                        }}>
-                                    <Select.Option value="g">g</Select.Option>
-                                    <Select.Option value="ml">ml</Select.Option>
-                                    <Select.Option value="teaspoon">teaspoon</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                                    deleteRecipe(item)
-                                }}/>
-                            </Form.Item>
-                        </Space>
-                    ))}
-
-                </Form>
-
-            </Box>
+            <List list={list} onRemove={deleteRecipe}/>
         </div>
     );
 }
