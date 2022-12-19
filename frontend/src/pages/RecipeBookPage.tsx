@@ -63,7 +63,7 @@ function RecipeBookPage() {
 
     return (
         <div className="App">
-            <Box boxShadow={20}
+            <Box
                  px={{xs: 3, sm: 1}}
                  py={{xs: 3, sm: 1}}
                  bgcolor="#b9e3ba">
@@ -116,7 +116,7 @@ function RecipeBookPage() {
 
                 </Container>
             </Box>
-            <Box>
+            <Box boxShadow={20}>
                 <Collapse onChange={onChange}>
                     {recipeTmp.map((value) => (
                         <Panel header={calories(`${value}`, 1234)}

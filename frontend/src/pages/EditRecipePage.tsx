@@ -12,6 +12,12 @@ const EditRecipePage = () => {
     let defaultNameValue: String = "-1";
     const {recipeName} = useParams();
 
+    const initialRecipeDataTMP = {
+        name : "Barszcz",
+        fresh : 2
+    };
+
+
     const initialListTMP = [
         {
             id: 'a',
@@ -47,10 +53,12 @@ const EditRecipePage = () => {
         console.log(list)
     }
 
-
+//todo
 // @ts-ignore
     const List = ({list, onRemove}) => (
+
         <Box
+            boxShadow={20}
             px={{xs: 3, sm: 1}}
             py={{xs: 3, sm: 1}}
             bgcolor="#white">
@@ -64,45 +72,45 @@ const EditRecipePage = () => {
         </Box>
     );
 
+    //todo
     // @ts-ignore
     const Item = ({item, onRemove}) => (
-            <Space>
+        <Space>
 
-                <Form.Item label="Name:">
-                    <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
-                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                               item.name = e.target.value
-                           }}/>
-                </Form.Item>
-                <Form.Item label="Amount:">
-                    <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}/>
-                </Form.Item>
-                <Form.Item label="Unit:">
-                    <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
-                            onChange={(e: string) => {
-                                item.unit = e.valueOf()
-                            }}>
-                        <Select.Option value="g">g</Select.Option>
-                        <Select.Option value="ml">ml</Select.Option>
-                        <Select.Option value="teaspoon">teaspoon</Select.Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item>
-                    <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                        onRemove(item.id)
-                    }}/>
-                </Form.Item>
-            </Space>
-        )
-    ;
+            <Form.Item label="Name:">
+                <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
+                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                           item.name = e.target.value
+                       }}/>
+            </Form.Item>
+            <Form.Item label="Amount:">
+                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}/>
+            </Form.Item>
+            <Form.Item label="Unit:">
+                <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
+                        onChange={(e: string) => {
+                            item.unit = e.valueOf()
+                        }}>
+                    <Select.Option value="g">g</Select.Option>
+                    <Select.Option value="ml">ml</Select.Option>
+                    <Select.Option value="teaspoon">teaspoon</Select.Option>
+                </Select>
+            </Form.Item>
+            <Form.Item>
+                <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
+                    onRemove(item.id)
+                }}/>
+            </Form.Item>
+        </Space>
+    );
 
     return (
 
         <div className="App">
-            <Box boxShadow={20}
-                 px={{xs: 3, sm: 1}}
-                 py={{xs: 3, sm: 1}}
-                 bgcolor="#b9e3ba">
+            <Box
+                px={{xs: 3, sm: 1}}
+                py={{xs: 3, sm: 1}}
+                bgcolor="#b9e3ba">
                 <Container maxWidth="xl">
 
                     <Row>
@@ -121,7 +129,7 @@ const EditRecipePage = () => {
                                     fontSize: 14
                                 }}
                             >
-                                {recipeName}
+                                Edit the recipe
                             </Typography></Box>
                         </Col>
                         <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
@@ -130,7 +138,7 @@ const EditRecipePage = () => {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<SaveOutlined/>} />
+                            <Button shape="circle" icon={<SaveOutlined/>}/>
                         </Col>
                     </Row>
 
@@ -149,11 +157,11 @@ const EditRecipePage = () => {
                 >
 
                     <Form.Item label="Recipe name">
-                        <Input/>
+                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
                     </Form.Item>
 
                     <Form.Item label="świeżość">
-                        <InputNumber/>
+                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
                     </Form.Item>
                 </Form>
 
