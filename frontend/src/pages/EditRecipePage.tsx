@@ -1,16 +1,15 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
-import {useParams} from "react-router-dom";
 
 import {DeleteOutlined, PlusCircleOutlined, SaveOutlined} from '@ant-design/icons';
 import {Button, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import EditRecipeHeader from "../components/EditRecipeHeader";
 
 const EditRecipePage = () => {
 
     let defaultNameValue: String = "-1";
-    const {recipeName} = useParams();
 
     const initialRecipeDataTMP = {
         name: "Barszcz",
@@ -42,15 +41,11 @@ const EditRecipePage = () => {
         })
 
         setList(newList);
-        console.log(list)
-
     }
 
     function deleteRecipe(id: string) {
         const newList = list.filter((item) => item.id !== id);
         setList(newList);
-
-        console.log(list)
     }
 
 //todo
@@ -87,7 +82,7 @@ const EditRecipePage = () => {
                 <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}
                              onChange={(e: number | null) => {
                                  if (e == null)
-                                    item.amount = 0
+                                     item.amount = 0
                                  else
                                      item.amount = e.valueOf()
                              }}/>
@@ -109,112 +104,76 @@ const EditRecipePage = () => {
                 }}/>
             </Form.Item>
         </Space>
-);
+    );
 
-return (
+    return (
 
-    <div className="App">
-        <Box
-            px={{xs: 3, sm: 1}}
-            py={{xs: 3, sm: 1}}
-            bgcolor="#b9e3ba">
-            <Container maxWidth="xl">
+        <div className="App">
+            <EditRecipeHeader/>
 
-                <Row>
-                    <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                        <Box><Typography
-                            variant="h6"
-                            noWrap
-                            sx={{
-                                mr: 2,
-                                display: {xs: 'none', md: 'flex'},
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'white',
-                                textDecoration: 'none',
-                                fontSize: 14
-                            }}
-                        >
-                            Edit the recipe
-                        </Typography></Box>
-                    </Col>
-                    <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                    </Col>
-                    <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+            <Box boxShadow={20}
+                 px={{xs: 3, sm: 1}}
+                 py={{xs: 3, sm: 1}}
+                 bgcolor="#white">
 
-                    </Col>
-                    <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                        <Button shape="circle" icon={<SaveOutlined/>}/>
-                    </Col>
-                </Row>
+                <Form
+                    labelCol={{span: 4}}
+                    wrapperCol={{span: 14}}
+                    layout="horizontal"
+                >
 
-            </Container>
-        </Box>
+                    <Form.Item label="Recipe name">
+                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
+                    </Form.Item>
 
-        <Box boxShadow={20}
-             px={{xs: 3, sm: 1}}
-             py={{xs: 3, sm: 1}}
-             bgcolor="#white">
+                    <Form.Item label="świeżość">
+                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
+                    </Form.Item>
+                </Form>
 
-            <Form
-                labelCol={{span: 4}}
-                wrapperCol={{span: 14}}
-                layout="horizontal"
-            >
-
-                <Form.Item label="Recipe name">
-                    <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
-                </Form.Item>
-
-                <Form.Item label="świeżość">
-                    <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
-                </Form.Item>
-            </Form>
-
-        </Box>
+            </Box>
 
 
-        <Box
-            px={{xs: 3, sm: 1}}
-            py={{xs: 3, sm: 1}}
-            bgcolor="#b9e3ba">
-            <Container maxWidth="xl">
+            <Box
+                px={{xs: 3, sm: 1}}
+                py={{xs: 3, sm: 1}}
+                bgcolor="#b9e3ba">
+                <Container maxWidth="xl">
 
-                <Row>
-                    <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                        <Box><Typography
-                            variant="h6"
-                            noWrap
-                            sx={{
-                                mr: 2,
-                                display: {xs: 'none', md: 'flex'},
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'white',
-                                textDecoration: 'none',
-                                fontSize: 14
-                            }}
-                        >
-                            Recipes
-                        </Typography></Box>
-                    </Col>
-                    <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                    </Col>
-                    <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+                    <Row>
+                        <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
+                            <Box><Typography
+                                variant="h6"
+                                noWrap
+                                sx={{
+                                    mr: 2,
+                                    display: {xs: 'none', md: 'flex'},
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'white',
+                                    textDecoration: 'none',
+                                    fontSize: 14
+                                }}
+                            >
+                                Recipes
+                            </Typography></Box>
+                        </Col>
+                        <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
+                        </Col>
+                        <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
 
-                    </Col>
-                    <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                        <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newRecipe}/>
-                    </Col>
-                </Row>
+                        </Col>
+                        <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
+                            <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newRecipe}/>
+                        </Col>
+                    </Row>
 
-            </Container>
-        </Box>
+                </Container>
+            </Box>
 
-        <List list={list} onRemove={deleteRecipe}/>
-    </div>
-);
+            <List list={list} onRemove={deleteRecipe}/>
+        </div>
+    );
 }
 export default EditRecipePage;

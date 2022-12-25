@@ -2,14 +2,31 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import {Button, Col, Collapse, Row} from 'antd';
+import {Button, Col, Collapse, Form, Input, InputNumber, Row, Select, Space} from 'antd';
 import {DeleteOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {ListItem, ListItemText} from "@mui/material";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import RecipeBookHeader from "../components/RecipeBookHeader";
 
 const recipeTmp = ['Barszcz', 'Bigos', 'Pierogi']
 const ingredientTmp = ['burak', 'woda', 'ziemniak']
+
+const initialRecipeListTMP = [
+    {
+        id: 'a',
+        name: 'Barszcz',
+    },
+    {
+        id: 'b',
+        name: 'Bigos',
+    },
+    {
+        id: 'c',
+        name: 'Pierogi',
+    }
+
+];
 
 // const amountRecipesInBarszczTmp = new Map<string, Object>([
 //     ["burak", [500,"g"]],
@@ -38,6 +55,29 @@ const onChange = (key: string | string[]) => {
 
 function RecipeBookPage() {
 
+    const [list, setList] = React.useState(initialRecipeListTMP);
+
+    function saveRecipe() {
+
+
+    }
+
+    function deleteRecipe(id: string) {
+
+    }
+
+    // const List = ({list, onRemove}) => (
+    //
+    //     <Box>
+    //     </Box>
+    // );
+    //
+    // const Item = ({item, onRemove}) => (
+    //     <Box>
+    //     </Box>
+    // );
+
+
     const genExtra = (mealName: string) => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href={`/${mealName}`}/>
@@ -63,59 +103,9 @@ function RecipeBookPage() {
 
     return (
         <div className="App">
-            <Box
-                 px={{xs: 3, sm: 1}}
-                 py={{xs: 3, sm: 1}}
-                 bgcolor="#b9e3ba">
-                <Container maxWidth="xl">
 
-                    <Row>
-                        <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                            <Box><Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                Recipes
-                            </Typography></Box>
-                        </Col>
-                        <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                            <Box><Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                Energy values
-                            </Typography></Box>
-                        </Col>
-                        <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+            <RecipeBookHeader/>
 
-                        </Col>
-                        <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<PlusCircleOutlined/>} href="/new_recipe"/>
-                        </Col>
-                    </Row>
-
-                </Container>
-            </Box>
             <Box boxShadow={20}>
                 <Collapse onChange={onChange}>
                     {recipeTmp.map((value) => (
