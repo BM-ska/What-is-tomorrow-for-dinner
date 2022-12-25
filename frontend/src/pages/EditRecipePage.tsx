@@ -13,8 +13,8 @@ const EditRecipePage = () => {
     const {recipeName} = useParams();
 
     const initialRecipeDataTMP = {
-        name : "Barszcz",
-        fresh : 2
+        name: "Barszcz",
+        fresh: 2
     };
 
 
@@ -84,7 +84,14 @@ const EditRecipePage = () => {
                        }}/>
             </Form.Item>
             <Form.Item label="Amount:">
-                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}/>
+                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}
+                             onChange={(e: number | null) => {
+                                 if (e == null)
+                                    item.amount = 0
+                                 else
+                                     item.amount = e.valueOf()
+                             }}/>
+
             </Form.Item>
             <Form.Item label="Unit:">
                 <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
@@ -102,112 +109,112 @@ const EditRecipePage = () => {
                 }}/>
             </Form.Item>
         </Space>
-    );
+);
 
-    return (
+return (
 
-        <div className="App">
-            <Box
-                px={{xs: 3, sm: 1}}
-                py={{xs: 3, sm: 1}}
-                bgcolor="#b9e3ba">
-                <Container maxWidth="xl">
+    <div className="App">
+        <Box
+            px={{xs: 3, sm: 1}}
+            py={{xs: 3, sm: 1}}
+            bgcolor="#b9e3ba">
+            <Container maxWidth="xl">
 
-                    <Row>
-                        <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                            <Box><Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                Edit the recipe
-                            </Typography></Box>
-                        </Col>
-                        <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                        </Col>
-                        <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+                <Row>
+                    <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
+                        <Box><Typography
+                            variant="h6"
+                            noWrap
+                            sx={{
+                                mr: 2,
+                                display: {xs: 'none', md: 'flex'},
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'white',
+                                textDecoration: 'none',
+                                fontSize: 14
+                            }}
+                        >
+                            Edit the recipe
+                        </Typography></Box>
+                    </Col>
+                    <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
+                    </Col>
+                    <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
 
-                        </Col>
-                        <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<SaveOutlined/>}/>
-                        </Col>
-                    </Row>
+                    </Col>
+                    <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
+                        <Button shape="circle" icon={<SaveOutlined/>}/>
+                    </Col>
+                </Row>
 
-                </Container>
-            </Box>
+            </Container>
+        </Box>
 
-            <Box boxShadow={20}
-                 px={{xs: 3, sm: 1}}
-                 py={{xs: 3, sm: 1}}
-                 bgcolor="#white">
+        <Box boxShadow={20}
+             px={{xs: 3, sm: 1}}
+             py={{xs: 3, sm: 1}}
+             bgcolor="#white">
 
-                <Form
-                    labelCol={{span: 4}}
-                    wrapperCol={{span: 14}}
-                    layout="horizontal"
-                >
+            <Form
+                labelCol={{span: 4}}
+                wrapperCol={{span: 14}}
+                layout="horizontal"
+            >
 
-                    <Form.Item label="Recipe name">
-                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
-                    </Form.Item>
+                <Form.Item label="Recipe name">
+                    <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
+                </Form.Item>
 
-                    <Form.Item label="świeżość">
-                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
-                    </Form.Item>
-                </Form>
+                <Form.Item label="świeżość">
+                    <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
+                </Form.Item>
+            </Form>
 
-            </Box>
+        </Box>
 
 
-            <Box
-                px={{xs: 3, sm: 1}}
-                py={{xs: 3, sm: 1}}
-                bgcolor="#b9e3ba">
-                <Container maxWidth="xl">
+        <Box
+            px={{xs: 3, sm: 1}}
+            py={{xs: 3, sm: 1}}
+            bgcolor="#b9e3ba">
+            <Container maxWidth="xl">
 
-                    <Row>
-                        <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                            <Box><Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                Recipes
-                            </Typography></Box>
-                        </Col>
-                        <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                        </Col>
-                        <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+                <Row>
+                    <Col span={10} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
+                        <Box><Typography
+                            variant="h6"
+                            noWrap
+                            sx={{
+                                mr: 2,
+                                display: {xs: 'none', md: 'flex'},
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'white',
+                                textDecoration: 'none',
+                                fontSize: 14
+                            }}
+                        >
+                            Recipes
+                        </Typography></Box>
+                    </Col>
+                    <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
+                    </Col>
+                    <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
 
-                        </Col>
-                        <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newRecipe}/>
-                        </Col>
-                    </Row>
+                    </Col>
+                    <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
+                        <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newRecipe}/>
+                    </Col>
+                </Row>
 
-                </Container>
-            </Box>
+            </Container>
+        </Box>
 
-            <List list={list} onRemove={deleteRecipe}/>
-        </div>
-    );
+        <List list={list} onRemove={deleteRecipe}/>
+    </div>
+);
 }
 export default EditRecipePage;
