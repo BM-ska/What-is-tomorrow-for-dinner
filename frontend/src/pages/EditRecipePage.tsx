@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
 
-import {DeleteOutlined, PlusCircleOutlined, SaveOutlined} from '@ant-design/icons';
+import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {Button, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import EditRecipeHeader from "../components/EditRecipeHeader";
 
-const EditRecipePage = () => {
+function EditRecipePage () {
 
     let defaultNameValue: String = "-1";
 
@@ -109,7 +109,7 @@ const EditRecipePage = () => {
     return (
 
         <div className="App">
-            <EditRecipeHeader/>
+            <EditRecipeHeader />
 
             <Box boxShadow={20}
                  px={{xs: 3, sm: 1}}

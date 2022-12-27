@@ -14,21 +14,20 @@ const initialRecipeListTMP = [
     {
         id: 'a',
         name: 'Barszcz',
-        calories : 1234
+        calories: 1234
     },
     {
         id: 'b',
         name: 'Bigos',
-        calories : 1
+        calories: 1
     },
     {
         id: 'c',
         name: 'Pierogi',
-        calories : 12
+        calories: 12
     }
 
 ];
-
 
 
 // const amountRecipesInBarszczTmp = new Map<string, Object>([
@@ -44,38 +43,51 @@ const amountRecipesInBarszczTmp = new Map<string, number>([
 ]);
 
 
-
-
 const {Panel} = Collapse;
 
 const onChange = (key: string | string[]) => {
-    console.log(key);
+  //  console.log(key);
 };
 
+
+
 function RecipeBookPage() {
-    function ConfirmDelete(item : {id : string, name : string, calories : number}) {
+    function ConfirmDelete(item: { id: string, name: string, calories: number }) {
         if (window.confirm("Are you sure you want to delete " + item.name + " from your recipe book?")) {
             deleteRecipe(item.id)
         }
     }
 
-    const [list, setList] = React.useState(initialRecipeListTMP);
+    const [recipelist, setList] = React.useState(initialRecipeListTMP);
 
-    function saveRecipe() {
+    function saveRecipe(item: { id: string, name: string, calories: number }) {
+        //todo zmien id
+        const newList = recipelist.concat({
+            id: item.id,
+            name: item.name,
+            //todo
+            calories:item.calories
+        })
 
-
+        setList(newList);
     }
 
     function deleteRecipe(id: string) {
-        console.log("aaaaaaaaaaaaaaaaaaaaaa")
+        const newList = recipelist.filter((item) => item.id !== id);
+        setList(newList);
     }
+
     // @ts-ignore
     const List = ({list, onRemove}) => (
 
         <Box boxShadow={20}>
             <Collapse onChange={onChange}>
-                {list.map((item:{id : string, name : string, calories : number}) => (
-                    <Item key={item.id} item={item} onRemove={onRemove}/>
+                {list.map((item: { id: string, name: string, calories: number }) => (
+                    <Panel header={calories(item.name, item.calories)}
+                           key={item.id}
+                           extra={genExtra(item)}>
+                        <Item key={item.id}/>
+                    </Panel>
                 ))}
             </Collapse>
         </Box>
@@ -83,11 +95,8 @@ function RecipeBookPage() {
 
 
     // @ts-ignore
-    const Item = ({item, onRemove}) => (
-        // @ts-ignore
-        <Panel header={calories(item.name, item.calories)}
-               key={item.id}
-               extra={genExtra(item.name)}>
+    const Item = () => (
+        <Box>
             {ingredientTmp.map((value) => (
                 <ListItem
                     key={value}
@@ -111,11 +120,11 @@ function RecipeBookPage() {
 
                 </ListItem>
             ))}
-        </Panel>
+        </Box>
     );
 
 
-    const genExtra = (item :{id : string, name : string, calories : number}) => (
+    const genExtra = (item: { id: string, name: string, calories: number }) => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href={`/${item.name}`}/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
@@ -125,7 +134,7 @@ function RecipeBookPage() {
 
     );
 
-    const calories = (name : string, kcal : number) => (
+    const calories = (name: string, kcal: number) => (
         <Row>
             <Col span={11} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
                 {name}
@@ -143,7 +152,7 @@ function RecipeBookPage() {
 
             <RecipeBookHeader/>
 
-            <List list={list} onRemove={deleteRecipe}/>
+            <List list={recipelist} onRemove={deleteRecipe}/>
 
         </div>
     );
