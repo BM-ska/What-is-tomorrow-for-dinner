@@ -2,10 +2,11 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 
 import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import {Button, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
+import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import EditRecipeHeader from "../components/EditRecipeHeader";
+import {useState} from "react";
 
 function EditRecipePage () {
 
@@ -13,7 +14,8 @@ function EditRecipePage () {
 
     const initialRecipeDataTMP = {
         name: "Barszcz",
-        fresh: 2
+        fresh: 2,
+        category: "lunch"
     };
 
 
@@ -22,10 +24,14 @@ function EditRecipePage () {
             id: 'a',
             name: '1',
             amount: '200',
-            unit: 'g'
+            unit: 'g',
+            kcal: 123
         },
 
     ];
+
+    const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
+
 
     const [list, setList] = React.useState(initialListTMP);
 
@@ -37,7 +43,8 @@ function EditRecipePage () {
             id: Math.random().toString(16),
             name: '',
             amount: '',
-            unit: ''
+            unit: '',
+            kcal: 0
         })
 
         setList(newList);
@@ -98,11 +105,19 @@ function EditRecipePage () {
                     <Select.Option value="teaspoon">teaspoon</Select.Option>
                 </Select>
             </Form.Item>
+            <Form.Item label="Kcal:" >
+                <Input disabled={componentDisabled}
+                       defaultValue={defaultNameValue === "-1" ? item.kcal : ""}
+                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                           item.kcal = e.target.value
+                       }}/>
+            </Form.Item>
             <Form.Item>
                 <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
                     onRemove(item.id)
                 }}/>
             </Form.Item>
+
         </Space>
     );
 
@@ -121,7 +136,7 @@ function EditRecipePage () {
                     wrapperCol={{span: 14}}
                     layout="horizontal"
                 >
-
+{/*todo onChange*/}
                     <Form.Item label="Recipe name">
                         <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
                     </Form.Item>
@@ -129,7 +144,23 @@ function EditRecipePage () {
                     <Form.Item label="świeżość">
                         <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
                     </Form.Item>
+
+                    <Form.Item label="Category">
+                        <Select defaultValue={initialRecipeDataTMP.category === "" ? "" : initialRecipeDataTMP.category}>
+                            <Select.Option value="breakfast">breakfast</Select.Option>
+                            <Select.Option value="dinner">dinner</Select.Option>
+                            <Select.Option value="lunch">lunch</Select.Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Checkbox
+                        checked={componentDisabled}
+                        onChange={(e) => setComponentDisabled(e.target.checked)}
+                    >
+                        Auto kcal set
+                    </Checkbox>
                 </Form>
+
 
             </Box>
 
