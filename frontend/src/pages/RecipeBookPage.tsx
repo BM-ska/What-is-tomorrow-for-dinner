@@ -7,70 +7,80 @@ import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ListItem, ListItemText} from "@mui/material";
 import RecipeBookHeader from "../components/RecipeBookHeader";
 
-const recipeTmp = ['Barszcz', 'Bigos', 'Pierogi']
-const ingredientTmp = ['burak', 'woda', 'ziemniak']
-
 const initialRecipeListTMP = [
     {
         id: 'a',
         name: 'Barszcz',
-        calories: 1234
+        calories: 1234,
+        ingredient: [
+            {
+                id: "a",
+                name: "burak",
+                amount: '200',
+                unit: 'g',
+            },
+            {
+                id: "aa",
+                name: "woda",
+                amount: '200',
+                unit: 'g',
+            },
+            {
+                id: "aaa",
+                name: "ziemniak",
+                amount: '200',
+                unit: 'g',
+            }
+        ]
     },
     {
         id: 'b',
         name: 'Bigos',
-        calories: 1
+        calories: 1,
+        ingredient: [
+            {
+                id: "a",
+                name: "burak",
+                amount: '200',
+                unit: 'g'
+            }
+        ]
     },
     {
         id: 'c',
         name: 'Pierogi',
-        calories: 12
+        calories: 12,
+        ingredient: [
+            {
+                id: "a",
+                name: "burak",
+                amount: '200',
+                unit: 'g'
+            }
+        ]
     }
 
 ];
 
 
-// const amountRecipesInBarszczTmp = new Map<string, Object>([
-//     ["burak", [500,"g"]],
-//     ["woda", [500,"ml"]],
-//     ["ziemniak", [200,"g"]]
-// ]);
-
-const amountRecipesInBarszczTmp = new Map<string, number>([
-    ["burak", 500],
-    ["woda", 24],
-    ["ziemniak", 2354]
-]);
-
-
 const {Panel} = Collapse;
 
 const onChange = (key: string | string[]) => {
-  //  console.log(key);
+    //  console.log(key);
 };
 
 
-
 function RecipeBookPage() {
-    function ConfirmDelete(item: { id: string, name: string, calories: number }) {
+    function ConfirmDelete(item: {
+        id: string, name: string, calories: number,
+        ingredient: { id: string, name: string, amount: string, unit: string }[]
+    }) {
         if (window.confirm("Are you sure you want to delete " + item.name + " from your recipe book?")) {
             deleteRecipe(item.id)
         }
     }
 
     const [recipelist, setList] = React.useState(initialRecipeListTMP);
-
-    function saveRecipe(item: { id: string, name: string, calories: number }) {
-        //todo zmien id
-        const newList = recipelist.concat({
-            id: item.id,
-            name: item.name,
-            //todo
-            calories:item.calories
-        })
-
-        setList(newList);
-    }
 
     function deleteRecipe(id: string) {
         const newList = recipelist.filter((item) => item.id !== id);
@@ -82,11 +92,15 @@ function RecipeBookPage() {
 
         <Box boxShadow={20}>
             <Collapse onChange={onChange}>
-                {list.map((item: { id: string, name: string, calories: number }) => (
+                {list.map((item: { id: string, name: string, calories: number, ingredient: { id: string, name: string, amount: string, unit: string }[] }) => (
                     <Panel header={calories(item.name, item.calories)}
                            key={item.id}
                            extra={genExtra(item)}>
-                        <Item key={item.id}/>
+
+
+                        {/*@ts-ignore*/}
+                        <Item id={item.id} name={item.name} calories={item.calories}
+                              ingredient={item.ingredient}> </Item>
                     </Panel>
                 ))}
             </Collapse>
@@ -95,38 +109,45 @@ function RecipeBookPage() {
 
 
     // @ts-ignore
-    const Item = () => (
-        <Box>
-            {ingredientTmp.map((value) => (
-                <ListItem
-                    key={value}
-                    disableGutters>
+    const Item = ((item: {
+            id: string, name: string, calories: number,
+            ingredient: { id: string, name: string, amount: string, unit: string }[]
+        }) => (
+            <Box>
+                {item.ingredient.map((i) => (
+                    <ListItem
+                        key={i.id}
+                        disableGutters>
 
 
-                    <Col span={1} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                        <ArrowRightIcon/>
-                    </Col>
-                    <Col span={1} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-                        {amountRecipesInBarszczTmp.get(`${value}`)}
+                        <Col span={1} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
+                            <ArrowRightIcon/>
+                        </Col>
+                        <Col span={2} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
 
-                    </Col>
-                    <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                        g
-                    </Col>
-                    <Col span={21} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                        <ListItemText primary={`${value}`}/>
-                    </Col>
+                            <ListItemText primary={i.name}/>
+
+                        </Col>
+                        <Col span={2} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+                            <ListItemText primary={i.amount}/>
+                        </Col>
+                        <Col span={18} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
+                            <ListItemText primary={i.unit}/>
+                        </Col>
 
 
-                </ListItem>
-            ))}
-        </Box>
+                    </ListItem>
+                ))}
+            </Box>)
     );
 
-
-    const genExtra = (item: { id: string, name: string, calories: number }) => (
+//todo inaczej przekazuj id
+    const genExtra = (item: {
+        id: string, name: string, calories: number,
+        ingredient: { id: string, name: string, amount: string, unit: string }[]
+    }) => (
         <Box>
-            <Button shape="circle" icon={<EditOutlined/>} href={`/${item.name}`}/>
+            <Button shape="circle" icon={<EditOutlined/>} href={`/recipe-book/${item.id}`}/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
                 ConfirmDelete(item)
             }}/>
@@ -150,7 +171,7 @@ function RecipeBookPage() {
     return (
         <div className="App">
 
-            <RecipeBookHeader/>
+            <RecipeBookHeader recipes={recipelist}/>
 
             <List list={recipelist} onRemove={deleteRecipe}/>
 

@@ -1,11 +1,19 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import {Button, Col, Row} from "antd";
-import {PlusCircleOutlined} from "@ant-design/icons";
+import {PlusCircleOutlined, SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-function RecipeBookHeader() {
+function saveToDB() {
+    //todo zapisuje recipes do db
+}
+
+interface props {
+    recipes: { id: string, name: string, calories: number, ingredient: { id: string, name: string, amount: string, unit: string }[] }[]
+}
+
+function RecipeBookHeader({recipes}: props) {
 
     return (
         <div className="App">
@@ -34,7 +42,7 @@ function RecipeBookHeader() {
                                 Recipes
                             </Typography></Box>
                         </Col>
-                        <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
+                        <Col span={12} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
                             <Box><Typography
                                 variant="h6"
                                 noWrap
@@ -52,11 +60,12 @@ function RecipeBookHeader() {
                                 Energy values
                             </Typography></Box>
                         </Col>
-                        <Col span={3} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-
+                        <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
+                            <Button shape="circle" icon={<SaveOutlined/>} onClick={saveToDB}/>
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<PlusCircleOutlined/>} href="/new_recipe"/>
+                            {/*//todo*/}
+                            <Button shape="circle" icon={<PlusCircleOutlined/>} href={`/recipe-book/${0}`}/>
                         </Col>
                     </Row>
 

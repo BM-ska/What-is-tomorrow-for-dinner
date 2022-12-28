@@ -1,24 +1,34 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
+import {useState} from "react";
 
 import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import EditRecipeHeader from "../components/EditRecipeHeader";
-import {useState} from "react";
+import {useLocation} from "react-router-dom"
 
-function EditRecipePage () {
+
+function EditRecipePage() {
+
+    const id: string = useLocation().pathname.slice(13);
 
     let defaultNameValue: String = "-1";
 
+// //todo nie wczytuj tylko domyslne
+//     if(id === 0){
+//
+//     }
+
+    //todo wczytane po id
     const initialRecipeDataTMP = {
         name: "Barszcz",
         fresh: 2,
         category: "lunch"
     };
 
-
+    //todo wczytane po id
     const initialListTMP = [
         {
             id: 'a',
@@ -105,7 +115,7 @@ function EditRecipePage () {
                     <Select.Option value="teaspoon">teaspoon</Select.Option>
                 </Select>
             </Form.Item>
-            <Form.Item label="Kcal:" >
+            <Form.Item label="Kcal:">
                 <Input disabled={componentDisabled}
                        defaultValue={defaultNameValue === "-1" ? item.kcal : ""}
                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +134,7 @@ function EditRecipePage () {
     return (
 
         <div className="App">
-            <EditRecipeHeader />
+            <EditRecipeHeader recipe={initialRecipeDataTMP} ingredient={list}/>
 
             <Box boxShadow={20}
                  px={{xs: 3, sm: 1}}
@@ -136,20 +146,33 @@ function EditRecipePage () {
                     wrapperCol={{span: 14}}
                     layout="horizontal"
                 >
-{/*todo onChange*/}
                     <Form.Item label="Recipe name">
-                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}/>
+                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}
+                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                   initialRecipeDataTMP.name = e.target.value
+                               }}/>
                     </Form.Item>
 
                     <Form.Item label="świeżość">
-                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}/>
+                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}
+                                     onChange={(e: number | null) => {
+                                         if (e == null)
+                                             initialRecipeDataTMP.fresh = 0
+                                         else
+                                             initialRecipeDataTMP.fresh = e.valueOf()
+                                     }}/>
+
                     </Form.Item>
 
                     <Form.Item label="Category">
-                        <Select defaultValue={initialRecipeDataTMP.category === "" ? "" : initialRecipeDataTMP.category}>
-                            <Select.Option value="breakfast">breakfast</Select.Option>
-                            <Select.Option value="dinner">dinner</Select.Option>
-                            <Select.Option value="lunch">lunch</Select.Option>
+                        <Select
+                            defaultValue={initialRecipeDataTMP.category === "" ? "" : initialRecipeDataTMP.category}
+                            onChange={(e: string) => {
+                                initialRecipeDataTMP.category = e.valueOf()
+                            }}>
+                            <Select.Option value="snack">breakfast</Select.Option>
+                            <Select.Option value="main meal">dinner</Select.Option>
+                            <Select.Option value="small meal">lunch</Select.Option>
                         </Select>
                     </Form.Item>
 
@@ -207,4 +230,5 @@ function EditRecipePage () {
         </div>
     );
 }
+
 export default EditRecipePage;

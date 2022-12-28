@@ -1,11 +1,22 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import {Button, Col, Row} from "antd";
-import {PlusCircleOutlined, SaveOutlined} from "@ant-design/icons";
+import {SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-function EditRecipeHeader() {
+
+function saveRecipe() {
+    //todo zapisz recipe i ingredient do bazy
+
+}
+
+interface props {
+    recipe: { name: string, fresh: number, category: string }
+    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[]
+}
+
+function EditRecipeHeader({recipe, ingredient}: props) {
 
     return (
         <div className="App">
@@ -40,7 +51,7 @@ function EditRecipeHeader() {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<SaveOutlined/>}/>
+                            <Button shape="circle" icon={<SaveOutlined/>} onClick={saveRecipe}/>
                         </Col>
                     </Row>
 

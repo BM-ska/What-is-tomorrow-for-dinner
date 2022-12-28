@@ -16,7 +16,7 @@ function MainPage() {
     return (
         <div className="App">
             <Box>
-                <IconButton sx={{p: 1}}>
+                <IconButton sx={{p: 1}} href="/edit-plan">
                     <Avatar sx={avatarStyle}>
                         <Typography
                             variant="h6"
