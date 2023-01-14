@@ -8,7 +8,7 @@ public class Recipe {
     private final int calories;
     private final List<Ingredient> ingredient;
 
-    public Recipe(String id, String name, Integer calories, List<Ingredient> ingredient) {
+    public Recipe(String id, String name, int calories, List<Ingredient> ingredient) {
         this.id = id;
         this.name = name;
         this.calories = calories;

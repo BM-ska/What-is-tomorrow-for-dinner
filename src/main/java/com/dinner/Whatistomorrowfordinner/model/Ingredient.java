@@ -1,17 +1,22 @@
 package com.dinner.Whatistomorrowfordinner.model;
 
 public class Ingredient {
-
     private final String id;
     private final String name;
     private final String amount;
     private final String unit;
+    private final int kcal;
 
-    public Ingredient(String id, String name, String amount, String unit) {
+    public Ingredient(String id, String name, String amount, String unit, int kcal) {
         this.id = id;
         this.name = name;
         this.amount = amount;
         this.unit = unit;
+        this.kcal = kcal;
+    }
+
+    public int getKcal() {
+        return kcal;
     }
 
     public String getId() {

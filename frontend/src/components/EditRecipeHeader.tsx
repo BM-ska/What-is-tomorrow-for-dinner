@@ -6,17 +6,53 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
 
-function saveRecipe() {
-    //todo zapisz recipe i ingredient do bazy
+function saveRecipe(recipe: Recipe, ingredient: Ingredient[], id: string) {
 
+    //todo id
+    const newRecipe: Recipe = {
+        id: (recipe.id === '' ? Math.random().toString(16) : recipe.id),
+        name: recipe.name,
+        fresh: recipe.fresh,
+        category: recipe.category,
+        ingredient: ingredient
+    }
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(newRecipe)
+    };
+    fetch('http://localhost:8080/recipe-book/' + id, requestOptions)
+        .catch((err) => {
+            console.log(err.message);
+        });
+
+
+}
+
+interface Recipe {
+    id: string;
+    name: string;
+    fresh: number;
+    category: string;
+    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+}
+
+interface Ingredient {
+    id: string;
+    name: string;
+    amount: string;
+    unit: string;
+    kcal: number;
 }
 
 interface props {
-    recipe: { name: string, fresh: number, category: string }
-    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[]
+    recipe: Recipe
+    ingredient: Ingredient[]
+    id: string
 }
 
-function EditRecipeHeader({recipe, ingredient}: props) {
+function EditRecipeHeader({recipe, ingredient, id}: props) {
 
     return (
         <div className="App">
@@ -51,7 +87,8 @@ function EditRecipeHeader({recipe, ingredient}: props) {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<SaveOutlined/>} onClick={saveRecipe}/>
+                            <Button shape="circle" icon={<SaveOutlined/>}
+                                    onClick={() => saveRecipe(recipe, ingredient, id)}/>
                         </Col>
                     </Row>
 

@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
@@ -10,57 +10,60 @@ import EditRecipeHeader from "../components/EditRecipeHeader";
 import {useLocation} from "react-router-dom"
 
 
+interface Recipe {
+    id: string;
+    name: string;
+    fresh: number;
+    category: string;
+    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+}
+
+interface Ingredient {
+    id: string;
+    name: string;
+    amount: string;
+    unit: string;
+    kcal: number;
+}
+
 function EditRecipePage() {
 
-    const id: string = useLocation().pathname.slice(13);
+    const [recipeData, setRecipeData] = React.useState<Recipe>({id : "", name: "", fresh: 1, category: "", ingredient: []});
+    const [ingredientList, setIngredientList] = React.useState<Ingredient[]>([]);
 
+    const id: string = useLocation().pathname.slice(13);
     let defaultNameValue: String = "-1";
 
-    //pobranie kalorycznosci produktu
-    function getKcal(id: string) {
+    const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-        return 10
-    }
-
-// //todo nie wczytuj tylko domyslne
-//     if(id === 0){
-//
-//     }
-
-    //todo wczytane przepisu  i skladnikow po id do list
-    function getRecipe() {
-
-    }
-
-
-    const initialRecipeDataTMP = {
-        name: "Barszcz",
-        fresh: 2,
-        category: "lunch"
+    const fetchData = () => {
+        setLoading(true);
+        if (id !== "0") {
+            //todo popraw kiedys wysylanie nie w adresie
+            fetch(`http://localhost:8080/recipe-book/${id}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setRecipeData(data)
+                    setIngredientList(data.ingredient)
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        }
     };
-
-    const initialListTMP = [
-        {
-            id: 'a',
-            name: '1',
-            amount: '200',
-            unit: 'g',
-            kcal: 123
-        },
-
-    ];
 
     const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
 
-
-    const [list, setList] = React.useState(initialListTMP);
-
-
-    function newRecipe() {
+    function newIngredient() {
         defaultNameValue = "";
         //todo zmien id
-        const newList = list.concat({
+        const newList = ingredientList.concat({
             id: Math.random().toString(16),
             name: '',
             amount: '',
@@ -68,13 +71,69 @@ function EditRecipePage() {
             kcal: 0
         })
 
-        setList(newList);
+        setIngredientList(newList);
     }
 
-    function deleteRecipe(id: string) {
-        const newList = list.filter((item) => item.id !== id);
-        setList(newList);
+    function deleteIngredient(id: string) {
+        const newList = ingredientList.filter((item) => item.id !== id);
+        setIngredientList(newList);
     }
+
+//todo
+// @ts-ignore
+    const Data = ({recipe}) => (
+
+        <Box boxShadow={20}
+             px={{xs: 3, sm: 1}}
+             py={{xs: 3, sm: 1}}
+             bgcolor="#white">
+
+            <Form
+                labelCol={{span: 4}}
+                wrapperCol={{span: 14}}
+                layout="horizontal"
+            >
+                <Form.Item label="Recipe name">
+                    <Input defaultValue={recipe.name === "" ? "" : recipe.name}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                               recipe.name = e.target.value
+                           }}/>
+                </Form.Item>
+
+                <Form.Item label="świeżość">
+                    <InputNumber defaultValue={recipe.fresh === 0 ? 0 : recipe.fresh}
+                                 onChange={(e: number | null) => {
+                                     if (e == null)
+                                         recipe.fresh = 0
+                                     else
+                                         recipe.fresh = e.valueOf()
+                                 }}/>
+
+                </Form.Item>
+
+                <Form.Item label="Category">
+                    <Select
+                        defaultValue={recipe.category === "" ? "" : recipe.category}
+                        onChange={(e: string) => {
+                            recipe.category = e.valueOf()
+                        }}>
+                        <Select.Option value="snack">snack</Select.Option>
+                        <Select.Option value="main meal">main meal</Select.Option>
+                        <Select.Option value="small meal">small meal</Select.Option>
+                    </Select>
+                </Form.Item>
+
+                <Checkbox
+                    checked={componentDisabled}
+                    onChange={(e) => setComponentDisabled(e.target.checked)}
+                >
+                    Autocomplete kcal
+                </Checkbox>
+            </Form>
+
+
+        </Box>
+    );
 
 //todo
 // @ts-ignore
@@ -89,7 +148,7 @@ function EditRecipePage() {
                 layout="horizontal"
             >
                 {list.map((item: { id: React.Key | null | undefined; }) => (
-                    <Item key={item.id} item={item} onRemove={onRemove || newRecipe}/>
+                    <Item key={item.id} item={item} onRemove={onRemove || newIngredient}/>
                 ))}
             </Form>
         </Box>
@@ -129,7 +188,7 @@ function EditRecipePage() {
             <Form.Item label="Kcal:">
                 <Input disabled={componentDisabled}
                     // todo autouzupełnianie kalorii z bazy
-                       defaultValue={(defaultNameValue === "-1") ? item.kcal : getKcal(item.id)}
+                       defaultValue={defaultNameValue === "-1" ? item.kcal : ""}
                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 
                            item.kcal = e.target.value
@@ -147,59 +206,9 @@ function EditRecipePage() {
     return (
 
         <div className="App">
-            <EditRecipeHeader recipe={initialRecipeDataTMP} ingredient={list}/>
+            <EditRecipeHeader recipe={recipeData} ingredient={ingredientList} id={id}/>
 
-            <Box boxShadow={20}
-                 px={{xs: 3, sm: 1}}
-                 py={{xs: 3, sm: 1}}
-                 bgcolor="#white">
-
-                <Form
-                    labelCol={{span: 4}}
-                    wrapperCol={{span: 14}}
-                    layout="horizontal"
-                >
-                    <Form.Item label="Recipe name">
-                        <Input defaultValue={initialRecipeDataTMP.name === "" ? "" : initialRecipeDataTMP.name}
-                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                   initialRecipeDataTMP.name = e.target.value
-                               }}/>
-                    </Form.Item>
-
-                    <Form.Item label="świeżość">
-                        <InputNumber defaultValue={initialRecipeDataTMP.fresh === 0 ? 0 : initialRecipeDataTMP.fresh}
-                                     onChange={(e: number | null) => {
-                                         if (e == null)
-                                             initialRecipeDataTMP.fresh = 0
-                                         else
-                                             initialRecipeDataTMP.fresh = e.valueOf()
-                                     }}/>
-
-                    </Form.Item>
-
-                    <Form.Item label="Category">
-                        <Select
-                            defaultValue={initialRecipeDataTMP.category === "" ? "" : initialRecipeDataTMP.category}
-                            onChange={(e: string) => {
-                                initialRecipeDataTMP.category = e.valueOf()
-                            }}>
-                            <Select.Option value="snack">snack</Select.Option>
-                            <Select.Option value="main meal">main meal</Select.Option>
-                            <Select.Option value="small meal">small meal</Select.Option>
-                        </Select>
-                    </Form.Item>
-
-                    <Checkbox
-                        checked={componentDisabled}
-                        onChange={(e) => setComponentDisabled(e.target.checked)}
-                    >
-                        Autocomplete kcal
-                    </Checkbox>
-                </Form>
-
-
-            </Box>
-
+            <Data recipe={recipeData}/>
 
             <Box
                 px={{xs: 3, sm: 1}}
@@ -232,14 +241,15 @@ function EditRecipePage() {
 
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newRecipe}/>
+                            <Button shape="circle" icon={<PlusCircleOutlined/>} onClick={newIngredient}/>
                         </Col>
                     </Row>
 
                 </Container>
             </Box>
 
-            <List list={list} onRemove={deleteRecipe}/>
+
+            <List list={ingredientList} onRemove={deleteIngredient}/>
         </div>
     );
 }

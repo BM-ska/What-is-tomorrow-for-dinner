@@ -19,7 +19,7 @@ interface RecipeBook {
     id: string;
     name: string;
     calories: number;
-    ingredient: { id: string, name: string, amount: string, unit: string }[];
+    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
 }
 
 function RecipeBookPage() {
@@ -30,8 +30,8 @@ function RecipeBookPage() {
         fetch(`http://localhost:8080/recipe-book`)
             .then((res) => res.json())
             .then((data) => {
-                const allCourses: RecipeBook[] = data;
-                setRecipeBookList(allCourses);
+                const allRecipes: RecipeBook[] = data;
+                setRecipeBookList(allRecipes);
 
             })
             .catch((err) => {
@@ -41,7 +41,7 @@ function RecipeBookPage() {
 
     function ConfirmDelete(item: {
         id: string, name: string, calories: number,
-        ingredient: { id: string, name: string, amount: string, unit: string }[]
+        ingredient: { id: string, name: string, amount: string, unit: string, kcal: number}[]
     }) {
         if (window.confirm("Are you sure you want to delete " + item.name + " from your recipe book?")) {
             deleteRecipe(item.id)
@@ -67,7 +67,7 @@ function RecipeBookPage() {
 
                         <Box>
 
-                            {item.ingredient.map((i: { id: string, name: string, amount: string, unit: string }) => (
+                            {item.ingredient.map((i: { id: string, name: string, amount: string, unit: string, kcal: number }) => (
 
                                 <ListItem
                                     key={i.id}
@@ -102,7 +102,7 @@ function RecipeBookPage() {
 //todo inaczej przekazuj id
     const genExtra = (item: {
         id: string, name: string, calories: number,
-        ingredient: { id: string, name: string, amount: string, unit: string }[]
+        ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[]
     }) => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href={`/recipe-book/${item.id}`}/>
