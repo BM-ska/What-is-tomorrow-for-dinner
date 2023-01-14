@@ -30,4 +30,14 @@ public class Recipe {
     public List<Ingredient> getIngredient() {
         return ingredient;
     }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", calories=" + calories +
+                ", ingredient=" + ingredient +
+                '}';
+    }
 }

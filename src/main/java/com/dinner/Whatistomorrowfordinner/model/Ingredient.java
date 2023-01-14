@@ -29,4 +29,14 @@ public class Ingredient {
     public String getUnit() {
         return unit;
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", amount='" + amount + '\'' +
+                ", unit='" + unit + '\'' +
+                '}';
+    }
 }

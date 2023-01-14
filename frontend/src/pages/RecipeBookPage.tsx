@@ -26,7 +26,6 @@ function RecipeBookPage() {
 
     const [recipeBookList, setRecipeBookList] = useState<RecipeBook[]>([]);
 
-    //todo wczytaj liste z bazy
     useEffect(() => {
         fetch(`http://localhost:8080/recipe-book`)
             .then((res) => res.json())
@@ -52,6 +51,8 @@ function RecipeBookPage() {
     function deleteRecipe(id: string) {
         const newList = recipeBookList.filter((item) => item.id !== id);
         setRecipeBookList(newList);
+
+
     }
 
     // @ts-ignore

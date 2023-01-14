@@ -6,10 +6,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,12 +24,21 @@ public class ReceipeController {
 
     @GetMapping("recipe-book")
     @CrossOrigin(origins = "http://localhost:3000")
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     public ResponseEntity<List<Recipe>> getRecipeBook() {
         List<Recipe> recipes = recipesTMP;
 
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
+
+    @PutMapping("recipe-book")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public void updateRecipeBook(@RequestBody List<Recipe> recipeBook) {
+
+        System.out.printf(recipeBook.toString() + '\n');
+
+    }
+
+
 
 
 }

@@ -5,12 +5,28 @@ import {PlusCircleOutlined, SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-function saveToDB() {
-    //todo zapisuje recipes do db
+function saveToDB(recipes: RecipeBook[]) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(recipes)
+    };
+    fetch('http://localhost:8080/recipe-book', requestOptions)
+        .catch((err) => {
+            console.log(err.message);
+        });
+
+}
+
+interface RecipeBook {
+    id: string;
+    name: string;
+    calories: number;
+    ingredient: { id: string, name: string, amount: string, unit: string }[];
 }
 
 interface props {
-    recipes: { id: string, name: string, calories: number, ingredient: { id: string, name: string, amount: string, unit: string }[] }[]
+    recipes: RecipeBook[]
 }
 
 function RecipeBookHeader({recipes}: props) {
@@ -61,7 +77,7 @@ function RecipeBookHeader({recipes}: props) {
                             </Typography></Box>
                         </Col>
                         <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                            <Button shape="circle" icon={<SaveOutlined/>} onClick={saveToDB}/>
+                            <Button shape="circle" icon={<SaveOutlined/>} onClick={() => saveToDB(recipes)}/>
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
                             {/*//todo*/}
