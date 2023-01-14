@@ -1,37 +1,38 @@
 package com.dinner.Whatistomorrowfordinner.controller;
 
-import com.dinner.Whatistomorrowfordinner.repository.RecipeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dinner.Whatistomorrowfordinner.model.Ingredient;
+import com.dinner.Whatistomorrowfordinner.model.Recipe;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/")
 public class ReceipeController {
 
-    private final RecipeRepository recipeRepository;
+    List<Recipe> recipesTMP = List.of(
+            new Recipe("1", "Barszcz", 123, List.of(
+                    new Ingredient("11", "burak", "1234", "g"),
+                    new Ingredient("12", "woda", "1234", "g"),
+                    new Ingredient("13", "uszko", "1234", "g"))),
+            new Recipe("2", "Pierogi", 12322222, List.of(
+                    new Ingredient("14", "burak", "1234", "g"))));
 
-    @Autowired
-    public ReceipeController(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    @GetMapping("recipe-book")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public ResponseEntity<List<Recipe>> getRecipeBook() {
+        List<Recipe> recipes = recipesTMP;
+
+        return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
-//    @GetMapping("/receipe")
-//    public String listAll(Model model){
-//        Iterable<Recipe> recipes = recipeRepository.findAll();
-//        model.addAttribute("list", recipes);
-//
-//        return "aa";
-//    }
-//
-//    public Iterable<ServiceModelCategory> getAllCategories() {
-//        LOGGER.info("Get all categories");
-//        Iterable<CategoryEntity> repositoryModelCategoryEntityIterable = categoryRepository.findAll();
-//
-//        List<ServiceModelCategory> tmp = new ArrayList<>();
-//        repositoryModelCategoryEntityIterable.forEach(x -> tmp.add(mapper.fromRepositoryToServiceModel(x)));
-//
-//        LOGGER.info("Categories: " + tmp);
-//        LOGGER.info("Get all categories successfully");
-//
-//        return tmp;
-//    }
+
 }

@@ -16,19 +16,30 @@ function EditRecipePage() {
 
     let defaultNameValue: String = "-1";
 
+    //pobranie kalorycznosci produktu
+    function getKcal(id: string) {
+
+
+        return 10
+    }
+
 // //todo nie wczytuj tylko domyslne
 //     if(id === 0){
 //
 //     }
 
-    //todo wczytane po id
+    //todo wczytane przepisu  i skladnikow po id do list
+    function getRecipe() {
+
+    }
+
+
     const initialRecipeDataTMP = {
         name: "Barszcz",
         fresh: 2,
         category: "lunch"
     };
 
-    //todo wczytane po id
     const initialListTMP = [
         {
             id: 'a',
@@ -117,8 +128,10 @@ function EditRecipePage() {
             </Form.Item>
             <Form.Item label="Kcal:">
                 <Input disabled={componentDisabled}
-                       defaultValue={defaultNameValue === "-1" ? item.kcal : ""}
+                    // todo autouzupełnianie kalorii z bazy
+                       defaultValue={(defaultNameValue === "-1") ? item.kcal : getKcal(item.id)}
                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
                            item.kcal = e.target.value
                        }}/>
             </Form.Item>
@@ -170,9 +183,9 @@ function EditRecipePage() {
                             onChange={(e: string) => {
                                 initialRecipeDataTMP.category = e.valueOf()
                             }}>
-                            <Select.Option value="snack">breakfast</Select.Option>
-                            <Select.Option value="main meal">dinner</Select.Option>
-                            <Select.Option value="small meal">lunch</Select.Option>
+                            <Select.Option value="snack">snack</Select.Option>
+                            <Select.Option value="main meal">main meal</Select.Option>
+                            <Select.Option value="small meal">small meal</Select.Option>
                         </Select>
                     </Form.Item>
 
@@ -180,7 +193,7 @@ function EditRecipePage() {
                         checked={componentDisabled}
                         onChange={(e) => setComponentDisabled(e.target.checked)}
                     >
-                        Auto kcal set
+                        Autocomplete kcal
                     </Checkbox>
                 </Form>
 
