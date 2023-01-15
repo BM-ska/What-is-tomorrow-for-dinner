@@ -6,7 +6,7 @@ import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import EditRecipeHeader from "../components/EditRecipeHeader";
+import EditRecipeHeader from "./EditRecipeHeader"
 import {useLocation} from "react-router-dom"
 
 

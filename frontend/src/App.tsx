@@ -1,11 +1,11 @@
 import './App.css';
-import MainPage from "./pages/MainPage";
+import MainPage from "./mainPage/MainPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import {Route, Routes} from 'react-router-dom';
-import RecipeBookPage from "./pages/RecipeBookPage";
-import EditRecipePage from "./pages/EditRecipePage";
-import EditNutritionPlan from "./pages/EditNutritionPlan";
+import RecipeBookPage from "./recipeBook/RecipeBookPage";
+import EditRecipePage from "./editRecipe/EditRecipePage";
+import EditNutritionPlan from "./editNutritionPlan/EditNutritionPlan";
 
 function App() {
     return (

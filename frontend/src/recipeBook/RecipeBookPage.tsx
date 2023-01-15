@@ -6,8 +6,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Button, Col, Collapse, Row} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ListItem, ListItemText} from "@mui/material";
-import RecipeBookHeader from "../components/RecipeBookHeader";
-
+import RecipeBookHeader from "./RecipeBookHeader"
 
 const {Panel} = Collapse;
 
