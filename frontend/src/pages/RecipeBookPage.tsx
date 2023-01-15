@@ -19,7 +19,13 @@ interface RecipeBook {
     id: string;
     name: string;
     calories: number;
-    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: {
+        id: string,
+        name: string,
+        amount: string,
+        unit: string,
+        kcal: number
+    }[];
 }
 
 function RecipeBookPage() {
@@ -39,10 +45,7 @@ function RecipeBookPage() {
             });
     }, []);
 
-    function ConfirmDelete(item: {
-        id: string, name: string, calories: number,
-        ingredient: { id: string, name: string, amount: string, unit: string, kcal: number}[]
-    }) {
+    function ConfirmDelete(item: RecipeBook) {
         if (window.confirm("Are you sure you want to delete " + item.name + " from your recipe book?")) {
             deleteRecipe(item.id)
         }
@@ -51,8 +54,6 @@ function RecipeBookPage() {
     function deleteRecipe(id: string) {
         const newList = recipeBookList.filter((item) => item.id !== id);
         setRecipeBookList(newList);
-
-
     }
 
     // @ts-ignore
@@ -100,10 +101,7 @@ function RecipeBookPage() {
 
 
 //todo inaczej przekazuj id
-    const genExtra = (item: {
-        id: string, name: string, calories: number,
-        ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[]
-    }) => (
+    const genExtra = (item: RecipeBook) => (
         <Box>
             <Button shape="circle" icon={<EditOutlined/>} href={`/recipe-book/${item.id}`}/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
@@ -122,8 +120,6 @@ function RecipeBookPage() {
                 {kcal} kcal/100g
             </Col>
         </Row>
-
-
     );
 
 
@@ -131,7 +127,6 @@ function RecipeBookPage() {
         <div className="App">
 
             <RecipeBookHeader recipes={recipeBookList}/>
-
             <List list={recipeBookList} onRemove={deleteRecipe}/>
 
         </div>

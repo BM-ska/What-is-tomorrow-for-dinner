@@ -80,7 +80,6 @@ function RecipeBookHeader({recipes}: props) {
                             <Button shape="circle" icon={<SaveOutlined/>} onClick={() => saveToDB(recipes)}/>
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            {/*//todo*/}
                             <Button shape="circle" icon={<PlusCircleOutlined/>} href={`/recipe-book/${0}`}/>
                         </Col>
                     </Row>

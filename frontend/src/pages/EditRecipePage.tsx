@@ -28,7 +28,13 @@ interface Ingredient {
 
 function EditRecipePage() {
 
-    const [recipeData, setRecipeData] = React.useState<Recipe>({id : "", name: "", fresh: 1, category: "", ingredient: []});
+    const [recipeData, setRecipeData] = React.useState<Recipe>({
+        id: "",
+        name: "",
+        fresh: 1,
+        category: "",
+        ingredient: []
+    });
     const [ingredientList, setIngredientList] = React.useState<Ingredient[]>([]);
 
     const id: string = useLocation().pathname.slice(13);
@@ -247,7 +253,6 @@ function EditRecipePage() {
 
                 </Container>
             </Box>
-
 
             <List list={ingredientList} onRemove={deleteIngredient}/>
         </div>

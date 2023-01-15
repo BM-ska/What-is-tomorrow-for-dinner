@@ -61,9 +61,7 @@ public class ReceipeController {
         System.out.printf(id + '\n');
         System.out.printf(recipe.toString() + '\n');
 
-        //todo niedziala
-        Recipe a = new Recipe(recipe.getId(), recipe.getName(),123, recipe.getIngredient());
-        recipesTMP.add(a);
+
     }
 
 
