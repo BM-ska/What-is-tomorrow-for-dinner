@@ -26,42 +26,41 @@ public class ReceipeController {
             "Barszcz",
             2,
             "lunch",
-            List.of(new Ingredient("876", "mak", "200", "g", 2345),
-                    new Ingredient("23", "sól", "4", "g", 4)));
+            List.of(
+                    new Ingredient("11", "burak", "1234", "g", 1),
+                    new Ingredient("12", "woda", "1234", "g", 1),
+                    new Ingredient("13", "uszko", "1234", "g", 1)));
 
+    //todo usuń komentarz: przy otwieraniu strony ma pobierać dane z bazy i je wypisywać
     @GetMapping("recipe-book")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Recipe>> getRecipeBook() {
-        List<Recipe> recipes = recipesTMP;
+        List<Recipe> recipes = recipesTMP; //pobranie z bazy
 
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
+    //todo usuń komentarz: przy zapisie ma aktualizować liste(baze danych)
     @PutMapping("recipe-book")
     @CrossOrigin(origins = "http://localhost:3000")
     public void updateRecipeBook(@RequestBody List<Recipe> recipeBook) {
-
-        System.out.printf(recipeBook.toString() + '\n');
-
+        recipesTMP = recipeBook;
     }
 
+    //todo usuń komentarz: przy kliknięciu edytuuj przepis załaduj poprawnie dane z bazy
     @GetMapping("recipe-book/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<RecipeData> getRecipe(@PathVariable String id) {
-        System.out.printf(id + '\n');
-
         RecipeData recipes = recipeDataTMP;
 
         return new ResponseEntity<>(recipes, HttpStatus.OK);
     }
 
+    //todo usuń komentarz: przy kliknięciu zapisz, aktualizuje liste
     @PutMapping("recipe-book/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public void updateRecipe(@PathVariable String id, @RequestBody RecipeData recipe) {
-        System.out.printf(id + '\n');
-        System.out.printf(recipe.toString() + '\n');
-
-
+        recipeDataTMP = recipe;
     }
 
 
