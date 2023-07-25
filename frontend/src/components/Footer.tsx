@@ -10,84 +10,84 @@ import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 
-export default function Footer(){
+export default function Footer() {
     return (
-    <footer >
-        <Box boxShadow={20}
-             px={{ xs: 3, sm:4 }}
-             py={{ xs: 3, sm:4 }}
-             bgcolor="#7cc27d">
-            <Container maxWidth="xl" >
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={2}>
-                        <Box>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="a"
-                                href="/"
-                                sx={{
-                                    mr: 1,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                About
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                component="a"
-                                href="/"
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: 'white',
-                                    textDecoration: 'none',
-                                    fontSize: 14
-                                }}
-                            >
-                                Contact
-                            </Typography>
-                        </Box>
+        <footer style={{position: "fixed", bottom: 0, width: "100%"}}>
+            <Box boxShadow={20}
+                 px={{xs: 3, sm: 4}}
+                 py={{xs: 3, sm: 4}}
+                 bgcolor="#7cc27d">
+                <Container maxWidth="xl">
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={2}>
+                            <Box>
+                                <Typography
+                                    variant="h6"
+                                    noWrap
+                                    component="a"
+                                    href="/"
+                                    sx={{
+                                        mr: 1,
+                                        display: {xs: 'none', md: 'flex'},
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        letterSpacing: '.3rem',
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        fontSize: 14
+                                    }}
+                                >
+                                    About
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography
+                                    variant="h6"
+                                    noWrap
+                                    component="a"
+                                    href="/"
+                                    sx={{
+                                        mr: 2,
+                                        display: {xs: 'none', md: 'flex'},
+                                        fontFamily: 'monospace',
+                                        fontWeight: 700,
+                                        letterSpacing: '.3rem',
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        fontSize: 14
+                                    }}
+                                >
+                                    Contact
+                                </Typography>
+                            </Box>
 
+                        </Grid>
+
+                        <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}></Box>
+
+                        <Box>
+                            <IconButton sx={{p: 1}}>
+                                <Avatar>
+                                    <FacebookIcon/>
+                                </Avatar>
+                            </IconButton>
+                            <IconButton sx={{p: 1}}>
+                                <Avatar>
+                                    <InstagramIcon/>
+                                </Avatar>
+                            </IconButton>
+                            <IconButton sx={{p: 1}}>
+                                <Avatar>
+                                    <YouTubeIcon/>
+                                </Avatar>
+                            </IconButton>
+
+                        </Box>
                     </Grid>
 
-                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}></Box>
-
-                    <Box>
-                        <IconButton  sx={{p: 1}}>
-                            <Avatar>
-                                <FacebookIcon />
-                            </Avatar>
-                        </IconButton>
-                        <IconButton  sx={{p: 1}}>
-                            <Avatar>
-                                <InstagramIcon />
-                            </Avatar>
-                        </IconButton>
-                        <IconButton  sx={{p: 1}}>
-                            <Avatar>
-                                <YouTubeIcon />
-                            </Avatar>
-                        </IconButton>
-
-                    </Box>
-                </Grid>
-
-            </Container>
-        </Box>
-    </footer>
+                </Container>
+            </Box>
+        </footer>
     );
 
 }
