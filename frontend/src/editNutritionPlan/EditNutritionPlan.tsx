@@ -1,14 +1,32 @@
 import * as React from "react";
 import EditNutritionPlanHeader from "./EditNutritionPlanHeader";
-import {Form} from "antd";
+import {Checkbox, Form, Input, InputNumber, Select} from "antd";
 import Box from "@mui/material/Box";
+import {useState} from "react";
 
 function EditNutritionPlan() {
 
-    const initialPlanTMP = {
+    interface Plan {
+        planName: String,
+        kcal: number,
+        numberOfDays: number,
+        breakfast: boolean,
+        lunch: boolean,
+        dinner: boolean,
+        snack: boolean,
+        supper: boolean,
+        meal1: number,
+        meal2: number,
+        meal3: number,
+        meal4: number,
+        meal5: number
+    }
+
+    const [planData, setPlanData] = React.useState<Plan>({
         planName: "",
         kcal: 0,
-        brakfast: false,
+        numberOfDays: 0,
+        breakfast: false,
         lunch: false,
         dinner: false,
         snack: false,
@@ -18,10 +36,11 @@ function EditNutritionPlan() {
         meal3: 0,
         meal4: 0,
         meal5: 0
-    };
+    });
+
 
     function setProportions(plan: {
-        planName: string, kcal: number, brakfast: boolean, lunch: boolean, dinner: boolean,
+        planName: string, kcal: number, numberOfDays: number, brakfast: boolean, lunch: boolean, dinner: boolean,
         snack: boolean, supper: boolean, meal1: number, meal2: number, meal3: number,
         meal4: number, meal5: number
     }) {
@@ -70,11 +89,11 @@ function EditNutritionPlan() {
         } else {
             m1 = 100;
         }
-
-        return {
+        const newPlan = {
             planName: plan.planName,
             kcal: plan.kcal,
-            brakfast: plan.brakfast,
+            numberOfDays: plan.numberOfDays,
+            breakfast: plan.brakfast,
             lunch: plan.lunch,
             dinner: plan.dinner,
             snack: plan.snack,
@@ -85,28 +104,158 @@ function EditNutritionPlan() {
             meal4: m4,
             meal5: m5
         }
+
+        setPlanData(newPlan)
     }
+
+    const [meal1Disabled, setMeal1Disabled] = useState<boolean>(false);
+    const [meal2Disabled, setMeal2Disabled] = useState<boolean>(false);
+    const [meal3Disabled, setMeal3Disabled] = useState<boolean>(false);
+    const [meal4Disabled, setMeal4Disabled] = useState<boolean>(false);
+    const [meal5Disabled, setMeal5Disabled] = useState<boolean>(false);
+
+    // @ts-ignore
+    const Data = ({plan}) => (
+
+        <Box boxShadow={20}
+             px={{xs: 3, sm: 1}}
+             py={{xs: 3, sm: 1}}
+             bgcolor="#white">
+
+            <Form
+                labelCol={{span: 4}}
+                wrapperCol={{span: 14}}
+                layout="horizontal"
+            >
+                <Form.Item label="Recipe plan name">
+                    <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        plan.planName = e.target.value
+                    }}/>
+                </Form.Item>
+
+                <Form.Item label="Daily calorific value">
+                    <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        plan.kcal = e.target.value
+                    }}/>
+                </Form.Item>
+
+                <Form.Item label="How many days plan">
+                    <Input onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        plan.numberOfDays = e.target.value
+                    }}/>
+                </Form.Item>
+
+                <Checkbox
+                    checked={meal1Disabled}
+                    onChange={(e) => {
+                        plan.brakfast = !e.target.value
+                        setProportions(plan)
+                        plan = planData
+                        setMeal1Disabled(e.target.checked)
+                    }}
+                >
+                    Breakfast
+                </Checkbox>
+                <Checkbox
+                    checked={meal2Disabled}
+                    onChange={(e) => {
+                        plan.lunch = !e.target.value
+                        setProportions(plan)
+                        plan = planData
+                        setMeal2Disabled(e.target.checked)
+                    }}
+                >
+                    Lunch
+                </Checkbox>
+                <Checkbox
+                    checked={meal3Disabled}
+                    onChange={(e) => {
+                        plan.dinner = !e.target.value
+                        setProportions(plan)
+                        plan = planData
+                        setMeal3Disabled(e.target.checked)
+                    }}
+                >
+                    Dinner
+                </Checkbox>
+                <Checkbox
+                    checked={meal5Disabled}
+                    onChange={(e) => {
+                        plan.snack = !e.target.value
+                        setProportions(plan)
+                        plan = planData
+                        setMeal5Disabled(e.target.checked)
+                    }}
+                >
+                    Snack
+                </Checkbox>
+                <Checkbox
+                    checked={meal4Disabled}
+                    onChange={(e) => {
+                        plan.supper = !e.target.value
+                        setProportions(plan)
+                        plan = planData
+                        setMeal4Disabled(e.target.checked)
+                    }}
+                >
+                    Supper
+                </Checkbox>
+
+
+                <Form.Item label="meal 1">
+                    <Input disabled={!meal1Disabled}
+                           defaultValue={plan.breakfast === true ? planData.meal1
+                                : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                           }}/>
+                </Form.Item>
+                <Form.Item label="meal 2">
+                    <Input disabled={!meal2Disabled}
+                           defaultValue={plan.lunch === true ? planData.meal2
+                               : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                           }}/>
+                </Form.Item>
+                <Form.Item label="meal 3">
+                    <Input disabled={!meal3Disabled}
+                           defaultValue={plan.dinner === true ? planData.meal3
+                               : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                           }}/>
+                </Form.Item>
+                <Form.Item label="meal 4">
+                    <Input disabled={!meal4Disabled}
+                           defaultValue={plan.snack === true ? planData.meal4
+                               : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                           }}/>
+                </Form.Item>
+                <Form.Item label="meal 5">
+                    <Input disabled={!meal5Disabled}
+                           defaultValue={plan.supper === true ? planData.meal5
+                               : ""}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+
+                           }}/>
+                </Form.Item>
+
+            </Form>
+
+        </Box>
+    );
 
     return (
 
         <div className="App">
             <EditNutritionPlanHeader/>
 
-            <Box boxShadow={20}
-                 px={{xs: 3, sm: 1}}
-                 py={{xs: 3, sm: 1}}
-                 bgcolor="#white">
-
-                <Form
-                    labelCol={{span: 4}}
-                    wrapperCol={{span: 14}}
-                    layout="horizontal"
-                >
-
-                </Form>
+            <Data plan={planData}/>
 
 
-            </Box>
 
         </div>
     );
