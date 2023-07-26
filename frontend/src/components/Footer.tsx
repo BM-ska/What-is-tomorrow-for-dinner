@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import {Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -10,13 +10,26 @@ import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 
-export default function Footer() {
+const footerStyle: React.CSSProperties = {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+};
+
+const footerIconStyle = {
+    color: 'white',
+    p: 1,
+};
+
+const Footer = () => {
     return (
-        <footer style={{position: "fixed", bottom: 0, width: "100%"}}>
-            <Box boxShadow={20}
-                 px={{xs: 3, sm: 4}}
-                 py={{xs: 3, sm: 4}}
-                 bgcolor="#7cc27d">
+        <footer style={footerStyle}>
+            <Box
+                boxShadow={20}
+                px={{ xs: 3, sm: 4 }}
+                py={{ xs: 3, sm: 4 }}
+                bgcolor="#7cc27d"
+            >
                 <Container maxWidth="xl">
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={2}>
@@ -28,7 +41,7 @@ export default function Footer() {
                                     href="/"
                                     sx={{
                                         mr: 1,
-                                        display: {xs: 'none', md: 'flex'},
+                                        display: { xs: 'none', md: 'flex' },
                                         fontFamily: 'monospace',
                                         fontWeight: 700,
                                         letterSpacing: '.3rem',
@@ -48,7 +61,7 @@ export default function Footer() {
                                     href="/"
                                     sx={{
                                         mr: 2,
-                                        display: {xs: 'none', md: 'flex'},
+                                        display: { xs: 'none', md: 'flex' },
                                         fontFamily: 'monospace',
                                         fontWeight: 700,
                                         letterSpacing: '.3rem',
@@ -60,34 +73,32 @@ export default function Footer() {
                                     Contact
                                 </Typography>
                             </Box>
-
                         </Grid>
 
-                        <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}></Box>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
 
                         <Box>
-                            <IconButton sx={{p: 1}}>
+                            <IconButton sx={footerIconStyle}>
                                 <Avatar>
-                                    <FacebookIcon/>
+                                    <FacebookIcon />
                                 </Avatar>
                             </IconButton>
-                            <IconButton sx={{p: 1}}>
+                            <IconButton sx={footerIconStyle}>
                                 <Avatar>
-                                    <InstagramIcon/>
+                                    <InstagramIcon />
                                 </Avatar>
                             </IconButton>
-                            <IconButton sx={{p: 1}}>
+                            <IconButton sx={footerIconStyle}>
                                 <Avatar>
-                                    <YouTubeIcon/>
+                                    <YouTubeIcon />
                                 </Avatar>
                             </IconButton>
-
                         </Box>
                     </Grid>
-
                 </Container>
             </Box>
         </footer>
     );
+};
 
-}
+export default Footer;
