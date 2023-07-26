@@ -9,17 +9,23 @@ import EditNutritionPlan from "./editNutritionPlan/EditNutritionPlan";
 
 function App() {
     return (
-        <div className="App">
+        <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+            <div>
+                <Header />
+            </div>
+            <div style={{ flex: 1}}>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/edit-plan" element={<EditNutritionPlan />} />
+                    <Route path="/recipe-book" element={<RecipeBookPage />} />
+                    {/*todo zmien*/}
+                    <Route path="/recipe-book/:recipeId" element={<EditRecipePage />} />
+                </Routes>
+            </div>
+            <div >
+                <Footer />
+            </div>
 
-            <Header/>
-            <Routes>
-                <Route path="/" element={<MainPage/>}/>
-                <Route path="/edit-plan" element={<EditNutritionPlan/>}/>
-                <Route path="/recipe-book" element={<RecipeBookPage/>}/>
-                {/*todo zmien*/}
-                <Route path="/recipe-book/:recipeId" element={<EditRecipePage/>}/>
-            </Routes>
-            <Footer/>
         </div>
     );
 }

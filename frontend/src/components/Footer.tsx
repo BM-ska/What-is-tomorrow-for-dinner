@@ -11,9 +11,9 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 
 const footerStyle: React.CSSProperties = {
-    position: "fixed",
-    bottom: 0,
+    position: "relative",
     width: "100%",
+    backgroundColor: "#7cc27d",
 };
 
 const footerIconStyle = {
@@ -28,7 +28,6 @@ const Footer = () => {
                 boxShadow={20}
                 px={{ xs: 3, sm: 4 }}
                 py={{ xs: 3, sm: 4 }}
-                bgcolor="#7cc27d"
             >
                 <Container maxWidth="xl">
                     <Grid container spacing={3}>
