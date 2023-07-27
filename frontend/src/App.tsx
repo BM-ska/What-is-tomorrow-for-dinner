@@ -6,6 +6,8 @@ import {Route, Routes} from 'react-router-dom';
 import RecipeBookPage from "./recipeBook/RecipeBookPage";
 import EditRecipePage from "./editRecipe/EditRecipePage";
 import EditNutritionPlan from "./editNutritionPlan/EditNutritionPlan";
+import SignIn from "./signIn/SignInPage";
+import SignUp from "./signUp/SignUpPage";
 
 function App() {
     return (
@@ -20,6 +22,9 @@ function App() {
                     <Route path="/recipe-book" element={<RecipeBookPage />} />
                     {/*todo zmien*/}
                     <Route path="/recipe-book/:recipeId" element={<EditRecipePage />} />
+
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
                 </Routes>
             </div>
             <div >
