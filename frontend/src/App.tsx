@@ -8,6 +8,7 @@ import EditRecipePage from "./editRecipe/EditRecipePage";
 import EditNutritionPlan from "./editNutritionPlan/EditNutritionPlan";
 import SignIn from "./signIn/SignInPage";
 import SignUp from "./signUp/SignUpPage";
+import Profile from "./profile/ProfilePage";
 
 function App() {
     return (
@@ -25,6 +26,9 @@ function App() {
 
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
+
+                    {/*todo zmien*/}
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </div>
             <div >
