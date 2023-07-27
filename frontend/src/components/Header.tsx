@@ -9,6 +9,9 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import Link from '@mui/material/Link';
+// @ts-ignore
+import logo from './title.png';
 
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 
@@ -60,11 +63,9 @@ const ResponsiveAppBar = () => {
             <AppBar position="static" style={headerStyle}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/*todo*/}
-                        <a href="/">
-                            <img src="title.png" width="150" height="100" alt="Title" />
-
-                        </a>
+                        <Link href="/" underline="none">
+                            <img  alt="Logo" src={logo} />
+                        </Link>
 
                         <Box sx={{ flexGrow: 1 }} />
 
