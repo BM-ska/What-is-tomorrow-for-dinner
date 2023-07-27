@@ -60,15 +60,11 @@ const ResponsiveAppBar = () => {
             <AppBar position="static" style={headerStyle}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            href="/"
-                            sx={headerTitleStyle}
-                        >
-                            What'sForDinner
-                        </Typography>
+                        {/*todo*/}
+                        <a href="/">
+                            <img src="title.png" width="150" height="100" alt="Title" />
+
+                        </a>
 
                         <Box sx={{ flexGrow: 1 }} />
 
