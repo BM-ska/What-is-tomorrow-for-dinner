@@ -15,7 +15,7 @@ import logo from './title.png';
 
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 const headerStyle = {
     backgroundColor: '#7cc27d',
