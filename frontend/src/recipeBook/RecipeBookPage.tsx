@@ -17,6 +17,8 @@ const onChange = (key: string | string[]) => {
 interface RecipeBook {
     id: string;
     name: string;
+    fresh: number;
+    category: string;
     calories: number;
     ingredient: {
         id: string,
