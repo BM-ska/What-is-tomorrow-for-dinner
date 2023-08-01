@@ -11,13 +11,13 @@ function MainPage() {
         height: 400,
         boxShadow: 20,
         display: "flex",
-        justifyContent: "center", // Center the buttons horizontally
-        alignItems: "center", // Center the buttons vertically
-        textAlign: "center", // Center the text inside the buttons
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
     };
 
     const buttonStyle = {
-        margin: "5px", // Adjust the spacing between buttons
+        margin: "5px",
     };
 
     return (
