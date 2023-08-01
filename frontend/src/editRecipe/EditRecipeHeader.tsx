@@ -4,42 +4,19 @@ import {Button, Col, Row} from "antd";
 import {SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 
-
-function saveRecipe(recipe: Recipe, ingredient: Ingredient[], id: string) {
-
-    //todo id
-    const newRecipe: Recipe = {
-        id: (recipe.id === '' ? Math.random().toString(16) : recipe.id),
-        name: recipe.name,
-        fresh: recipe.fresh,
-        category: recipe.category,
-        ingredient: ingredient
-    }
-
-    const requestOptions = {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(newRecipe)
-    };
-    fetch('http://localhost:8080/recipe-book/' + id, requestOptions)
-        .catch((err) => {
-            console.log(err.message);
-        });
-
-
-}
 
 interface Recipe {
-    id: string;
+    idRecipe: number;
     name: string;
     fresh: number;
     category: string;
-    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }[];
 }
 
 interface Ingredient {
-    id: string;
+    idIngredient: number;
     name: string;
     amount: string;
     unit: string;
@@ -49,10 +26,34 @@ interface Ingredient {
 interface props {
     recipe: Recipe
     ingredient: Ingredient[]
-    id: string
+    idRecipe: number
 }
 
-function EditRecipeHeader({recipe, ingredient, id}: props) {
+function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
+
+    function saveRecipe(recipe: Recipe, ingredient: Ingredient[]) {
+
+        //todo id
+        const updatedRecipeData: Recipe = {
+            idRecipe: (recipe.idRecipe === 0 ? Math.random() * Number.MAX_SAFE_INTEGER : recipe.idRecipe),
+            name: recipe.name,
+            fresh: recipe.fresh,
+            category: recipe.category,
+            ingredient: ingredient
+        }
+
+        updateRecipeData(updatedRecipeData);
+    }
+
+    const updateRecipeData = (updatedRecipeData: Recipe) => {
+        axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData)
+            .then((response) => {
+                console.log('Recipe data updated successfully:', response.data);
+            })
+            .catch((error) => {
+                console.error('Failed to update recipe data:', error);
+            });
+    };
 
     return (
         <div className="App">
@@ -88,7 +89,7 @@ function EditRecipeHeader({recipe, ingredient, id}: props) {
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
                             <Button shape="circle" icon={<SaveOutlined/>}
-                                    onClick={() => saveRecipe(recipe, ingredient, id)}/>
+                                    onClick={() => saveRecipe(recipe, ingredient)}/>
                         </Col>
                     </Row>
 

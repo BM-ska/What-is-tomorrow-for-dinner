@@ -1,22 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import {Button, Col, Row} from "antd";
-import {PlusCircleOutlined, SaveOutlined} from "@ant-design/icons";
+import {PlusCircleOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-function saveToDB(recipes: RecipeBook[]) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(recipes)
-    };
-    fetch('http://localhost:8080/recipe-book', requestOptions)
-        .catch((err) => {
-            console.log(err.message);
-        });
-
-}
 
 interface RecipeBook {
     idRecipe: number;
@@ -75,9 +63,6 @@ function RecipeBookHeader({recipes}: props) {
                             >
                                 Energy values
                             </Typography></Box>
-                        </Col>
-                        <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                            <Button shape="circle" icon={<SaveOutlined/>} onClick={() => saveToDB(recipes)}/>
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
                             <Button shape="circle" icon={<PlusCircleOutlined/>} href={`/recipe-book/${0}`}/>

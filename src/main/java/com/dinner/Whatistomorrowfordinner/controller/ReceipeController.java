@@ -1,8 +1,9 @@
 package com.dinner.Whatistomorrowfordinner.controller;
 
-import com.dinner.Whatistomorrowfordinner.model.Ingredient;
 import com.dinner.Whatistomorrowfordinner.model.Recipe;
-import com.dinner.Whatistomorrowfordinner.model.RecipeData;
+import com.dinner.Whatistomorrowfordinner.model.User;
+import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,55 +14,66 @@ import java.util.List;
 @RequestMapping("/")
 public class ReceipeController {
 
-    List<Recipe> recipesTMP = List.of(
-            new Recipe("1", "Barszcz", 123, List.of(
-                    new Ingredient("11", "burak", "1234", "g", 1),
-                    new Ingredient("12", "woda", "1234", "g", 1),
-                    new Ingredient("13", "uszko", "1234", "g", 1))),
-            new Recipe("2", "Pierogi", 12322222, List.of(
-                    new Ingredient("14", "burak", "1234", "g", 1))));
+    private final UserRepository userRepository;
+    String userameTMP = "jan";
 
-    RecipeData recipeDataTMP = new RecipeData(
-            "12",
-            "Barszcz",
-            2,
-            "lunch",
-            List.of(
-                    new Ingredient("11", "burak", "1234", "g", 1),
-                    new Ingredient("12", "woda", "1234", "g", 1),
-                    new Ingredient("13", "uszko", "1234", "g", 1)));
+    @Autowired
+    public ReceipeController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    //todo usuń komentarz: przy otwieraniu strony ma pobierać dane z bazy i je wypisywać
     @GetMapping("recipe-book")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<List<Recipe>> getRecipeBook() {
-        List<Recipe> recipes = recipesTMP; //pobranie z bazy
+    public ResponseEntity<List<Recipe>> getUserRecipesTMP() {
+        User user = userRepository.findByUsername(userameTMP);
 
-        return new ResponseEntity<>(recipes, HttpStatus.OK);
+        List<Recipe> recipe = user.recipeBook();
+        return new ResponseEntity<>(recipe, HttpStatus.OK);
     }
 
-    //todo usuń komentarz: przy zapisie ma aktualizować liste(baze danych)
-    @PutMapping("recipe-book")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public void updateRecipeBook(@RequestBody List<Recipe> recipeBook) {
-        recipesTMP = recipeBook;
-    }
-
-    //todo usuń komentarz: przy kliknięciu edytuuj przepis załaduj poprawnie dane z bazy
     @GetMapping("recipe-book/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<RecipeData> getRecipe(@PathVariable String id) {
-        RecipeData recipes = recipeDataTMP;
+    public ResponseEntity<Recipe> getRecipe(@PathVariable long id) {
 
-        return new ResponseEntity<>(recipes, HttpStatus.OK);
+        User user = userRepository.findByUsername(userameTMP);
+
+        if (user != null) {
+            List<Recipe> recipeBook = user.recipeBook();
+
+            for (Recipe recipe : recipeBook) {
+                if (recipe.idRecipe() == id) {
+                    return new ResponseEntity<>(recipe, HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
-    //todo usuń komentarz: przy kliknięciu zapisz, aktualizuje liste
-    @PutMapping("recipe-book/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public void updateRecipe(@PathVariable String id, @RequestBody RecipeData recipe) {
-        recipeDataTMP = recipe;
+    @DeleteMapping("recipe-book/delete/recipe/{id}")
+    public void deleteRecipe(@PathVariable long id) {
+        User user = userRepository.findByUsername(userameTMP);
+        userRepository.deleteByUsername(userameTMP);
+        List<Recipe> recipeBook = user.recipeBook();
+        recipeBook.removeIf(recipe -> recipe.idRecipe() == id);
+        userRepository.save(user);
     }
 
+    //todo może kiedyś zmiana
+    @PutMapping("recipe-book/update/recipe/{id}")
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
+        User user = userRepository.findByUsername(userameTMP);
+        userRepository.deleteByUsername(userameTMP);
+
+        List<Recipe> recipeBook = user.recipeBook();
+        recipeBook.removeIf(recipe -> recipe.idRecipe() == id);
+        recipeBook.add(updatedRecipe);
+
+        userRepository.save(user);
+        return new ResponseEntity<>(updatedRecipe, HttpStatus.OK);
+    }
 
 }
+
+//todo wyciagnij do recipecontroller
+

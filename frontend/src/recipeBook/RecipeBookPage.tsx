@@ -54,11 +54,10 @@ function RecipeBookPage() {
     }
 
     function deleteRecipe(id: number) {
-        const newList = recipeBookList.filter((item) => item.idRecipe !== id);
-        setRecipeBookList(newList);
-
-        axios.delete(`http://localhost:8080/delete/${id}`)
+        axios.delete(`http://localhost:8080/recipe-book/delete/recipe/${id}`)
             .then(response => {
+                const newList = recipeBookList.filter((item) => item.idRecipe !== id);
+                setRecipeBookList(newList);
                 console.log('Recipe deleted successfully.');
             })
             .catch(error => {
