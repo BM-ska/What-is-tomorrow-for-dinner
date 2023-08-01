@@ -7,6 +7,7 @@ import {Button, Col, Collapse, Row} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ListItem, ListItemText} from "@mui/material";
 import RecipeBookHeader from "./RecipeBookHeader"
+import axios from "axios";
 
 const {Panel} = Collapse;
 
@@ -15,13 +16,13 @@ const onChange = (key: string | string[]) => {
 };
 
 interface RecipeBook {
-    id: string;
+    idRecipe: number;
     name: string;
     fresh: number;
     category: string;
     calories: number;
     ingredient: {
-        id: string,
+        idIngredient: number,
         name: string,
         amount: string,
         unit: string,
@@ -48,13 +49,21 @@ function RecipeBookPage() {
 
     function ConfirmDelete(item: RecipeBook) {
         if (window.confirm("Are you sure you want to delete " + item.name + " from your recipe book?")) {
-            deleteRecipe(item.id)
+            deleteRecipe(item.idRecipe)
         }
     }
 
-    function deleteRecipe(id: string) {
-        const newList = recipeBookList.filter((item) => item.id !== id);
+    function deleteRecipe(id: number) {
+        const newList = recipeBookList.filter((item) => item.idRecipe !== id);
         setRecipeBookList(newList);
+
+        axios.delete(`http://localhost:8080/delete/${id}`)
+            .then(response => {
+                console.log('Recipe deleted successfully.');
+            })
+            .catch(error => {
+                console.error('Failed to delete recipe:', error);
+            });
     }
 
     // @ts-ignore
@@ -64,15 +73,15 @@ function RecipeBookPage() {
             <Collapse onChange={onChange}>
                 {list.map((item: RecipeBook) => (
                     <Panel header={calories(item.name, item.calories)}
-                           key={item.id}
+                           key={item.idRecipe}
                            extra={genExtra(item)}>
 
                         <Box>
 
-                            {item.ingredient.map((i: { id: string, name: string, amount: string, unit: string, kcal: number }) => (
+                            {item.ingredient.map((i: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }) => (
 
                                 <ListItem
-                                    key={i.id}
+                                    key={i.idIngredient}
                                     disableGutters>
 
                                     <Col span={1} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
@@ -104,7 +113,7 @@ function RecipeBookPage() {
 //todo inaczej przekazuj id
     const genExtra = (item: RecipeBook) => (
         <Box>
-            <Button shape="circle" icon={<EditOutlined/>} href={`/recipe-book/${item.id}`}/>
+            <Button shape="circle" icon={<EditOutlined/>} href={`/recipe-book/${item.idRecipe}`}/>
             <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
                 ConfirmDelete(item)
             }}/>

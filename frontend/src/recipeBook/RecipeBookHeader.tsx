@@ -19,10 +19,10 @@ function saveToDB(recipes: RecipeBook[]) {
 }
 
 interface RecipeBook {
-    id: string;
+    idRecipe: number;
     name: string;
     calories: number;
-    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }[];
 }
 
 interface props {
