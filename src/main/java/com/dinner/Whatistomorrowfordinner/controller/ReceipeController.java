@@ -23,7 +23,6 @@ public class ReceipeController {
     }
 
     @GetMapping("recipe-book")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Recipe>> getUserRecipesTMP() {
         User user = userRepository.findByUsername(userameTMP);
 
@@ -32,7 +31,6 @@ public class ReceipeController {
     }
 
     @GetMapping("recipe-book/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Recipe> getRecipe(@PathVariable long id) {
 
         User user = userRepository.findByUsername(userameTMP);
