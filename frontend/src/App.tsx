@@ -9,6 +9,7 @@ import EditNutritionPlan from "./editNutritionPlan/EditNutritionPlan";
 import SignIn from "./signIn/SignInPage";
 import SignUp from "./signUp/SignUpPage";
 import Profile from "./profile/ProfilePage";
+import PreliminaryNutritionPlan from "./preliminaryNutritionPlan/PreliminaryNutritionPlan";
 
 function App() {
     return (
@@ -20,6 +21,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/edit-plan" element={<EditNutritionPlan />} />
+                    <Route path="/edit-preliminary-plan" element={<PreliminaryNutritionPlan />} /> //todo
+
                     <Route path="/recipe-book" element={<RecipeBookPage />} />
                     {/*todo zmien*/}
                     <Route path="/recipe-book/:recipeId" element={<EditRecipePage />} />
