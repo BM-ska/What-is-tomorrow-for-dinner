@@ -1,4 +1,4 @@
-package com.dinner.Whatistomorrowfordinner.config;
+package com.dinner.Whatistomorrowfordinner.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

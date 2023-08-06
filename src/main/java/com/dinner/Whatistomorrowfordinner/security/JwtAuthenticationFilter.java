@@ -1,4 +1,4 @@
-package com.dinner.Whatistomorrowfordinner.config;
+package com.dinner.Whatistomorrowfordinner.security;
 
 import com.dinner.Whatistomorrowfordinner.repository.UserEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;

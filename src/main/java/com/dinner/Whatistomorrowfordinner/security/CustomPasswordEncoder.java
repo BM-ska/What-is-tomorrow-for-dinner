@@ -1,4 +1,4 @@
-package com.dinner.Whatistomorrowfordinner.config;
+package com.dinner.Whatistomorrowfordinner.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

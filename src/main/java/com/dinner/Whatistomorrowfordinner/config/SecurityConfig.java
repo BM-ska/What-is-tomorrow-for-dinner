@@ -1,6 +1,8 @@
 package com.dinner.Whatistomorrowfordinner.config;
 
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
+import com.dinner.Whatistomorrowfordinner.security.CustomPasswordEncoder;
+import com.dinner.Whatistomorrowfordinner.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

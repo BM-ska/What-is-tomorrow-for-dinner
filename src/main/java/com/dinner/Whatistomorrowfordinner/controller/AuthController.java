@@ -1,6 +1,6 @@
 package com.dinner.Whatistomorrowfordinner.controller;
 
-import com.dinner.Whatistomorrowfordinner.config.JwtTokenUtil;
+import com.dinner.Whatistomorrowfordinner.security.JwtTokenUtil;
 import com.dinner.Whatistomorrowfordinner.model.AuthCredentialRequest;
 import com.dinner.Whatistomorrowfordinner.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
