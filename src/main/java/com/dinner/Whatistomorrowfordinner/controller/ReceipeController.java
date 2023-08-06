@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 public class ReceipeController {
 
     private final UserRepository userRepository;
@@ -57,7 +58,6 @@ public class ReceipeController {
         userRepository.save(user);
     }
 
-    //todo może kiedyś zmiana
     @PutMapping("recipe-book/update/recipe/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
         User user = userRepository.findByUsername(userameTMP);
@@ -73,5 +73,4 @@ public class ReceipeController {
 
 }
 
-//todo wyciagnij do recipecontroller
 

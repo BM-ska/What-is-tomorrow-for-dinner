@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,20 +11,46 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-
+import axios from "axios";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async (e: any) => {
+        e.preventDefault();
+
+        try {
+            const credentials = {
+                username: username,
+                password: password,
+            };
+            console.log(username)
+            console.log(password)
+
+            const response = await axios.post(
+                'http://localhost:8080/sign-in',
+                credentials
+                , {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                    }
+                }
+            );
+
+            // Pomyślnie zalogowano
+            console.log('Zalogowano:', response);
+        } catch (error) {
+            // Obsłuż błąd logowania
+            console.error('Błąd logowania:', error);
+        }
     };
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -43,7 +70,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                    <Box component="form" onSubmit={handleLogin} noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             required
@@ -53,6 +80,7 @@ export default function SignIn() {
                             name="username"
                             autoComplete="username"
                             autoFocus
+                            onChange={(e) => setUsername(e.target.value)}
                         />
                         <TextField
                             margin="normal"
@@ -63,6 +91,7 @@ export default function SignIn() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <Button
                             type="submit"

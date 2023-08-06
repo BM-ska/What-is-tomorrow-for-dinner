@@ -43,6 +43,7 @@ function RecipeBookPage() {
 
             })
             .catch((err) => {
+                window.location.href = "http://localhost:3000/sign-in";
                 console.log(err.message);
             });
     }, []);
