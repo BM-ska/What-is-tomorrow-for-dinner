@@ -29,13 +29,11 @@ export default function SignIn() {
                 username: username,
                 password: password,
             };
-            console.log(username)
-            console.log(password)
 
             const response = await axios.post(
                 'http://localhost:8080/sign-in',
-                credentials
-                , {
+                credentials,
+                {
                     headers: {
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*',
@@ -43,10 +41,10 @@ export default function SignIn() {
                 }
             );
 
-            // Pomyślnie zalogowano
-            console.log('Zalogowano:', response);
+            // @ts-ignore
+            console.log(response.headers.get("Authorization"));
+            console.log('Zalogowano:');
         } catch (error) {
-            // Obsłuż błąd logowania
             console.error('Błąd logowania:', error);
         }
     };
