@@ -40,7 +40,7 @@ function EditNutritionPlanHeader() {
                             {/*<Button shape="circle" icon={<FileDoneOutlined/>}/>*/}
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<CreateIcon/>}/>
+                            <Button shape="circle" icon={<CreateIcon/>} href={`/edit-preliminary-plan`}/>
                         </Col>
                     </Row>
 

@@ -1,8 +1,8 @@
 import * as React from "react";
-import EditNutritionPlanHeader from "./EditNutritionPlanHeader";
-import {Checkbox, Form, Input, InputNumber, Select} from "antd";
-import Box from "@mui/material/Box";
 import {useState} from "react";
+import EditNutritionPlanHeader from "./EditNutritionPlanHeader";
+import {Checkbox, Form, Input} from "antd";
+import Box from "@mui/material/Box";
 
 function EditNutritionPlan() {
 
@@ -205,7 +205,7 @@ function EditNutritionPlan() {
                 <Form.Item label="meal 1">
                     <Input disabled={!meal1Disabled}
                            defaultValue={plan.breakfast === true ? planData.meal1
-                                : ""}
+                               : ""}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 
                            }}/>
@@ -254,7 +254,6 @@ function EditNutritionPlan() {
             <EditNutritionPlanHeader/>
 
             <Data plan={planData}/>
-
 
 
         </div>
