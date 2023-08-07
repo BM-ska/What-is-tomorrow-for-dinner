@@ -60,7 +60,7 @@ function MainPage() {
                         </Typography>
                     </Avatar>
                 </IconButton>
-                <IconButton sx={{ p: 1 }} style={buttonStyle}>
+                <IconButton sx={{ p: 1 }} href="/your-plans" style={buttonStyle}>
                     <Avatar sx={avatarStyle}>
                         <Typography
                             variant="h6"

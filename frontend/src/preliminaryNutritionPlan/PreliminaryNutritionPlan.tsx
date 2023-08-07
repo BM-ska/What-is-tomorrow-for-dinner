@@ -233,7 +233,7 @@ function PreliminaryNutritionPlan() {
     const DayCollapse: React.FC<DayCollapseProps> = ({day}) => {
         return (
             <Collapse defaultActiveKey={[`${day.idDayPlan}`]} accordion>
-                <Panel header={`Day ${day.number}`} key={`${day.idDayPlan}`} >
+                <Panel header={`Day ${day.number}`} key={`${day.idDayPlan}`}>
                     {day.meal.map((meal) => (
                         <MealCollapse key={meal.idMeal} meal={meal}/>
                     ))}
