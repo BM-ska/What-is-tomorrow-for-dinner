@@ -67,6 +67,7 @@ function YourPlans() {
                         key={plan.planId}
                         type="primary"
                         style={buttonStyle}
+                        href={`/your-plans/${plan.planId}`}
                     >
                         <Box><Typography
                             variant="h6"
