@@ -61,22 +61,16 @@ function NutritionPlan() {
                             ration: [
                                 {
                                     idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
+                                    name: "Scrambled Eggs",
+                                    amount: 200,
+                                    unit: "g",
                                 },
                                 {
                                     idRation: 2,
-                                    name: "Milk",
+                                    name: "chleb",
                                     amount: 100,
-                                    unit: "ml",
-                                },
-                                {
-                                    idRation: 3,
-                                    name: "Salt",
-                                    amount: 2,
                                     unit: "g",
-                                },
+                                }
                             ],
                         },
                         {
@@ -84,23 +78,17 @@ function NutritionPlan() {
                             username: "JaneSmith",
                             ration: [
                                 {
-                                    idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
-                                },
-                                {
-                                    idRation: 2,
-                                    name: "Milk",
-                                    amount: 100,
-                                    unit: "ml",
+                                    idRation: 3,
+                                    name: "Scrambled Eggs",
+                                    amount: 300,
+                                    unit: "g",
                                 },
                                 {
                                     idRation: 4,
-                                    name: "Pepper",
-                                    amount: 1,
+                                    name: "chleb",
+                                    amount: 150,
                                     unit: "g",
-                                },
+                                }
                             ],
                         },
                     ],
@@ -121,18 +109,6 @@ function NutritionPlan() {
                                     unit: "g",
                                 },
                                 {
-                                    idRation: 6,
-                                    name: "Vegetables",
-                                    amount: 200,
-                                    unit: "g",
-                                },
-                                {
-                                    idRation: 7,
-                                    name: "Soy Sauce",
-                                    amount: 30,
-                                    unit: "ml",
-                                },
-                                {
                                     idRation: 8,
                                     name: "Rice",
                                     amount: 100,
@@ -149,18 +125,6 @@ function NutritionPlan() {
                                     name: "Chicken",
                                     amount: 150,
                                     unit: "g",
-                                },
-                                {
-                                    idRation: 9,
-                                    name: "Garlic",
-                                    amount: 5,
-                                    unit: "g",
-                                },
-                                {
-                                    idRation: 7,
-                                    name: "Soy Sauce",
-                                    amount: 30,
-                                    unit: "ml",
                                 },
                                 {
                                     idRation: 8,
@@ -182,7 +146,7 @@ function NutritionPlan() {
                 {
                     idMeal: 4,
                     category: "Breakfast",
-                    recipeName: "Scrambled Eggs",
+                    recipeName: "Omlet",
                     occupant: [
                         {
                             idOccupant: 1,
@@ -190,9 +154,9 @@ function NutritionPlan() {
                             ration: [
                                 {
                                     idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
+                                    name: "omlet",
+                                    amount: 400,
+                                    unit: "g",
                                 }
                             ],
                         }
@@ -222,13 +186,6 @@ function NutritionPlan() {
         //  console.log(key);
     };
 
-    const genExtra = (meal: Meal) => (
-        <Box>
-            <Button shape="circle" icon={<EditOutlined/>} href={``}/>
-
-        </Box>
-
-    );
 
     const DayCollapse: React.FC<DayCollapseProps> = ({day}) => {
         return (
@@ -245,7 +202,7 @@ function NutritionPlan() {
     const MealCollapse: React.FC<MealCollapseProps> = ({meal}) => {
         return (
             <Collapse defaultActiveKey={[`${meal.idMeal}`]} accordion>
-                <Panel header={`${meal.category}:  ${meal.recipeName}`} key={`${meal.idMeal}`} extra={genExtra(meal)}>
+                <Panel header={`${meal.category}:  ${meal.recipeName}`} key={`${meal.idMeal}`} >
                     <ul>
                         {meal.occupant.map((occupant) => (
                             <li key={occupant.idOccupant}>

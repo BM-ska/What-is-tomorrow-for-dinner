@@ -61,22 +61,16 @@ function PreliminaryNutritionPlan() {
                             ration: [
                                 {
                                     idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
+                                    name: "Scrambled Eggs",
+                                    amount: 200,
+                                    unit: "g",
                                 },
                                 {
                                     idRation: 2,
-                                    name: "Milk",
+                                    name: "chleb",
                                     amount: 100,
-                                    unit: "ml",
-                                },
-                                {
-                                    idRation: 3,
-                                    name: "Salt",
-                                    amount: 2,
                                     unit: "g",
-                                },
+                                }
                             ],
                         },
                         {
@@ -84,23 +78,17 @@ function PreliminaryNutritionPlan() {
                             username: "JaneSmith",
                             ration: [
                                 {
-                                    idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
-                                },
-                                {
-                                    idRation: 2,
-                                    name: "Milk",
-                                    amount: 100,
-                                    unit: "ml",
+                                    idRation: 3,
+                                    name: "Scrambled Eggs",
+                                    amount: 300,
+                                    unit: "g",
                                 },
                                 {
                                     idRation: 4,
-                                    name: "Pepper",
-                                    amount: 1,
+                                    name: "chleb",
+                                    amount: 150,
                                     unit: "g",
-                                },
+                                }
                             ],
                         },
                     ],
@@ -121,18 +109,6 @@ function PreliminaryNutritionPlan() {
                                     unit: "g",
                                 },
                                 {
-                                    idRation: 6,
-                                    name: "Vegetables",
-                                    amount: 200,
-                                    unit: "g",
-                                },
-                                {
-                                    idRation: 7,
-                                    name: "Soy Sauce",
-                                    amount: 30,
-                                    unit: "ml",
-                                },
-                                {
                                     idRation: 8,
                                     name: "Rice",
                                     amount: 100,
@@ -149,18 +125,6 @@ function PreliminaryNutritionPlan() {
                                     name: "Chicken",
                                     amount: 150,
                                     unit: "g",
-                                },
-                                {
-                                    idRation: 9,
-                                    name: "Garlic",
-                                    amount: 5,
-                                    unit: "g",
-                                },
-                                {
-                                    idRation: 7,
-                                    name: "Soy Sauce",
-                                    amount: 30,
-                                    unit: "ml",
                                 },
                                 {
                                     idRation: 8,
@@ -182,7 +146,7 @@ function PreliminaryNutritionPlan() {
                 {
                     idMeal: 4,
                     category: "Breakfast",
-                    recipeName: "Scrambled Eggs",
+                    recipeName: "Omlet",
                     occupant: [
                         {
                             idOccupant: 1,
@@ -190,9 +154,9 @@ function PreliminaryNutritionPlan() {
                             ration: [
                                 {
                                     idRation: 1,
-                                    name: "Eggs",
-                                    amount: 2,
-                                    unit: "pcs",
+                                    name: "omlet",
+                                    amount: 400,
+                                    unit: "g",
                                 }
                             ],
                         }

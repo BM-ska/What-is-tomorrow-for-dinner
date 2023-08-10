@@ -10,6 +10,8 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
+
 // @ts-ignore
 import logo from './title.png';
 
@@ -98,7 +100,14 @@ const ResponsiveAppBar = () => {
                             >
                                 {settings.map((setting) => (
                                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                        <Typography textAlign="center">
+                                            <RouterLink
+                                                to={setting === 'Profile' ? '/profile' : '/sign-in'}
+                                                style={{ textDecoration: 'none', color: 'inherit' }}
+                                            >
+                                                {setting}
+                                            </RouterLink>
+                                        </Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
