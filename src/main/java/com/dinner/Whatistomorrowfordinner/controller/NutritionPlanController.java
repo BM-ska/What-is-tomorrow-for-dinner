@@ -2,6 +2,7 @@ package com.dinner.Whatistomorrowfordinner.controller;
 
 import com.dinner.Whatistomorrowfordinner.model.*;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
+import com.dinner.Whatistomorrowfordinner.service.NutritionPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 public class NutritionPlanController {
     private final UserRepository userRepository;
+    private final NutritionPlanService nutritionPlanService;
     @Autowired
-    public NutritionPlanController(UserRepository userRepository) {
+    public NutritionPlanController(UserRepository userRepository, NutritionPlanService nutritionPlanService) {
         this.userRepository = userRepository;
+        this.nutritionPlanService = nutritionPlanService;
     }
 
     @PutMapping("/nutrition-plan/create")
@@ -24,10 +27,15 @@ public class NutritionPlanController {
 
 
         //todo create new plan
-        //todo save to db
-        //todo return this plan id
-        long planIdTMP = 1;
+        DayPlan dayPlan = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
 
+        //todo save to db
+        //long planId = saveToDB(dayPlan);
+
+        //todo return this plan id
+        //return new ResponseEntity<>(planId, HttpStatus.OK);
+
+        long planIdTMP = 1;
         return new ResponseEntity<>(planIdTMP, HttpStatus.OK);
     }
 
