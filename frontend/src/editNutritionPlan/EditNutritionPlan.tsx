@@ -31,7 +31,7 @@ function EditNutritionPlan() {
         dinner: false,
         snack: false,
         supper: false,
-        meal1: 100,
+        meal1: 0,
         meal2: 0,
         meal3: 0,
         meal4: 0,
@@ -40,72 +40,44 @@ function EditNutritionPlan() {
 
 
     function setProportions(plan: {
-        planName: string, kcal: number, numberOfDays: number, brakfast: boolean, lunch: boolean, dinner: boolean,
+        planName: string, kcal: number, numberOfDays: number, breakfast: boolean, lunch: boolean, dinner: boolean,
         snack: boolean, supper: boolean, meal1: number, meal2: number, meal3: number,
         meal4: number, meal5: number
     }) {
 
-        let count = 0;
-        if (plan.brakfast) {
-            count += 1;
-        }
-        if (plan.lunch) {
-            count += 1;
-        }
-        if (plan.dinner) {
-            count += 1;
-        }
-        if (plan.snack) {
-            count += 1;
-        }
-        if (plan.supper) {
-            count += 1;
-        }
-
-        let m1 = 0;
-        let m2 = 0;
-        let m3 = 0;
-        let m4 = 0;
-        let m5 = 0;
-
-        if (count === 5) {
-            m1 = 25;
-            m2 = 10;
-            m3 = 30;
-            m4 = 15;
-            m5 = 20;
-        } else if (count === 4) {
-            m1 = 30;
-            m2 = 10;
-            m3 = 40;
-            m4 = 20;
-        } else if (count === 3) {
-            m1 = 30;
-            m2 = 40;
-            m3 = 30;
-        } else if (count === 2) {
-            m1 = 50;
-            m2 = 50;
-        } else {
-            m1 = 100;
-        }
         const newPlan = {
             planName: plan.planName,
             kcal: plan.kcal,
             numberOfDays: plan.numberOfDays,
-            breakfast: plan.brakfast,
+            breakfast: plan.breakfast,
             lunch: plan.lunch,
             dinner: plan.dinner,
             snack: plan.snack,
             supper: plan.supper,
-            meal1: m1,
-            meal2: m2,
-            meal3: m3,
-            meal4: m4,
-            meal5: m5
+            meal1: plan.meal1,
+            meal2: plan.meal2,
+            meal3: plan.meal3,
+            meal4: plan.meal4,
+            meal5: plan.meal5
         }
 
-        setPlanData(newPlan)
+        if (plan.breakfast) {
+            newPlan.meal1 = 25;
+        }
+        if (plan.lunch) {
+            newPlan.meal2 = 10;
+        }
+        if (plan.dinner) {
+            newPlan.meal3 = 30;
+        }
+        if (plan.snack) {
+            newPlan.meal4 = 15;
+        }
+        if (plan.supper) {
+            newPlan.meal5 = 20;
+        }
+
+        setPlanData(newPlan);
     }
 
     const [meal1Disabled, setMeal1Disabled] = useState<boolean>(false);
@@ -147,55 +119,55 @@ function EditNutritionPlan() {
 
                 <Checkbox
                     checked={meal1Disabled}
-                    onChange={(e) => {
-                        plan.brakfast = !e.target.value
+                    onChange={(e1) => {
+                        plan.breakfast = !e1.target.value
                         setProportions(plan)
                         plan = planData
-                        setMeal1Disabled(e.target.checked)
+                        setMeal1Disabled(e1.target.checked)
                     }}
                 >
                     Breakfast
                 </Checkbox>
                 <Checkbox
                     checked={meal2Disabled}
-                    onChange={(e) => {
-                        plan.lunch = !e.target.value
+                    onChange={(e2) => {
+                        plan.lunch = !e2.target.value
                         setProportions(plan)
                         plan = planData
-                        setMeal2Disabled(e.target.checked)
+                        setMeal2Disabled(e2.target.checked)
                     }}
                 >
                     Lunch
                 </Checkbox>
                 <Checkbox
                     checked={meal3Disabled}
-                    onChange={(e) => {
-                        plan.dinner = !e.target.value
+                    onChange={(e3) => {
+                        plan.dinner = !e3.target.value
                         setProportions(plan)
                         plan = planData
-                        setMeal3Disabled(e.target.checked)
+                        setMeal3Disabled(e3.target.checked)
                     }}
                 >
                     Dinner
                 </Checkbox>
                 <Checkbox
-                    checked={meal5Disabled}
-                    onChange={(e) => {
-                        plan.snack = !e.target.value
+                    checked={meal4Disabled}
+                    onChange={(e4) => {
+                        plan.snack = !e4.target.value
                         setProportions(plan)
                         plan = planData
-                        setMeal5Disabled(e.target.checked)
+                        setMeal4Disabled(e4.target.checked)
                     }}
                 >
                     Snack
                 </Checkbox>
                 <Checkbox
-                    checked={meal4Disabled}
-                    onChange={(e) => {
-                        plan.supper = !e.target.value
+                    checked={meal5Disabled}
+                    onChange={(e5) => {
+                        plan.supper = !e5.target.value
                         setProportions(plan)
                         plan = planData
-                        setMeal4Disabled(e.target.checked)
+                        setMeal5Disabled(e5.target.checked)
                     }}
                 >
                     Supper
