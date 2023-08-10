@@ -33,7 +33,7 @@ function EditNutritionPlanHeader({plan}: props) {
         axios.put(`http://localhost:8080/nutrition-plan/create`, plan)
             .then((response) => {
                 console.log('New nutrition-plan data updated successfully:', response.data);
-                window.location.href = "http://localhost:3000/edit-preliminary-plan";
+                window.location.href = `http://localhost:3000/edit-preliminary-plan/${response.data}`;
             })
             .catch((error) => {
                 console.error('Failed to update new nutrition-plan:', error);

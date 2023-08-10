@@ -4,6 +4,7 @@ import {Button, Col, Row} from "antd";
 import {SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 interface Ration {
     idRation: number;
@@ -36,8 +37,10 @@ interface props {
 
 function PreliminaryNutritionPlanHeader({dayPlanList}: props) {
 
+    const idPlan: number = Number(useLocation().pathname.slice(23));
+
     const savePlan = (dayPlanList: DayPlan[]) => {
-        axios.put(`http://localhost:8080/nutrition-plan/preliminary/save`, dayPlanList)
+        axios.put(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}/save`, dayPlanList)
             .then((response) => {
                 console.log('New finished nutrition-plan data updated successfully:', response.data);
             })

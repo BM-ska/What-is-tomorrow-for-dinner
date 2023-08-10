@@ -4,6 +4,7 @@ import PreliminaryNutritionPlanHeader from "./PreliminaryNutritionPlanHeader";
 import Box from "@mui/material/Box";
 import {Button, Collapse} from "antd";
 import {EditOutlined} from "@ant-design/icons";
+import {useLocation} from "react-router-dom";
 
 const {Panel} = Collapse;
 
@@ -42,6 +43,8 @@ interface MealCollapseProps {
 }
 
 function PreliminaryNutritionPlan() {
+
+    const idPlan: number = Number(useLocation().pathname.slice(23));
 
     const [dayPlanList, setDayPlanList] = useState<DayPlan[]>([]);
 
@@ -167,7 +170,7 @@ function PreliminaryNutritionPlan() {
     ];
 
     useEffect(() => {
-        fetch(`http://localhost:8080/nutrition-plan/preliminary`)
+        fetch(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}`)
             .then((res) => res.json())
             .then((data) => {
                 const allDays: DayPlan[] = data;

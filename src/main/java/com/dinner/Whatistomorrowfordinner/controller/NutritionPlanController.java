@@ -20,17 +20,21 @@ public class NutritionPlanController {
     }
 
     @PutMapping("/nutrition-plan/create")
-    public ResponseEntity<?> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData){
+    public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData){
 
+
+        //todo create new plan
         //todo save to db
-        //todo create new plan and return this plan id
+        //todo return this plan id
+        long planIdTMP = 1;
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(planIdTMP, HttpStatus.OK);
     }
 
 
-    @GetMapping("/nutrition-plan/preliminary")
-    public ResponseEntity<List<DayPlan>> getNutritionPlan() {
+    @GetMapping("/nutrition-plan/preliminary/{idPlan}")
+    public ResponseEntity<List<DayPlan>> getNutritionPlan(@PathVariable long idPlan) {
+
          List<DayPlan> dayPlansTMP = List.of(new DayPlan(
                         1,
                         1,
@@ -93,10 +97,9 @@ public class NutritionPlanController {
     }
 
 
-    @PutMapping("/nutrition-plan/preliminary/save")
-    public ResponseEntity<?> saveFinishedNutritionPlan(@RequestBody List<DayPlan> dayPlans){
+    @PutMapping("/nutrition-plan/preliminary/{idPlan}/save")
+    public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans){
 
-        //zmień request body i id w endpoincie
         //put finished nutrition plan to db
         //todo save to db using id
 
