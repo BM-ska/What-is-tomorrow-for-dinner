@@ -167,19 +167,15 @@ function PreliminaryNutritionPlan() {
     ];
 
     useEffect(() => {
-        // Example code for fetching data (commented out for simplicity)
-        // fetch(`http://localhost:8080/preliminary-nutrition-plan`)
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         const allDays: DayPlan[] = data;
-        //         setDayPlanList(allDays);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.message);
-        //     });
-
-        // For now, using the sample data directly
-        setDayPlanList(allDaysTMP);
+        fetch(`http://localhost:8080/nutrition-plan/preliminary`)
+            .then((res) => res.json())
+            .then((data) => {
+                const allDays: DayPlan[] = data;
+                setDayPlanList(allDays);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     }, []);
 
     const onChange = (key: string | string[]) => {
@@ -242,7 +238,7 @@ function PreliminaryNutritionPlan() {
 
     return (
         <div className="App">
-            <PreliminaryNutritionPlanHeader/>
+            <PreliminaryNutritionPlanHeader dayPlanList={dayPlanList} />
             <List list={dayPlanList}/>
         </div>
     );

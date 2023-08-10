@@ -121,9 +121,8 @@ function EditNutritionPlan() {
                     checked={meal1Disabled}
                     onChange={(e1) => {
                         plan.breakfast = !e1.target.value
-                        setProportions(plan)
-                        plan = planData
                         setMeal1Disabled(e1.target.checked)
+                        setProportions(plan)
                     }}
                 >
                     Breakfast
@@ -132,9 +131,8 @@ function EditNutritionPlan() {
                     checked={meal2Disabled}
                     onChange={(e2) => {
                         plan.lunch = !e2.target.value
-                        setProportions(plan)
-                        plan = planData
                         setMeal2Disabled(e2.target.checked)
+                        setProportions(plan)
                     }}
                 >
                     Lunch
@@ -143,9 +141,8 @@ function EditNutritionPlan() {
                     checked={meal3Disabled}
                     onChange={(e3) => {
                         plan.dinner = !e3.target.value
-                        setProportions(plan)
-                        plan = planData
                         setMeal3Disabled(e3.target.checked)
+                        setProportions(plan)
                     }}
                 >
                     Dinner
@@ -154,9 +151,8 @@ function EditNutritionPlan() {
                     checked={meal4Disabled}
                     onChange={(e4) => {
                         plan.snack = !e4.target.value
-                        setProportions(plan)
-                        plan = planData
                         setMeal4Disabled(e4.target.checked)
+                        setProportions(plan)
                     }}
                 >
                     Snack
@@ -165,9 +161,8 @@ function EditNutritionPlan() {
                     checked={meal5Disabled}
                     onChange={(e5) => {
                         plan.supper = !e5.target.value
-                        setProportions(plan)
-                        plan = planData
                         setMeal5Disabled(e5.target.checked)
+                        setProportions(plan)
                     }}
                 >
                     Supper
@@ -223,7 +218,7 @@ function EditNutritionPlan() {
     return (
 
         <div className="App">
-            <EditNutritionPlanHeader/>
+            <EditNutritionPlanHeader plan={planData}/>
 
             <Data plan={planData}/>
 

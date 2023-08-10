@@ -4,8 +4,44 @@ import {Button, Col, Row} from "antd";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import CreateIcon from '@mui/icons-material/Create';
+import axios from "axios";
 
-function EditNutritionPlanHeader() {
+interface Plan {
+    planName: String,
+    kcal: number,
+    numberOfDays: number,
+    breakfast: boolean,
+    lunch: boolean,
+    dinner: boolean,
+    snack: boolean,
+    supper: boolean,
+    meal1: number,
+    meal2: number,
+    meal3: number,
+    meal4: number,
+    meal5: number
+}
+
+interface props {
+    plan: Plan
+}
+
+function EditNutritionPlanHeader({plan}: props) {
+
+    const saveSettings = (plan: Plan) => {
+
+        axios.put(`http://localhost:8080/nutrition-plan/create`, plan)
+            .then((response) => {
+                console.log('New nutrition-plan data updated successfully:', response.data);
+                window.location.href = "http://localhost:3000/edit-preliminary-plan";
+            })
+            .catch((error) => {
+                console.error('Failed to update new nutrition-plan:', error);
+            });
+
+
+    };
+
 
     return (
         <div className="App">
@@ -37,10 +73,9 @@ function EditNutritionPlanHeader() {
                         <Col span={12} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
                         </Col>
                         <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                            {/*<Button shape="circle" icon={<FileDoneOutlined/>}/>*/}
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<CreateIcon/>} href={`/edit-preliminary-plan`}/>
+                            <Button shape="circle" icon={<CreateIcon/>} onClick={() =>  saveSettings(plan)}/>
                         </Col>
                     </Row>
 
