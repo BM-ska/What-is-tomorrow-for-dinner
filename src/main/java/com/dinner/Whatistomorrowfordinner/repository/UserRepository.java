@@ -9,4 +9,12 @@ public interface UserRepository extends MongoRepository<User, String> {
     User findByUsername(String username);
 
     void deleteByUsername(String userameTMP);
+
+    //todo
+//    List<Recipe> breakfastRecipes(List<Recipe> recipeBook);
+//    List<Recipe> lunchRecipes(List<Recipe> recipeBook);
+//    List<Recipe> dinnerRecipes(List<Recipe> recipeBook);
+//    List<Recipe> snackRecipes(List<Recipe> recipeBook);
+//    List<Recipe> supperRecipes(List<Recipe> recipeBook);
+
 }

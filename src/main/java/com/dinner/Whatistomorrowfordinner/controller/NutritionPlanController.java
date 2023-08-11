@@ -127,7 +127,7 @@ public class NutritionPlanController {
                         "plan dla Jacka",
                         2
                 ));
-
+        //todo get from db all user plans
 
         return new ResponseEntity<>(nutritionPlansTMP, HttpStatus.OK);
     }
@@ -146,6 +146,10 @@ public class NutritionPlanController {
                         "g",
                         false)
         );
+
+        //todo get from db plan using idPlan and use service to compress info
+       // List<DayPlan> dayPlans = z bazy
+        //List<Item> itemList = nutritionPlanService.createShoppingList(dayPlans);
 
         return new ResponseEntity<>(itemLisTMP, HttpStatus.OK);
     }
