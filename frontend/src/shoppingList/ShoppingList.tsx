@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
-import { Checkbox } from "antd";
+import {useEffect, useState} from "react";
+import {Checkbox} from "antd";
 
 interface Item {
     idItem: number;
@@ -14,7 +14,7 @@ function ShoppingList() {
 
     const [shoppingList, setShoppingList] = useState<Item[]>([]);
 
-    const allItems: Item[] = [
+    const allItemsTMP: Item[] = [
         {
             idItem: 1,
             name: "jajo",
@@ -37,11 +37,28 @@ function ShoppingList() {
             checked: false
         },
     ];
+    const idPlan = Number(window.location.pathname.split('/')[2]);
+
+    console.log(idPlan)
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/your-plans/${idPlan}/shopping-list`)
+            .then((res) => res.json())
+            .then((data) => {
+                const allItems: Item[] = data;
+                setShoppingList(allItems);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+
+    }, []);
+
 
     const handleCheckboxChange = (itemId: number) => {
         const updatedList = shoppingList.map(item => {
             if (item.idItem === itemId) {
-                return { ...item, checked: !item.checked };
+                return {...item, checked: !item.checked};
             }
             return item;
         });
@@ -49,11 +66,11 @@ function ShoppingList() {
     };
 
     return (
-        <div className="App" style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className="App" style={{display: 'flex', justifyContent: 'center'}}>
             <div>
                 <h1>Shopping List</h1>
                 <form>
-                    {allItems.map(item => (
+                    {shoppingList.map(item => (
                         <div key={item.idItem}>
                             <Checkbox
                                 checked={item.checked}

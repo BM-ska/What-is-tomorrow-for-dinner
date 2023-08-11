@@ -16,6 +16,7 @@ import java.util.List;
 public class NutritionPlanController {
     private final UserRepository userRepository;
     private final NutritionPlanService nutritionPlanService;
+
     @Autowired
     public NutritionPlanController(UserRepository userRepository, NutritionPlanService nutritionPlanService) {
         this.userRepository = userRepository;
@@ -23,7 +24,7 @@ public class NutritionPlanController {
     }
 
     @PutMapping("/nutrition-plan/create")
-    public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData){
+    public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData) {
 
         //todo create new plan
         //List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
@@ -42,7 +43,7 @@ public class NutritionPlanController {
     @GetMapping("/nutrition-plan/preliminary/{idPlan}")
     public ResponseEntity<List<DayPlan>> getNutritionPlan(@PathVariable long idPlan) {
 
-         List<DayPlan> dayPlansTMP = List.of(new DayPlan(
+        List<DayPlan> dayPlansTMP = List.of(new DayPlan(
                         1,
                         1,
                         List.of(
@@ -98,14 +99,14 @@ public class NutritionPlanController {
                                         ))
 
                                 ))));
-         //todo return from db plans using id from params (edit endpoint)
+        //todo return from db plans using id from params (edit endpoint)
 
         return new ResponseEntity<>(dayPlansTMP, HttpStatus.OK);
     }
 
 
     @PutMapping("/nutrition-plan/preliminary/{idPlan}/save")
-    public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans){
+    public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans) {
 
         //put finished nutrition plan to db
         //todo save to db using id
@@ -114,4 +115,21 @@ public class NutritionPlanController {
     }
 
 
+    @GetMapping("/your-plans/{idPlan}/shopping-list")
+    public ResponseEntity<List<Item>> getShoppingList(@PathVariable long idPlan) {
+
+        List<Item> itemLisTMP = List.of(new Item(1,
+                        "jajo",
+                        4,
+                        "sztuki",
+                        false),
+                new Item(2,
+                        "mąka",
+                        300,
+                        "g",
+                        false)
+        );
+
+        return new ResponseEntity<>(itemLisTMP, HttpStatus.OK);
+    }
 }

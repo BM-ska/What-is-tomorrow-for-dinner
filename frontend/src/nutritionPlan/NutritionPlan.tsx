@@ -1,9 +1,9 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Box from "@mui/material/Box";
-import {Button, Collapse} from "antd";
-import {EditOutlined} from "@ant-design/icons";
+import {Collapse} from "antd";
 import NutritionPlanHeader from "./NutritionPlanHeader";
+import {useLocation} from "react-router-dom";
 
 const {Panel} = Collapse;
 
@@ -166,20 +166,18 @@ function NutritionPlan() {
         }
     ];
 
-    useEffect(() => {
-        // Example code for fetching data (commented out for simplicity)
-        // fetch(`http://localhost:8080/preliminary-nutrition-plan`)
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         const allDays: DayPlan[] = data;
-        //         setDayPlanList(allDays);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.message);
-        //     });
+    const idPlan: number = Number(useLocation().pathname.slice(12));
 
-        // For now, using the sample data directly
-        setDayPlanList(allDaysTMP);
+    useEffect(() => {
+        fetch(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}`)
+            .then((res) => res.json())
+            .then((data) => {
+                const allDays: DayPlan[] = data;
+                setDayPlanList(allDays);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     }, []);
 
     const onChange = (key: string | string[]) => {
@@ -202,7 +200,7 @@ function NutritionPlan() {
     const MealCollapse: React.FC<MealCollapseProps> = ({meal}) => {
         return (
             <Collapse defaultActiveKey={[`${meal.idMeal}`]} accordion>
-                <Panel header={`${meal.category}:  ${meal.recipeName}`} key={`${meal.idMeal}`} >
+                <Panel header={`${meal.category}:  ${meal.recipeName}`} key={`${meal.idMeal}`}>
                     <ul>
                         {meal.occupant.map((occupant) => (
                             <li key={occupant.idOccupant}>
