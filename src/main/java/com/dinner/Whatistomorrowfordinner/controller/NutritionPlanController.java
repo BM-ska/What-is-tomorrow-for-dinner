@@ -115,6 +115,23 @@ public class NutritionPlanController {
     }
 
 
+    @GetMapping("/your-plans")
+    public ResponseEntity<List<NutritionPlan>> getAllYourPlans() {
+
+        List<NutritionPlan> nutritionPlansTMP = List.of(
+                new NutritionPlan(1,
+                        "plan na ten tydzien",
+                        1),
+                new NutritionPlan(
+                        2,
+                        "plan dla Jacka",
+                        2
+                ));
+
+
+        return new ResponseEntity<>(nutritionPlansTMP, HttpStatus.OK);
+    }
+
     @GetMapping("/your-plans/{idPlan}/shopping-list")
     public ResponseEntity<List<Item>> getShoppingList(@PathVariable long idPlan) {
 

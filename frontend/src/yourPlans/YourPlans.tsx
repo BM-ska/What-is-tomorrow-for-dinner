@@ -40,12 +40,20 @@ const nutritrionPlanTMP: NutritionPlan[] = [
 ];
 
 function YourPlans() {
-    const [nutritionPlanList, setnutritionPlanList] = useState<NutritionPlan[]>([]);
+    const [nutritionPlanList, setNutritionPlanList] = useState<NutritionPlan[]>([]);
+
 
     useEffect(() => {
-        setnutritionPlanList(nutritrionPlanTMP);
+        fetch(`http://localhost:8080/your-plans`)
+            .then((res) => res.json())
+            .then((data) => {
+                const nutritrionPlan: NutritionPlan[] = data;
+                setNutritionPlanList(nutritrionPlan);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
     }, []);
-
 
     const buttonStyle = {
         width: "90%",

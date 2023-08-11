@@ -39,8 +39,6 @@ function ShoppingList() {
     ];
     const idPlan = Number(window.location.pathname.split('/')[2]);
 
-    console.log(idPlan)
-
     useEffect(() => {
         fetch(`http://localhost:8080/your-plans/${idPlan}/shopping-list`)
             .then((res) => res.json())
