@@ -25,12 +25,11 @@ public class NutritionPlanController {
     @PutMapping("/nutrition-plan/create")
     public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData){
 
-
         //todo create new plan
-        DayPlan dayPlan = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
+        //List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
 
         //todo save to db
-        //long planId = saveToDB(dayPlan);
+        //long planId = saveToDB(dayPlans);
 
         //todo return this plan id
         //return new ResponseEntity<>(planId, HttpStatus.OK);

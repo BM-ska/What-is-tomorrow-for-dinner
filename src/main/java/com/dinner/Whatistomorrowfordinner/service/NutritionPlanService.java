@@ -3,7 +3,11 @@ package com.dinner.Whatistomorrowfordinner.service;
 import com.dinner.Whatistomorrowfordinner.model.DayPlan;
 import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
 
-public interface NutritionPlanService {
+import java.util.List;
 
-    DayPlan generateNutritionPlan(NutritionPlanData nutritionPlanData);
+public interface NutritionPlanService {
+    List<DayPlan> generateNutritionPlan(NutritionPlanData nutritionPlanData);
+
+    //skompresujInfo() do wykorzystania w your plans
+
 }
