@@ -31,21 +31,32 @@ interface RecipeBook {
 }
 
 function RecipeBookPage() {
-
     const [recipeBookList, setRecipeBookList] = useState<RecipeBook[]>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/recipe-book`)
-            .then((res) => res.json())
-            .then((data) => {
-                const allRecipes: RecipeBook[] = data;
-                setRecipeBookList(allRecipes);
+        const token = localStorage.getItem('token');
 
-            })
-            .catch((err) => {
-                window.location.href = "http://localhost:3000/sign-in";
-                console.log(err.message);
-            });
+        if (token) {
+            fetch(`http://localhost:8080/recipe-book`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+                .then((res) => res.json())
+                .then((data) => {
+                    const allRecipes: RecipeBook[] = data;
+                    setRecipeBookList(allRecipes);
+                })
+                .catch((err) => {
+                    window.location.href = "http://localhost:3000/sign-in";
+                    console.log(err.message);
+                });
+            console.log('Stored Token:', token);
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
     }, []);
 
     function ConfirmDelete(item: RecipeBook) {

@@ -102,7 +102,7 @@ const ResponsiveAppBar = () => {
                                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                         <Typography textAlign="center">
                                             <RouterLink
-                                                to={setting === 'Profile' ? '/profile' : '/sign-in'}
+                                                to={setting === 'Profile' ? '/profile' : '/logout'}
                                                 style={{ textDecoration: 'none', color: 'inherit' }}
                                             >
                                                 {setting}

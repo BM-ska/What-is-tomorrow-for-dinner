@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import axios from "axios";
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
 
 export default function SignIn() {
@@ -41,9 +41,15 @@ export default function SignIn() {
                 }
             );
 
-            // @ts-ignore
-            console.log(response.headers.get("Authorization"));
-            console.log('Zalogowano:');
+            const authToken = response.headers["authorization"];
+            if (authToken) {
+                localStorage.setItem('token', authToken);
+                console.log("wysłano post z tokenem:" + authToken);
+                console.log('Zalogowano');
+            } else {
+                console.error('Błąd logowania: Brak nagłówka "Authorization" w odpowiedzi.');
+            }
+
         } catch (error) {
             console.error('Błąd logowania:', error);
         }

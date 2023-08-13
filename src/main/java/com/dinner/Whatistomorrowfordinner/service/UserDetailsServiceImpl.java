@@ -14,7 +14,9 @@ import java.util.List;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    List<UserDetails> userDetailsList = List.of(new UserEntity("user", new BCryptPasswordEncoder().encode("user"), "USER"));
+    List<UserDetails> userDetailsList = List.of(
+            new UserEntity("user", new BCryptPasswordEncoder().encode("user"), "USER"),
+            new UserEntity("admin", new BCryptPasswordEncoder().encode("admin"), "ADMIN"));
 
     @Autowired
     private UserEntityRepository userEntityRepository;
@@ -23,7 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        UserEntity user = userEntityRepository.findByUsername(username);
-        UserDetails user = userDetailsList.get(0);
+        UserDetails user;
+        if (username.equals("user"))
+            user = userDetailsList.get(0);
+        else{
+            user = userDetailsList.get(1);
+        }
         if (user == null)
             throw new UsernameNotFoundException(username);
         return user;

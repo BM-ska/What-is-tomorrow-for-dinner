@@ -2,10 +2,12 @@ package com.dinner.Whatistomorrowfordinner.controller;
 
 import com.dinner.Whatistomorrowfordinner.model.Recipe;
 import com.dinner.Whatistomorrowfordinner.model.User;
+import com.dinner.Whatistomorrowfordinner.model.UserEntity;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,10 @@ public class ReceipeController {
     }
 
     @GetMapping("recipe-book")
-    public ResponseEntity<List<Recipe>> getUserRecipesTMP() {
-        User user = userRepository.findByUsername(userameTMP);
+    public ResponseEntity<List<Recipe>> getUserRecipesTMP(@AuthenticationPrincipal UserEntity userEntity) {
 
+        System.out.println(userEntity.getUsername());
+        User user = userRepository.findByUsername(userameTMP);
         List<Recipe> recipe = user.recipeBook();
         return new ResponseEntity<>(recipe, HttpStatus.OK);
     }
