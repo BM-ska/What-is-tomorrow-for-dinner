@@ -28,7 +28,7 @@ public class NutritionPlanController {
     public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData,
                                                     @AuthenticationPrincipal UserEntity userEntity) {
 
-        List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
+        List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(userEntity, nutritionPlanData);
 
         //todo save to db
         //long planId = saveToDB(dayPlans);

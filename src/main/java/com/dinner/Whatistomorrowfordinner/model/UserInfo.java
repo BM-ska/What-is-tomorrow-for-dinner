@@ -4,6 +4,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "users")
-public record User(String username, String password, List<Recipe> recipeBook) {
+@Document
+public record UserInfo(List<Recipe> recipeBook) {
 }

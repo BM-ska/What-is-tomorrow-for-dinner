@@ -5,33 +5,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 @Document(collection = "usersEntity")
 public class UserEntity implements UserDetails {
 
     private final String username;
     private final String password;
+    private final UserInfo userInfo;
 
-    private String role;
 
-    public UserEntity(String username, String password, String role) {
+    public UserEntity(String username, String password, UserInfo userInfo) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.userInfo = userInfo;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public UserInfo getUser() {
+        return userInfo;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of((this::getRole));
+        return null;//List.of((this::getRole));
     }
 
     @Override

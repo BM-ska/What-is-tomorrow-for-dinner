@@ -2,6 +2,8 @@ package com.dinner.Whatistomorrowfordinner.service;
 
 import com.dinner.Whatistomorrowfordinner.model.DayPlan;
 import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
+import com.dinner.Whatistomorrowfordinner.model.UserEntity;
+import com.dinner.Whatistomorrowfordinner.model.UserInfo;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -39,7 +41,9 @@ class NutritionPlanServiceImplTest {
                 15,
                 20);
 
-        List<DayPlan> dayPlanList = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
+        UserEntity userEntity = new UserEntity("Asia", "Asia", new UserInfo(List.of()));
+
+        List<DayPlan> dayPlanList = nutritionPlanService.generateNutritionPlan(userEntity, nutritionPlanData);
 
         assertEquals(5, dayPlanList.size());
         assertEquals(4, dayPlanList.get(0).meal().size());

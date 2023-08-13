@@ -134,15 +134,14 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     @Override
-    public List<DayPlan> generateNutritionPlan(NutritionPlanData nutritionPlanData) {
+    public List<DayPlan> generateNutritionPlan(UserEntity userEntity, NutritionPlanData nutritionPlanData) {
 
-        User user = userRepository.findByUsername(userameTMP);
         List<Recipe> recipeBook;
-        if(user == null){
+        if(userEntity == null){
             recipeBook = new ArrayList<>();
         }
         else {
-            recipeBook = user.recipeBook();
+            recipeBook = userEntity.getUser().recipeBook();
         }
         List<Pair<String, Long>> categories = selectCategories(nutritionPlanData);
 

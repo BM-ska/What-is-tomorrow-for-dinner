@@ -1,7 +1,6 @@
 package com.dinner.Whatistomorrowfordinner.controller;
 
 import com.dinner.Whatistomorrowfordinner.model.Recipe;
-import com.dinner.Whatistomorrowfordinner.model.User;
 import com.dinner.Whatistomorrowfordinner.model.UserEntity;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import java.util.List;
 public class ReceipeController {
 
     private final UserRepository userRepository;
-    String userameTMP = "jan";
 
     @Autowired
     public ReceipeController(UserRepository userRepository) {
@@ -28,24 +26,21 @@ public class ReceipeController {
     @GetMapping("recipe-book")
     public ResponseEntity<List<Recipe>> getUserRecipesTMP(@AuthenticationPrincipal UserEntity userEntity) {
 
-        System.out.println(userEntity.getUsername());
-        User user = userRepository.findByUsername(userameTMP);
-        List<Recipe> recipe = user.recipeBook();
-        return new ResponseEntity<>(recipe, HttpStatus.OK);
+        if (userEntity != null) {
+            List<Recipe> recipe = userEntity.getUser().recipeBook();
+            return new ResponseEntity<>(recipe, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("recipe-book/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable long id, @AuthenticationPrincipal UserEntity userEntity) {
 
-        User user = userRepository.findByUsername(userameTMP);
+        List<Recipe> recipeBook = userEntity.getUser().recipeBook();
 
-        if (user != null) {
-            List<Recipe> recipeBook = user.recipeBook();
-
-            for (Recipe recipe : recipeBook) {
-                if (recipe.idRecipe() == id) {
-                    return new ResponseEntity<>(recipe, HttpStatus.OK);
-                }
+        for (Recipe recipe : recipeBook) {
+            if (recipe.idRecipe() == id) {
+                return new ResponseEntity<>(recipe, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,24 +49,23 @@ public class ReceipeController {
 
     @DeleteMapping("recipe-book/delete/recipe/{id}")
     public void deleteRecipe(@PathVariable long id, @AuthenticationPrincipal UserEntity userEntity) {
-        User user = userRepository.findByUsername(userameTMP);
-        userRepository.deleteByUsername(userameTMP);
-        List<Recipe> recipeBook = user.recipeBook();
+
+        userRepository.deleteByUsername(userEntity.getUsername());
+        List<Recipe> recipeBook = userEntity.getUser().recipeBook();
         recipeBook.removeIf(recipe -> recipe.idRecipe() == id);
-        userRepository.save(user);
+        userRepository.save(userEntity);
     }
 
     @PutMapping("recipe-book/update/recipe/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe,
                                                @AuthenticationPrincipal UserEntity userEntity) {
-        User user = userRepository.findByUsername(userameTMP);
-        userRepository.deleteByUsername(userameTMP);
+        userRepository.deleteByUsername(userEntity.getUsername());
 
-        List<Recipe> recipeBook = user.recipeBook();
+        List<Recipe> recipeBook = userEntity.getUser().recipeBook();
         recipeBook.removeIf(recipe -> recipe.idRecipe() == id);
         recipeBook.add(updatedRecipe);
 
-        userRepository.save(user);
+        userRepository.save(userEntity);
         return new ResponseEntity<>(updatedRecipe, HttpStatus.OK);
     }
 

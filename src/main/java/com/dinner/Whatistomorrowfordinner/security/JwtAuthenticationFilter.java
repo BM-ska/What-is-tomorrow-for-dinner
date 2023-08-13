@@ -43,8 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        // todo chyba usuń tą linike UserDetails userDetails = userEntityRepository.findByUsername(JwtTokenUtil.extractUsername(token));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(JwtTokenUtil.extractUsername(token));
+        UserDetails userDetails = userEntityRepository.findByUsername(JwtTokenUtil.extractUsername(token));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails == null ? List.of() : userDetails.getAuthorities()
