@@ -69,37 +69,36 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return categories;
     }
 
-    private List<Ration> calculateRations(long userKcal, List<Pair<String, Long>> selectCategories, List<Recipe> selectedRecipes) {
+    private List<Ration> calculateRations(long userKcal, List<Pair<String, Long>> selectCategories,
+                                          Recipe recipe) {
         List<Ration> rations = new ArrayList<>();
 
         //todo zakładam że istnieje tylko amount === gram, todo zmień
 
         /*userKcal to są kcal na cały dzień
-        * trza zrobić dla każdego posiłku proporcje ile ma kcal z selectCategories - ile cały posiłek powinien mieć kcal
-        * trza przeliczyć ile dany recipe ma gram??? - ile posiłek ma gram i kcal
-        * zsumować i mamy info dla posiłku kcal/ilość gram
-        *
-        *
-        * */
+         * trza zrobić dla każdego posiłku proporcje ile ma kcal z selectCategories - ile cały posiłek powinien mieć kcal
+         * trza przeliczyć ile dany recipe ma gram??? - ile posiłek ma gram i kcal
+         * zsumować i mamy info dla posiłku kcal/ilość gram
+         *
+         *
+         * */
 
-        long recipeKcal;
 
         //todo tymczasowe id
         Random random = new Random();
-        selectedRecipes.forEach(recipe -> {
 
+        //todo narazie zakładam że jeden posiłek ma zawsze jeden typ racji
+        rations.add(new Ration(
+                random.nextInt(1000000),
+                recipe.name(),
+                100000,
+                "g"));
 
-            rations.add(new Ration(
-                    random.nextInt(1000000),
-                    recipe.name(),
-                    0,
-                    ""));
-        });
 
         return rations;
     }
 
-    private List<Occupant> calculatePortions(NutritionPlanData nutritionPlanData, List<Recipe> selectedRecipes) {
+    private List<Occupant> calculatePortions(NutritionPlanData nutritionPlanData, Recipe recipe) {
         //todo zmień aby w nutritionPlanData była lista Occupant zawierająca name i kcal
 
         //todo tymczasowe id
@@ -108,15 +107,14 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return List.of(new Occupant(
                 random.nextInt(1000000),
                 "Jan",
-                calculateRations(nutritionPlanData.kcal(), selectCategories(nutritionPlanData), selectedRecipes)
+                calculateRations(nutritionPlanData.kcal(), selectCategories(nutritionPlanData), recipe)
         ));
     }
 
-    private DayPlan createDayPlan(long dayNumber, List<Recipe> recipeBook, NutritionPlanData nutritionPlanData, List<Pair<String, Long>> categories) {
+    private DayPlan createDayPlan(long dayNumber, List<Recipe> recipeBook, NutritionPlanData nutritionPlanData,
+                                  List<Pair<String, Long>> categories) {
 
         List<Recipe> selectedRecipes = selectRecipes(recipeBook, categories);
-        List<Occupant> occupants = calculatePortions(nutritionPlanData, selectedRecipes);
-
 
         //todo tymczasowe id
         Random random = new Random();
@@ -131,7 +129,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                                         random.nextInt(1000000),
                                         recipe.category(),
                                         recipe.name(),
-                                        occupants)
+                                        calculatePortions(nutritionPlanData, recipe))
                         ).toList());
     }
 
@@ -139,17 +137,20 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     public List<DayPlan> generateNutritionPlan(NutritionPlanData nutritionPlanData) {
 
         User user = userRepository.findByUsername(userameTMP);
-        List<Recipe> recipeBook = user.recipeBook();
+        List<Recipe> recipeBook;
+        if(user == null){
+            recipeBook = new ArrayList<>();
+        }
+        else {
+            recipeBook = user.recipeBook();
+        }
         List<Pair<String, Long>> categories = selectCategories(nutritionPlanData);
 
         //todo w przyszłości mądrzejsze generowanie, uwzględniający "świażość"
-        return IntStream.range(0, (int)nutritionPlanData.numberOfDays())
-                .mapToObj(dayNumber -> createDayPlan(dayNumber, recipeBook, nutritionPlanData, categories))
+        return IntStream.range(0, (int) nutritionPlanData.numberOfDays())
+                .mapToObj(dayNumber -> createDayPlan(dayNumber + 1, recipeBook, nutritionPlanData, categories))
                 .toList();
     }
-
-
-
 
 
     private List<Item> addUpSameIngredients(List<Item> shoppingList) {
