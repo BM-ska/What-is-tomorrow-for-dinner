@@ -35,7 +35,7 @@ public class ReceipeController {
     }
 
     @GetMapping("recipe-book/{id}")
-    public ResponseEntity<Recipe> getRecipe(@PathVariable long id) {
+    public ResponseEntity<Recipe> getRecipe(@PathVariable long id, @AuthenticationPrincipal UserEntity userEntity) {
 
         User user = userRepository.findByUsername(userameTMP);
 
@@ -53,7 +53,7 @@ public class ReceipeController {
     }
 
     @DeleteMapping("recipe-book/delete/recipe/{id}")
-    public void deleteRecipe(@PathVariable long id) {
+    public void deleteRecipe(@PathVariable long id, @AuthenticationPrincipal UserEntity userEntity) {
         User user = userRepository.findByUsername(userameTMP);
         userRepository.deleteByUsername(userameTMP);
         List<Recipe> recipeBook = user.recipeBook();
@@ -62,7 +62,8 @@ public class ReceipeController {
     }
 
     @PutMapping("recipe-book/update/recipe/{id}")
-    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe) {
+    public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe,
+                                               @AuthenticationPrincipal UserEntity userEntity) {
         User user = userRepository.findByUsername(userameTMP);
         userRepository.deleteByUsername(userameTMP);
 

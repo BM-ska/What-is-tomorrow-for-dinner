@@ -46,13 +46,25 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
     }
 
     const updateRecipeData = (updatedRecipeData: Recipe) => {
-        axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData)
-            .then((response) => {
-                console.log('Recipe data updated successfully:', response.data);
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((error) => {
-                console.error('Failed to update recipe data:', error);
-            });
+                .then((response) => {
+                    console.log('Recipe data updated successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Failed to update recipe data:', error);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
     };
 
     return (

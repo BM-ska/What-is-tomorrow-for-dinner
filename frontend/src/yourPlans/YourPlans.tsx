@@ -1,7 +1,7 @@
 import * as React from "react";
 import {CSSProperties, useEffect, useState} from "react";
 import YourPlansHeader from "./YourPlansHeader";
-import {Button, Collapse} from "antd";
+import {Button} from "antd";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
@@ -44,15 +44,26 @@ function YourPlans() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8080/your-plans`)
-            .then((res) => res.json())
-            .then((data) => {
-                const nutritrionPlan: NutritionPlan[] = data;
-                setNutritionPlanList(nutritrionPlan);
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch(`http://localhost:8080/your-plans`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((err) => {
-                console.log(err.message);
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                    const nutritrionPlan: NutritionPlan[] = data;
+                    setNutritionPlanList(nutritrionPlan);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
     }, []);
 
     const buttonStyle = {
@@ -67,7 +78,7 @@ function YourPlans() {
         alignItems: "center",
     };
 
-    const ButtonList: React.FC<ButtonListProps> = ({ nutritionPlans }) => {
+    const ButtonList: React.FC<ButtonListProps> = ({nutritionPlans}) => {
         return (
             <div style={buttonListStyle}>
                 {nutritionPlans.map((plan) => (

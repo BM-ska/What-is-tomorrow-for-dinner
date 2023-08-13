@@ -6,6 +6,7 @@ import com.dinner.Whatistomorrowfordinner.service.NutritionPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class NutritionPlanController {
     }
 
     @PutMapping("/nutrition-plan/create")
-    public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData) {
+    public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData,
+                                                    @AuthenticationPrincipal UserEntity userEntity) {
 
         //todo create new plan
         //List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(nutritionPlanData);
@@ -41,7 +43,8 @@ public class NutritionPlanController {
 
 
     @GetMapping("/nutrition-plan/preliminary/{idPlan}")
-    public ResponseEntity<List<DayPlan>> getNutritionPlan(@PathVariable long idPlan) {
+    public ResponseEntity<List<DayPlan>> getNutritionPlan(@PathVariable long idPlan,
+                                                          @AuthenticationPrincipal UserEntity userEntity) {
 
         List<DayPlan> dayPlansTMP = List.of(new DayPlan(
                         1,
@@ -106,7 +109,8 @@ public class NutritionPlanController {
 
 
     @PutMapping("/nutrition-plan/preliminary/{idPlan}/save")
-    public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans) {
+    public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans,
+                                                       @AuthenticationPrincipal UserEntity userEntity) {
 
         //put finished nutrition plan to db
         //todo save to db using id
@@ -116,7 +120,7 @@ public class NutritionPlanController {
 
 
     @GetMapping("/your-plans")
-    public ResponseEntity<List<NutritionPlan>> getAllYourPlans() {
+    public ResponseEntity<List<NutritionPlan>> getAllYourPlans(@AuthenticationPrincipal UserEntity userEntity) {
 
         List<NutritionPlan> nutritionPlansTMP = List.of(
                 new NutritionPlan(1,
@@ -133,7 +137,8 @@ public class NutritionPlanController {
     }
 
     @GetMapping("/your-plans/{idPlan}/shopping-list")
-    public ResponseEntity<List<Item>> getShoppingList(@PathVariable long idPlan) {
+    public ResponseEntity<List<Item>> getShoppingList(@PathVariable long idPlan,
+                                                      @AuthenticationPrincipal UserEntity userEntity) {
 
         List<Item> itemLisTMP = List.of(new Item(1,
                         "jajo",
@@ -148,7 +153,7 @@ public class NutritionPlanController {
         );
 
         //todo get from db plan using idPlan and use service to compress info
-       // List<DayPlan> dayPlans = z bazy
+        // List<DayPlan> dayPlans = z bazy
         //List<Item> itemList = nutritionPlanService.createShoppingList(dayPlans);
 
         return new ResponseEntity<>(itemLisTMP, HttpStatus.OK);

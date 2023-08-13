@@ -31,6 +31,7 @@ interface DayPlan {
     number: number;
     meal: Meal[];
 }
+
 interface props {
     dayPlanList: DayPlan[]
 }
@@ -40,13 +41,25 @@ function PreliminaryNutritionPlanHeader({dayPlanList}: props) {
     const idPlan: number = Number(useLocation().pathname.slice(23));
 
     const savePlan = (dayPlanList: DayPlan[]) => {
-        axios.put(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}/save`, dayPlanList)
-            .then((response) => {
-                console.log('New finished nutrition-plan data updated successfully:', response.data);
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.put(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}/save`, dayPlanList, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((error) => {
-                console.error('Failed to update new finished nutrition-plan:', error);
-            });
+                .then((response) => {
+                    console.log('New finished nutrition-plan data updated successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Failed to update new finished nutrition-plan:', error);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
     };
 
     return (

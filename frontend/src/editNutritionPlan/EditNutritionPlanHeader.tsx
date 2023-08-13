@@ -29,15 +29,25 @@ interface props {
 function EditNutritionPlanHeader({plan}: props) {
 
     const saveSettings = (plan: Plan) => {
-
-        axios.put(`http://localhost:8080/nutrition-plan/create`, plan)
-            .then((response) => {
-                console.log('New nutrition-plan data updated successfully:', response.data);
-                window.location.href = `http://localhost:3000/edit-preliminary-plan/${response.data}`;
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.put(`http://localhost:8080/nutrition-plan/create`, plan, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((error) => {
-                console.error('Failed to update new nutrition-plan:', error);
-            });
+                .then((response) => {
+                    console.log('New nutrition-plan data updated successfully:', response.data);
+                    window.location.href = `http://localhost:3000/edit-preliminary-plan/${response.data}`;
+                })
+                .catch((error) => {
+                    console.error('Failed to update new nutrition-plan:', error);
+                });
+
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
 
 
     };
@@ -75,7 +85,7 @@ function EditNutritionPlanHeader({plan}: props) {
                         <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<CreateIcon/>} onClick={() =>  saveSettings(plan)}/>
+                            <Button shape="circle" icon={<CreateIcon/>} onClick={() => saveSettings(plan)}/>
                         </Col>
                     </Row>
 

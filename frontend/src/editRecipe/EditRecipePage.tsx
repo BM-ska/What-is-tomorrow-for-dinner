@@ -50,18 +50,30 @@ function EditRecipePage() {
     const fetchData = () => {
         setLoading(true);
         if (idRecipe !== 0) {
-            //todo popraw kiedys wysylanie nie w adresie
-            fetch(`http://localhost:8080/recipe-book/${idRecipe}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setRecipeData(data)
-                    setIngredientList(data.ingredient)
-                    setLoading(false);
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                fetch(`http://localhost:8080/recipe-book/${idRecipe}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
-                .catch((error) => {
-                    console.log(error);
-                    setLoading(false);
-                });
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setRecipeData(data)
+                        setIngredientList(data.ingredient)
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        setLoading(false);
+                    });
+            } else {
+                console.log('Token not found in localStorage');
+                window.location.href = "http://localhost:3000/sign-in";
+            }
+
+
         }
     };
 
@@ -90,13 +102,26 @@ function EditRecipePage() {
     };
 
     const updateRecipeData = (updatedRecipeData: Recipe) => {
-        axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData)
-            .then((response) => {
-                console.log('Recipe data updated successfully:', response.data);
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((error) => {
-                console.error('Failed to update recipe data:', error);
-            });
+                .then((response) => {
+                    console.log('Recipe data updated successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Failed to update recipe data:', error);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
     };
 
 //todo
@@ -202,8 +227,6 @@ function EditRecipePage() {
                             item.unit = e.valueOf()
                         }}>
                     <Select.Option value="g">g</Select.Option>
-                    <Select.Option value="ml">ml</Select.Option>
-                    <Select.Option value="teaspoon">teaspoon</Select.Option>
                 </Select>
             </Form.Item>
             <Form.Item label="Kcal:">

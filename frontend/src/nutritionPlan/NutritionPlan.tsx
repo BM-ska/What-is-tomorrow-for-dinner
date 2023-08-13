@@ -169,15 +169,27 @@ function NutritionPlan() {
     const idPlan: number = Number(useLocation().pathname.slice(12));
 
     useEffect(() => {
-        fetch(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}`)
-            .then((res) => res.json())
-            .then((data) => {
-                const allDays: DayPlan[] = data;
-                setDayPlanList(allDays);
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetch(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch((err) => {
-                console.log(err.message);
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                    const allDays: DayPlan[] = data;
+                    setDayPlanList(allDays);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
     }, []);
 
     const onChange = (key: string | string[]) => {

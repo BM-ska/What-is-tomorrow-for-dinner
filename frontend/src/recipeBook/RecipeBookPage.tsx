@@ -66,15 +66,28 @@ function RecipeBookPage() {
     }
 
     function deleteRecipe(id: number) {
-        axios.delete(`http://localhost:8080/recipe-book/delete/recipe/${id}`)
-            .then(response => {
-                const newList = recipeBookList.filter((item) => item.idRecipe !== id);
-                setRecipeBookList(newList);
-                console.log('Recipe deleted successfully.');
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            axios.delete(`http://localhost:8080/recipe-book/delete/recipe/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             })
-            .catch(error => {
-                console.error('Failed to delete recipe:', error);
-            });
+                .then(response => {
+                    const newList = recipeBookList.filter((item) => item.idRecipe !== id);
+                    setRecipeBookList(newList);
+                    console.log('Recipe deleted successfully.');
+                })
+                .catch(error => {
+                    console.error('Failed to delete recipe:', error);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
     }
 
     // @ts-ignore
