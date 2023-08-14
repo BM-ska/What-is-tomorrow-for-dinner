@@ -16,29 +16,6 @@ interface ButtonListProps {
     nutritionPlans: NutritionPlan[];
 }
 
-const nutritrionPlanTMP: NutritionPlan[] = [
-    {
-        planId: 1,
-        planName: "plan na ten tydzien",
-        numberOfDays: 1
-    },
-    {
-        planId: 2,
-        planName: "plan dla Jacka",
-        numberOfDays: 2
-    },
-    {
-        planId: 3,
-        planName: "plan",
-        numberOfDays: 1
-    },
-    {
-        planId: 4,
-        planName: "plan dla Ani",
-        numberOfDays: 2
-    }
-];
-
 function YourPlans() {
     const [nutritionPlanList, setNutritionPlanList] = useState<NutritionPlan[]>([]);
 

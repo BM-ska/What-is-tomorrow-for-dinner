@@ -142,6 +142,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         //todo zmien id
         Random random = new Random();
         DayPlans dayPlans = new DayPlans(random.nextInt(100000),
+                nutritionPlanData.planName(),
                 IntStream.range(0, (int) nutritionPlanData.numberOfDays())
                         .mapToObj(dayNumber -> createDayPlan(dayNumber + 1, recipeBook, nutritionPlanData, categories))
                         .toList());
@@ -185,6 +186,35 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         userRepository.save(newUserEntity);
     }
 
+    //todo w przyszłości kiedy będzie można edytować preliminary plan
+    @Override
+    public void addDayPlansToUser(UserEntity userEntity, List<DayPlan> dayPlans, long idPlan) {
+//        userRepository.deleteByUsername(userEntity.getUsername());
+//
+//        Optional<DayPlans> plan =
+//                userEntity
+//                        .getUser()
+//                        .plansList()
+//                        .stream()
+//                        .filter(p -> p.idDayPlans() == idPlan)
+//                        .findFirst();
+//
+//        dayPlans.removeIf(p -> p.idDayPlan() == idPlan);
+//
+//        if (pl)
+//
+//        dayPlans.add(plan.get());
+//
+//        UserEntity newUserEntity = new UserEntity(
+//                userEntity.getUsername(),
+//                userEntity.getPassword(),
+//                new UserInfo(
+//                        userEntity.getUser().recipeBook(), dayPlans
+//                ));
+//
+//        userRepository.save(newUserEntity);
+//    }
+    }
 }
 
 

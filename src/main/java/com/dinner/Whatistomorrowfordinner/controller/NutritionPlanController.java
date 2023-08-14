@@ -58,29 +58,23 @@ public class NutritionPlanController {
     @PutMapping("/nutrition-plan/preliminary/{idPlan}/save")
     public ResponseEntity<?> saveFinishedNutritionPlan(@PathVariable long idPlan, @RequestBody List<DayPlan> dayPlans,
                                                        @AuthenticationPrincipal UserEntity userEntity) {
-
-        //put finished nutrition plan to db
-        //todo save to db using id
-
+//todo w przyszłości kiedy będzie można edytować preliminary plan
+        //nutritionPlanService.addDayPlansToUser(userEntity, dayPlans, idPlan);
         return ResponseEntity.ok().build();
     }
-
 
     @GetMapping("/your-plans")
     public ResponseEntity<List<NutritionPlan>> getAllYourPlans(@AuthenticationPrincipal UserEntity userEntity) {
 
-        List<NutritionPlan> nutritionPlansTMP = List.of(
-                new NutritionPlan(1,
-                        "plan na ten tydzien",
-                        1),
-                new NutritionPlan(
-                        2,
-                        "plan dla Jacka",
-                        2
-                ));
-        //todo get from db all user plans
+        List<DayPlans> plans = userRepository.findByUsername(userEntity.getUsername()).getUser().plansList();
 
-        return new ResponseEntity<>(nutritionPlansTMP, HttpStatus.OK);
+        List<NutritionPlan> nutritionPlans =
+                plans.stream()
+                        .map(plan ->
+                                new NutritionPlan(plan.idDayPlans(), plan.planName(), plan.dayPlanList().size()))
+                        .toList();
+
+        return new ResponseEntity<>(nutritionPlans, HttpStatus.OK);
     }
 
     @GetMapping("/your-plans/{idPlan}/shopping-list")
@@ -106,3 +100,13 @@ public class NutritionPlanController {
         return new ResponseEntity<>(itemLisTMP, HttpStatus.OK);
     }
 }
+
+
+
+/* todo
+lewo -> sensowne generowanie planu (categorie troche inaczej bo main meal itp)
+srodek -> sztusczna lista przepisów
+prawo -> działająca lista zakupów, ten drugi przycisk
+zmiana headera w zależności od zalogowania
+profil też pobierający dan z bazy
+ */

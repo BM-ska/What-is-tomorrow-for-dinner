@@ -11,4 +11,6 @@ public interface NutritionPlanService {
 
     void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans);
 
+    void addDayPlansToUser(UserEntity userEntity, List<DayPlan> dayPlans, long idPlan);
+
 }
