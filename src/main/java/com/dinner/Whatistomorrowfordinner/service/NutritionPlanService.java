@@ -9,4 +9,6 @@ public interface NutritionPlanService {
 
     List<Item> createShoppingList(DayPlans dayPlans);
 
+    void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans);
+
 }

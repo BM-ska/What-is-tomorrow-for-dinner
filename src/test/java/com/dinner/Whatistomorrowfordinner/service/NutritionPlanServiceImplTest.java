@@ -4,6 +4,8 @@ import com.dinner.Whatistomorrowfordinner.model.DayPlans;
 import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
@@ -13,11 +15,13 @@ class NutritionPlanServiceImplTest {
 
     private final NutritionPlanService nutritionPlanService;
     private final UserService userService;
+    @Mock
     private UserRepository userRepository;
 
     public NutritionPlanServiceImplTest() {
         this.userService = new UserServiceImpl(userRepository);
         this.nutritionPlanService = new NutritionPlanServiceImpl(userRepository);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

@@ -165,9 +165,27 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         //to zle jest
 
 
-
         return addUpSameIngredients(null);
     }
+
+    @Override
+    public void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans) {
+        userRepository.deleteByUsername(userEntity.getUsername());
+
+        List<DayPlans> dayPlans = userEntity.getUser().plansList();
+        dayPlans.add(newDayPlans);
+
+        UserEntity newUserEntity = new UserEntity(
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                new UserInfo(
+                        userEntity.getUser().recipeBook(), dayPlans
+                ));
+
+        userRepository.save(newUserEntity);
+    }
+
 }
+
 
 
