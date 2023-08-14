@@ -1,13 +1,9 @@
 package com.dinner.Whatistomorrowfordinner.service;
 
-import com.dinner.Whatistomorrowfordinner.model.DayPlan;
+import com.dinner.Whatistomorrowfordinner.model.DayPlans;
 import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
-import com.dinner.Whatistomorrowfordinner.model.UserEntity;
-import com.dinner.Whatistomorrowfordinner.model.UserInfo;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
@@ -16,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class NutritionPlanServiceImplTest {
 
     private final NutritionPlanService nutritionPlanService;
-    @Mock
+    private final UserService userService;
     private UserRepository userRepository;
 
     public NutritionPlanServiceImplTest() {
-        MockitoAnnotations.initMocks(this);
+        this.userService = new UserServiceImpl(userRepository);
         this.nutritionPlanService = new NutritionPlanServiceImpl(userRepository);
     }
 
@@ -41,13 +37,12 @@ class NutritionPlanServiceImplTest {
                 15,
                 20);
 
-        UserEntity userEntity = new UserEntity("Asia", "Asia", new UserInfo(List.of()));
 
-        List<DayPlan> dayPlanList = nutritionPlanService.generateNutritionPlan(userEntity, nutritionPlanData);
+        DayPlans dayPlanList = nutritionPlanService.generateNutritionPlan(List.of(), nutritionPlanData);
 
-        assertEquals(5, dayPlanList.size());
-        assertEquals(4, dayPlanList.get(0).meal().size());
-        assertEquals(1, dayPlanList.get(0).meal().get(0).occupant().get(0).ration().size());
+        assertEquals(5, dayPlanList.dayPlanList().size());
+        assertEquals(4, dayPlanList.dayPlanList().get(0).meal().size());
+        assertEquals(1, dayPlanList.dayPlanList().get(0).meal().get(0).occupant().get(0).ration().size());
     }
 
     @Test

@@ -134,21 +134,18 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     @Override
-    public List<DayPlan> generateNutritionPlan(UserEntity userEntity, NutritionPlanData nutritionPlanData) {
+    public DayPlans generateNutritionPlan(List<Recipe> recipeBook, NutritionPlanData nutritionPlanData) {
 
-        List<Recipe> recipeBook;
-        if(userEntity == null){
-            recipeBook = new ArrayList<>();
-        }
-        else {
-            recipeBook = userEntity.getUser().recipeBook();
-        }
         List<Pair<String, Long>> categories = selectCategories(nutritionPlanData);
 
         //todo w przyszłości mądrzejsze generowanie, uwzględniający "świażość"
-        return IntStream.range(0, (int) nutritionPlanData.numberOfDays())
-                .mapToObj(dayNumber -> createDayPlan(dayNumber + 1, recipeBook, nutritionPlanData, categories))
-                .toList();
+        //todo zmien id
+        Random random = new Random();
+        DayPlans dayPlans = new DayPlans(random.nextInt(100000),
+                IntStream.range(0, (int) nutritionPlanData.numberOfDays())
+                        .mapToObj(dayNumber -> createDayPlan(dayNumber + 1, recipeBook, nutritionPlanData, categories))
+                        .toList());
+        return dayPlans;
     }
 
 
@@ -157,7 +154,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     @Override
-    public List<Item> createShoppingList(List<DayPlan> dayPlans) {
+    public List<Item> createShoppingList(DayPlans dayPlans) {
 //todo zle, chcemy tylko aby z dayPlans brać jaki był przepis, i wypisać ingridients a nie ration
 //todo racja to suma gram ingridients przepisu
         //wiec z dayPlan wciągam przepis i potrzeba jeszcze nutrionPlanData,
@@ -166,24 +163,10 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         //a tam kompresujemy te dane
 
         //to zle jest
-        List<Item> shoppingList =
-                dayPlans.stream()
-                        .flatMap(dayPlan -> dayPlan.meal().stream()
-                                .flatMap(meal -> meal.occupant().stream()
-                                        .flatMap(occupant -> occupant.ration().stream()
-                                                .map(ration -> new Item(
-                                                        0,
-                                                        ration.name(),
-                                                        ration.amount(),
-                                                        ration.unit(),
-                                                        false
-                                                ))
-                                        )
-                                )
-                        ).toList();
 
 
-        return addUpSameIngredients(shoppingList);
+
+        return addUpSameIngredients(null);
     }
 }
 

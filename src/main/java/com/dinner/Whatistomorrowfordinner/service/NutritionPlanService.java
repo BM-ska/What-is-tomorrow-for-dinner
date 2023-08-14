@@ -1,15 +1,12 @@
 package com.dinner.Whatistomorrowfordinner.service;
 
-import com.dinner.Whatistomorrowfordinner.model.DayPlan;
-import com.dinner.Whatistomorrowfordinner.model.Item;
-import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
-import com.dinner.Whatistomorrowfordinner.model.UserEntity;
+import com.dinner.Whatistomorrowfordinner.model.*;
 
 import java.util.List;
 
 public interface NutritionPlanService {
-    List<DayPlan> generateNutritionPlan(UserEntity userEntity, NutritionPlanData nutritionPlanData);
+    DayPlans generateNutritionPlan(List<Recipe> recipeBook, NutritionPlanData nutritionPlanData);
 
-    List<Item> createShoppingList(List<DayPlan> dayPlans);
+    List<Item> createShoppingList(DayPlans dayPlans);
 
 }
