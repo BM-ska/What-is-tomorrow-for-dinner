@@ -28,10 +28,13 @@ public class NutritionPlanController {
     public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData,
                                                     @AuthenticationPrincipal UserEntity userEntity) {
 
-        List<DayPlan> dayPlans = nutritionPlanService.generateNutritionPlan(userEntity, nutritionPlanData);
+        DayPlans dayPlans = nutritionPlanService
+                .generateNutritionPlan(userEntity.getUser().recipeBook(), nutritionPlanData);
 
         //todo save to db
-        //long planId = saveToDB(dayPlans);
+       // userRepository.addDayPlansToUser(userEntity.getUsername(), dayPlans);
+        long planId = dayPlans.idDayPlans();
+        System.out.println(planId);
 
         //todo return this plan id
         //return new ResponseEntity<>(planId, HttpStatus.OK);
@@ -42,65 +45,67 @@ public class NutritionPlanController {
 
 
     @GetMapping("/nutrition-plan/preliminary/{idPlan}")
-    public ResponseEntity<List<DayPlan>> getNutritionPlan(@PathVariable long idPlan,
+    public ResponseEntity<DayPlans> getNutritionPlan(@PathVariable long idPlan,
                                                           @AuthenticationPrincipal UserEntity userEntity) {
 
-        List<DayPlan> dayPlansTMP = List.of(new DayPlan(
-                        1,
-                        1,
-                        List.of(
-                                new Meal(
-                                        3,
-                                        "lunch",
-                                        "kotlety mielone",
-                                        List.of(new Occupant(
-                                                5,
-                                                "Monika",
-                                                List.of(
-                                                        new Ration(6, "kotlet", 300, "g"))
-                                        ))
+        DayPlans dayPlansTMP = new DayPlans(
+                1,
+                List.of(new DayPlan(
+                                1,
+                                1,
+                                List.of(
+                                        new Meal(
+                                                3,
+                                                "lunch",
+                                                "kotlety mielone",
+                                                List.of(new Occupant(
+                                                        5,
+                                                        "Monika",
+                                                        List.of(
+                                                                new Ration(6, "kotlet", 300, "g"))
+                                                ))
 
-                                ),
-                                new Meal(
-                                        4,
-                                        "dinner",
-                                        "rosol",
-                                        List.of(new Occupant(
-                                                5,
-                                                "Monika",
-                                                List.of(
-                                                        new Ration(6, "makaron", 300, "g"))
-                                        ))
+                                        ),
+                                        new Meal(
+                                                4,
+                                                "dinner",
+                                                "rosol",
+                                                List.of(new Occupant(
+                                                        5,
+                                                        "Monika",
+                                                        List.of(
+                                                                new Ration(6, "makaron", 300, "g"))
+                                                ))
 
-                                ))),
-                new DayPlan(
-                        2,
-                        2,
-                        List.of(
-                                new Meal(
-                                        3,
-                                        "lunch",
-                                        "kotlety mielone",
-                                        List.of(new Occupant(
-                                                5,
-                                                "Monika",
-                                                List.of(
-                                                        new Ration(6, "kotlet", 300, "g"))
-                                        ))
+                                        ))),
+                        new DayPlan(
+                                2,
+                                2,
+                                List.of(
+                                        new Meal(
+                                                3,
+                                                "lunch",
+                                                "kotlety mielone",
+                                                List.of(new Occupant(
+                                                        5,
+                                                        "Monika",
+                                                        List.of(
+                                                                new Ration(6, "kotlet", 300, "g"))
+                                                ))
 
-                                ),
-                                new Meal(
-                                        4,
-                                        "dinner",
-                                        "rosol",
-                                        List.of(new Occupant(
-                                                5,
-                                                "Monika",
-                                                List.of(
-                                                        new Ration(6, "makaron", 300, "g"))
-                                        ))
+                                        ),
+                                        new Meal(
+                                                4,
+                                                "dinner",
+                                                "rosol",
+                                                List.of(new Occupant(
+                                                        5,
+                                                        "Monika",
+                                                        List.of(
+                                                                new Ration(6, "makaron", 300, "g"))
+                                                ))
 
-                                ))));
+                                        )))));
         //todo return from db plans using id from params (edit endpoint)
 
         return new ResponseEntity<>(dayPlansTMP, HttpStatus.OK);

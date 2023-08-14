@@ -1,6 +1,6 @@
 package com.dinner.Whatistomorrowfordinner.security;
 
-import com.dinner.Whatistomorrowfordinner.repository.UserEntityRepository;
+import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
     @Autowired
-    private UserEntityRepository userEntityRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        UserDetails userDetails = userEntityRepository.findByUsername(JwtTokenUtil.extractUsername(token));
+        UserDetails userDetails = userRepository.findByUsername(JwtTokenUtil.extractUsername(token));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails == null ? List.of() : userDetails.getAuthorities()

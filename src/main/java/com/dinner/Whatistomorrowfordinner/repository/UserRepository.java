@@ -1,15 +1,19 @@
 package com.dinner.Whatistomorrowfordinner.repository;
 
+import com.dinner.Whatistomorrowfordinner.model.DayPlans;
 import com.dinner.Whatistomorrowfordinner.model.UserEntity;
 import com.dinner.Whatistomorrowfordinner.model.UserInfo;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends MongoRepository<UserEntity, String> {
-    UserInfo findByUsername(String username);
-
+    UserEntity findByUsername(String username);
     void deleteByUsername(String userame);
+
+    //@Query("{'username': ?0}")
+    //void addDayPlansToUser(String username, DayPlans dayPlans);
 
     //todo
 //    List<Recipe> breakfastRecipes(List<Recipe> recipeBook);
