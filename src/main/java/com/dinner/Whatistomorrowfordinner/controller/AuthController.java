@@ -3,6 +3,7 @@ package com.dinner.Whatistomorrowfordinner.controller;
 import com.dinner.Whatistomorrowfordinner.security.JwtTokenUtil;
 import com.dinner.Whatistomorrowfordinner.model.AuthCredentialRequest;
 import com.dinner.Whatistomorrowfordinner.model.UserEntity;
+import com.dinner.Whatistomorrowfordinner.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping("sign-in")
     public ResponseEntity<?> login(@RequestBody AuthCredentialRequest credentials) {
-        System.out.println(credentials);
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -35,6 +37,14 @@ public class AuthController {
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("sign-up")
+    public ResponseEntity<?> createNewUser(@RequestBody AuthCredentialRequest authCredentialRequest) {
+        System.out.println(authCredentialRequest.username());
+        userService.insertNewUser(authCredentialRequest.username(), authCredentialRequest.password());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

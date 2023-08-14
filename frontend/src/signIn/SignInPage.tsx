@@ -46,6 +46,7 @@ export default function SignIn() {
                 localStorage.setItem('token', authToken);
                 console.log("wysłano post z tokenem:" + authToken);
                 console.log('Zalogowano');
+                window.location.href = "http://localhost:3000";
             } else {
                 console.error('Błąd logowania: Brak nagłówka "Authorization" w odpowiedzi.');
             }
