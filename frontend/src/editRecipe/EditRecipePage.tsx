@@ -16,13 +16,13 @@ interface Recipe {
     name: string;
     fresh: number;
     category: string;
-    ingredient: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
 }
 
 interface Ingredient {
     idIngredient: number;
     name: string;
-    amount: string;
+    amount: number;
     unit: string;
     kcal: number;
 }
@@ -85,7 +85,7 @@ function EditRecipePage() {
         const newList = ingredientList.concat({
             idIngredient: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
             name: '',
-            amount: '',
+            amount: 0,
             unit: '',
             kcal: 0
         })
@@ -212,7 +212,7 @@ function EditRecipePage() {
                        }}/>
             </Form.Item>
             <Form.Item label="Amount:">
-                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}
+                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : 0}
                              onChange={(e: number | null) => {
                                  if (e == null)
                                      item.amount = 0

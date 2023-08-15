@@ -69,20 +69,13 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return categories;
     }
 
-    private List<Ration> calculateRations(long userKcal, List<Pair<String, Long>> selectCategories,
-                                          Recipe recipe) {
+    private List<Ration> calculateRations(long userKcal, Pair<String, Long> category, Recipe recipe) {
         List<Ration> rations = new ArrayList<>();
 
         //todo zakładam że istnieje tylko amount === gram, todo zmień
 
-        /*userKcal to są kcal na cały dzień
-         * trza zrobić dla każdego posiłku proporcje ile ma kcal z selectCategories - ile cały posiłek powinien mieć kcal
-         * trza przeliczyć ile dany recipe ma gram??? - ile posiłek ma gram i kcal
-         * zsumować i mamy info dla posiłku kcal/ilość gram
-         *
-         *
-         * */
-
+        long rationKcal = userKcal * category.getSecond() / 100;
+        long rationGram = rationKcal / recipe.calories() * 100;
 
         //todo tymczasowe id
         Random random = new Random();
@@ -91,14 +84,14 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         rations.add(new Ration(
                 random.nextInt(1000000),
                 recipe.name(),
-                100000,
+                rationGram,
                 "g"));
 
 
         return rations;
     }
 
-    private List<Occupant> calculatePortions(NutritionPlanData nutritionPlanData, Recipe recipe) {
+    private List<Occupant> calculatePortions(NutritionPlanData nutritionPlanData, Recipe recipe, Pair<String, Long> category) {
         //todo zmień aby w nutritionPlanData była lista Occupant zawierająca name i kcal
 
         //todo tymczasowe id
@@ -107,7 +100,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return List.of(new Occupant(
                 random.nextInt(1000000),
                 "Jan",
-                calculateRations(nutritionPlanData.kcal(), selectCategories(nutritionPlanData), recipe)
+                calculateRations(nutritionPlanData.kcal(), category, recipe)
         ));
     }
 
@@ -123,13 +116,13 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return new DayPlan(
                 randomIndex,
                 dayNumber,
-                selectedRecipes.stream()
-                        .map(recipe ->
+                IntStream.range(0, selectedRecipes.size())
+                        .mapToObj(i ->
                                 new Meal(
                                         random.nextInt(1000000),
-                                        recipe.category(),
-                                        recipe.name(),
-                                        calculatePortions(nutritionPlanData, recipe))
+                                        selectedRecipes.get(i).category(),
+                                        selectedRecipes.get(i).name(),
+                                        calculatePortions(nutritionPlanData, selectedRecipes.get(i), categories.get(i)))
                         ).toList());
     }
 

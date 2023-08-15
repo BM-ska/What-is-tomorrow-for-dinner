@@ -12,13 +12,13 @@ interface Recipe {
     name: string;
     fresh: number;
     category: string;
-    ingredient: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
 }
 
 interface Ingredient {
     idIngredient: number;
     name: string;
-    amount: string;
+    amount: number;
     unit: string;
     kcal: number;
 }

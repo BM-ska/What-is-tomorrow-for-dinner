@@ -10,7 +10,7 @@ interface RecipeBook {
     idRecipe: number;
     name: string;
     calories: number;
-    ingredient: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
 }
 
 interface props {

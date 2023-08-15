@@ -3,6 +3,7 @@ package com.dinner.Whatistomorrowfordinner.controller;
 import com.dinner.Whatistomorrowfordinner.model.Recipe;
 import com.dinner.Whatistomorrowfordinner.model.UserEntity;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
+import com.dinner.Whatistomorrowfordinner.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,16 @@ import java.util.List;
 public class ReceipeController {
 
     private final UserRepository userRepository;
+    private final RecipeService recipeService;
 
     @Autowired
-    public ReceipeController(UserRepository userRepository) {
+    public ReceipeController(UserRepository userRepository, RecipeService recipeService) {
         this.userRepository = userRepository;
+        this.recipeService = recipeService;
     }
 
     @GetMapping("recipe-book")
-    public ResponseEntity<List<Recipe>> getUserRecipesTMP(@AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity<List<Recipe>> getUserRecipes(@AuthenticationPrincipal UserEntity userEntity) {
 
         if (userEntity != null) {
             List<Recipe> recipe = userEntity.getUser().recipeBook();
@@ -59,14 +62,23 @@ public class ReceipeController {
     @PutMapping("recipe-book/update/recipe/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe updatedRecipe,
                                                @AuthenticationPrincipal UserEntity userEntity) {
+
+        Recipe newRecipe = new Recipe(
+                updatedRecipe.idRecipe(),
+                updatedRecipe.name(),
+                updatedRecipe.fresh(),
+                updatedRecipe.category(),
+                recipeService.countCaloriesPer100g(updatedRecipe),
+                updatedRecipe.ingredient());
+
         userRepository.deleteByUsername(userEntity.getUsername());
 
         List<Recipe> recipeBook = userEntity.getUser().recipeBook();
         recipeBook.removeIf(recipe -> recipe.idRecipe() == id);
-        recipeBook.add(updatedRecipe);
+        recipeBook.add(newRecipe);
 
         userRepository.save(userEntity);
-        return new ResponseEntity<>(updatedRecipe, HttpStatus.OK);
+        return new ResponseEntity<>(newRecipe, HttpStatus.OK);
     }
 
 }

@@ -24,7 +24,7 @@ interface RecipeBook {
     ingredient: {
         idIngredient: number,
         name: string,
-        amount: string,
+        amount: number,
         unit: string,
         kcal: number
     }[];
@@ -102,7 +102,7 @@ function RecipeBookPage() {
 
                         <Box>
 
-                            {item.ingredient.map((i: { idIngredient: number, name: string, amount: string, unit: string, kcal: number }) => (
+                            {item.ingredient.map((i: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }) => (
 
                                 <ListItem
                                     key={i.idIngredient}

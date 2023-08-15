@@ -104,9 +104,18 @@ public class NutritionPlanController {
 
 
 /* todo
+zrób testy dla wyliczania ration
+dodaj przepisy do ksiażki kucharskiej
+suma kcal w książce kucharskiej i wymień ss!!
+zmień świeżość!!!!
+dodaj wiecej uzytkowników do nutriplan
 lewo -> sensowne generowanie planu (categorie troche inaczej bo main meal itp)
 srodek -> sztusczna lista przepisów
 prawo -> działająca lista zakupów, ten drugi przycisk
 zmiana headera w zależności od zalogowania
 profil też pobierający dan z bazy
+praca pisemna
+prezentacja
+gcp??
+autouzup kcal
  */
