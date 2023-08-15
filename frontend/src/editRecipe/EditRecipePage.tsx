@@ -86,7 +86,7 @@ function EditRecipePage() {
             idIngredient: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
             name: '',
             amount: 0,
-            unit: '',
+            unit: 'g',
             kcal: 0
         })
 
@@ -146,7 +146,7 @@ function EditRecipePage() {
                 </Form.Item>
 
 
-                <Form.Item label="świeżość">
+                <Form.Item label="Meal storage duration days">
                     <InputNumber defaultValue={recipe.fresh === 0 ? 0 : recipe.fresh}
                                  onChange={(e: number | null) => {
                                      if (e == null)
