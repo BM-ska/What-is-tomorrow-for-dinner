@@ -22,22 +22,45 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
 
-    private Recipe selectRecipe(List<Recipe> oneCategoryRecipeBook) {
+    private Recipe selectRecipe(List<Recipe> oneCategoryRecipeBook, List<Recipe> selectedRecipes) {
         if (oneCategoryRecipeBook.isEmpty()) {
+            return new Recipe(0, "", 0, "", 0, List.of());
+        }
+        if (oneCategoryRecipeBook.size() <= 2) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(oneCategoryRecipeBook.size());
+            return oneCategoryRecipeBook.get(randomIndex);
+        }
+
+        List<Recipe> availableRecipes = new ArrayList<>(oneCategoryRecipeBook);
+        availableRecipes.removeAll(selectedRecipes);
+
+        if (availableRecipes.isEmpty()) {
             return new Recipe(0, "", 0, "", 0, List.of());
         }
 
         Random random = new Random();
-        int randomIndex = random.nextInt(oneCategoryRecipeBook.size());
+        int randomIndex = random.nextInt(availableRecipes.size());
 
-        return oneCategoryRecipeBook.get(randomIndex);
+        return availableRecipes.get(randomIndex);
     }
 
-    private List<Recipe> selectAllRecipesOneCategory(List<Recipe> recipeBook, String categoryName) {
+    private List<Recipe> selectAllRecipesOneCategory(List<Recipe> recipeBook,
+                                                     String categoryName) {
         List<Recipe> recipes = new ArrayList<>();
 
         recipeBook.forEach(recipe -> {
-            if (recipe.category().equals(categoryName)) {
+            if ((categoryName.equals("breakfast") || categoryName.equals("supper"))
+                    && recipe.category().equals("small meal")) {
+                recipes.add(recipe);
+            } else if (categoryName.equals("dinner")
+                    && recipe.category().equals("main meal")) {
+                recipes.add(recipe);
+            } else if (categoryName.equals("snack")
+                    && recipe.category().equals("snack")) {
+                recipes.add(recipe);
+            } else if (categoryName.equals("lunch")
+                    && (recipe.category().equals("small meal") || recipe.category().equals("snack"))) {
                 recipes.add(recipe);
             }
         });
@@ -46,24 +69,29 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     private List<Recipe> selectRecipes(List<Recipe> recipeBook, List<Pair<String, Long>> categories) {
-        return categories.stream().map(category ->
-                        selectRecipe(
-                                selectAllRecipesOneCategory(recipeBook, category.getFirst())))
-                .toList();
+
+        List<Recipe> selectedRecipes = new ArrayList<>();
+
+        categories.forEach(category -> {
+            selectedRecipes.add(
+                    selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
+        });
+
+        return selectedRecipes;
     }
 
     private List<Pair<String, Long>> selectCategories(NutritionPlanData nutritionPlanData) {
 
         List<Pair<String, Long>> categories = new ArrayList<>();
-        if (nutritionPlanData.breakfast())
+        if (nutritionPlanData.breakfast() && nutritionPlanData.meal1() != 0)
             categories.add(Pair.of("breakfast", nutritionPlanData.meal1()));
-        if (nutritionPlanData.lunch())
+        if (nutritionPlanData.lunch() && nutritionPlanData.meal2() != 0)
             categories.add(Pair.of("lunch", nutritionPlanData.meal2()));
-        if (nutritionPlanData.dinner())
+        if (nutritionPlanData.dinner() && nutritionPlanData.meal3() != 0)
             categories.add(Pair.of("dinner", nutritionPlanData.meal3()));
-        if (nutritionPlanData.snack())
+        if (nutritionPlanData.snack() && nutritionPlanData.meal4() != 0)
             categories.add(Pair.of("snack", nutritionPlanData.meal4()));
-        if (nutritionPlanData.supper())
+        if (nutritionPlanData.supper() && nutritionPlanData.meal5() != 0)
             categories.add(Pair.of("supper", nutritionPlanData.meal5()));
 
         return categories;
@@ -75,7 +103,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         //todo zakładam że istnieje tylko amount === gram, todo zmień
 
         long rationKcal = userKcal * category.getSecond() / 100;
-        long rationGram = rationKcal / recipe.calories() * 100;
+        long rationGram = rationKcal * 100 / recipe.calories();
 
         //todo tymczasowe id
         Random random = new Random();
@@ -120,8 +148,9 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                         .mapToObj(i ->
                                 new Meal(
                                         random.nextInt(1000000),
-                                        selectedRecipes.get(i).category(),
+                                        categories.get(i).getFirst(),
                                         selectedRecipes.get(i).name(),
+                                        selectedRecipes.get(i),
                                         calculatePortions(nutritionPlanData, selectedRecipes.get(i), categories.get(i)))
                         ).toList());
     }
