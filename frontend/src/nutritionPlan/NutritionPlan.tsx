@@ -7,6 +7,24 @@ import {useLocation} from "react-router-dom";
 
 const {Panel} = Collapse;
 
+
+interface Recipe {
+    idRecipe: number;
+    name: string;
+    fresh: number;
+    category: string;
+    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
+}
+
+interface Ingredient {
+    idIngredient: number;
+    name: string;
+    amount: number;
+    unit: string;
+    kcal: number;
+}
+
+
 interface Ration {
     idRation: number;
     name: string;
@@ -24,6 +42,7 @@ interface Meal {
     idMeal: number;
     category: string;
     recipeName: string;
+    recipe: Recipe;
     occupant: Occupant[];
 }
 

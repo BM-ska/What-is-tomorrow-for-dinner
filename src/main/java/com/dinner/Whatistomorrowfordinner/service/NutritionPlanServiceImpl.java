@@ -98,15 +98,23 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     private List<Ration> calculateRations(long userKcal, Pair<String, Long> category, Recipe recipe) {
+        //todo tymczasowe id
+        Random random = new Random();
+
+        if(recipe.calories() == 0) {
+            return List.of(new Ration(
+                    random.nextInt(1000000),
+                    "",
+                    0,
+                    "g"));
+        }
+
         List<Ration> rations = new ArrayList<>();
 
         //todo zakładam że istnieje tylko amount === gram, todo zmień
 
         long rationKcal = userKcal * category.getSecond() / 100;
         long rationGram = rationKcal * 100 / recipe.calories();
-
-        //todo tymczasowe id
-        Random random = new Random();
 
         //todo narazie zakładam że jeden posiłek ma zawsze jeden typ racji
         rations.add(new Ration(

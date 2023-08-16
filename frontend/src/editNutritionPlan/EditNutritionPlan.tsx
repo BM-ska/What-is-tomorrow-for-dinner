@@ -30,11 +30,11 @@ function EditNutritionPlan() {
         dinner: false,
         snack: false,
         supper: false,
-        meal1: 0,
-        meal2: 0,
-        meal3: 0,
-        meal4: 0,
-        meal5: 0
+        meal1: 25,
+        meal2: 10,
+        meal3: 30,
+        meal4: 15,
+        meal5: 20
     });
 
     const [meal1Disabled, setMeal1Disabled] = useState<boolean>(false);
