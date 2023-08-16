@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Component
 public class NutritionPlanServiceImpl implements NutritionPlanService {
-    String userameTMP = "jan";
     private final UserRepository userRepository;
 
     @Autowired
@@ -101,7 +98,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         //todo tymczasowe id
         Random random = new Random();
 
-        if(recipe.calories() == 0) {
+        if (recipe.calories() == 0) {
             return List.of(new Ration(
                     random.nextInt(1000000),
                     "",
@@ -180,23 +177,75 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
 
-    private List<Item> addUpSameIngredients(List<Item> shoppingList) {
-        return null;
+    @Override
+     public List<Item> addUpSameIngredients(List<Item> shoppingList) {
+        Map<String, Item> ingredientMap = new HashMap<>();
+
+        for (Item item : shoppingList) {
+            String key = item.name() + "-" + item.unit();
+            if (ingredientMap.containsKey(key)) {
+                Item existingItem = ingredientMap.get(key);
+                long newAmount = existingItem.amount() + item.amount();
+                ingredientMap.put(key,
+                        new Item(existingItem.idItem(), existingItem.name(), newAmount, existingItem.unit(), existingItem.checked()));
+            } else {
+                ingredientMap.put(key, item);
+            }
+        }
+
+        return new ArrayList<>(ingredientMap.values());
+    }
+
+    long ingredientGram(Ingredient ingredient, long proportion){
+//todo
+        return 10000;
+    }
+    private List<Item> itemsOneMealOneOccupant(Ration ration, Recipe recipe) {
+        //ration - ile gram Recipe zjada
+        //recipe przepis
+//todo
+
+        long proportion = 10000;
+
+        return recipe.ingredient().stream()
+                .map(ingredient ->
+                        new Item(
+                              0,
+                                ingredient.name(),
+                                ingredientGram(ingredient, proportion),
+                                ingredient.unit(),
+                                false
+                        ))
+                .toList();
     }
 
     @Override
-    public List<Item> createShoppingList(DayPlans dayPlans) {
-//todo zle, chcemy tylko aby z dayPlans brać jaki był przepis, i wypisać ingridients a nie ration
-//todo racja to suma gram ingridients przepisu
-        //wiec z dayPlan wciągam przepis i potrzeba jeszcze nutrionPlanData,
-        // stąd wyciągamy ile kalori będzie miał dany recipe dla każdego z occupants
-        //i z tych kalorii przeliczamy dla każdego z dayPlans->occupant ingridient i to wrzucamy do items
-        //a tam kompresujemy te dane
+    public List<Item> createShoppingList(long idPlan, UserEntity userEntity) {
 
-        //to zle jest
+        Optional<DayPlans> plans = userEntity.getUser().plansList()
+                .stream()
+                .filter(dayPlans -> dayPlans.idDayPlans() == idPlan)
+                .findFirst();
 
+        List<Item> shoppingList = new ArrayList<>();
 
-        return addUpSameIngredients(null);
+        //todo tmp póki narazie jest jeden occupant
+        plans.get().dayPlanList()
+                .forEach(dayPlan -> {
+                    dayPlan.meal()
+                            .forEach(meal -> {
+                                meal.occupant()
+                                        .forEach(occupant -> {
+                                            shoppingList.addAll(
+                                                    //todo narazie racje maja jednen składnik
+                                                    itemsOneMealOneOccupant(occupant.ration().get(0),
+                                                            meal.recipe()));
+                                        });
+                            });
+
+                });
+
+        return addUpSameIngredients(shoppingList);
     }
 
     @Override

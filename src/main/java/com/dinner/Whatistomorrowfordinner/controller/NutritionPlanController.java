@@ -81,33 +81,21 @@ public class NutritionPlanController {
     public ResponseEntity<List<Item>> getShoppingList(@PathVariable long idPlan,
                                                       @AuthenticationPrincipal UserEntity userEntity) {
 
-        List<Item> itemLisTMP = List.of(new Item(1,
-                        "jajo",
-                        4,
-                        "sztuki",
-                        false),
-                new Item(2,
-                        "mąka",
-                        300,
-                        "g",
-                        false)
-        );
-
-        //todo get from db plan using idPlan and use service to compress info
-        // List<DayPlan> dayPlans = z bazy
-        //List<Item> itemList = nutritionPlanService.createShoppingList(dayPlans);
-
-        return new ResponseEntity<>(itemLisTMP, HttpStatus.OK);
+        List<Item> itemList = nutritionPlanService.createShoppingList(idPlan, userEntity);
+        return new ResponseEntity<>(itemList, HttpStatus.OK);
     }
 }
 
 
 
 /* todo
-zrób testy dla wyliczania ration
+lista zakupów
+ten drugi przycisk
+
+17.sierpnia zzzacznij głownie pisemna
+w przyszłości mądrzejsze generowanie, uwzględniający "świażość"
+zrób testy dla wyliczania ration i dobierania do kategorii chyba  są źle więc napraw
 dodaj przepisy do ksiażki kucharskiej
-suma kcal w książce kucharskiej i wymień ss!!
-zmień świeżość!!!!
 dodaj wiecej uzytkowników do nutriplan
 lewo -> sensowne generowanie planu (categorie troche inaczej bo main meal itp)
 srodek -> sztusczna lista przepisów
@@ -118,4 +106,5 @@ praca pisemna
 prezentacja
 gcp??
 autouzup kcal
+uzależnienie od świeżości
  */

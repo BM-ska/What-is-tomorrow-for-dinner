@@ -1,6 +1,7 @@
 package com.dinner.Whatistomorrowfordinner.service;
 
 import com.dinner.Whatistomorrowfordinner.model.DayPlans;
+import com.dinner.Whatistomorrowfordinner.model.Item;
 import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,22 @@ class NutritionPlanServiceImplTest {
     }
 
     @Test
-    void testCreateShoppingList() {
+    void addUpSameIngredients() {
+        List<Item> items = List.of(
+                new Item(1, "mleko", 100, "g", false),
+                new Item(1, "majonez", 100, "g", false),
+                new Item(1, "mleko", 212, "kg", false),
+                new Item(1, "mleko", 111, "g", false),
+                new Item(1, "majonez", 1, "g", false)
+        );
 
+        List<Item> expectedResult = List.of(
+                new Item(1, "mleko", 211, "g", false),
+                new Item(1, "majonez", 101, "g", false),
+                new Item(1, "mleko", 212, "kg", false)
+
+        );
+
+        assertEquals(expectedResult, nutritionPlanService.addUpSameIngredients(items));
     }
 }

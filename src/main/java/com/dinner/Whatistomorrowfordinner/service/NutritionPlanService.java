@@ -7,10 +7,12 @@ import java.util.List;
 public interface NutritionPlanService {
     DayPlans generateNutritionPlan(List<Recipe> recipeBook, NutritionPlanData nutritionPlanData);
 
-    List<Item> createShoppingList(DayPlans dayPlans);
+    List<Item> createShoppingList(long idPlan, UserEntity userEntity);
 
     void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans);
 
     void addDayPlansToUser(UserEntity userEntity, List<DayPlan> dayPlans, long idPlan);
+
+    List<Item> addUpSameIngredients(List<Item> shoppingList);
 
 }
