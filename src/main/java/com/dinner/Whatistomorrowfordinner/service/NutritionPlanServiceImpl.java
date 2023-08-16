@@ -83,15 +83,15 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     private List<Pair<String, Long>> selectCategories(NutritionPlanData nutritionPlanData) {
 
         List<Pair<String, Long>> categories = new ArrayList<>();
-        if (nutritionPlanData.breakfast() && nutritionPlanData.meal1() != 0)
+        if (nutritionPlanData.breakfast())
             categories.add(Pair.of("breakfast", nutritionPlanData.meal1()));
-        if (nutritionPlanData.lunch() && nutritionPlanData.meal2() != 0)
+        if (nutritionPlanData.lunch())
             categories.add(Pair.of("lunch", nutritionPlanData.meal2()));
-        if (nutritionPlanData.dinner() && nutritionPlanData.meal3() != 0)
+        if (nutritionPlanData.dinner())
             categories.add(Pair.of("dinner", nutritionPlanData.meal3()));
-        if (nutritionPlanData.snack() && nutritionPlanData.meal4() != 0)
+        if (nutritionPlanData.snack())
             categories.add(Pair.of("snack", nutritionPlanData.meal4()));
-        if (nutritionPlanData.supper() && nutritionPlanData.meal5() != 0)
+        if (nutritionPlanData.supper())
             categories.add(Pair.of("supper", nutritionPlanData.meal5()));
 
         return categories;
