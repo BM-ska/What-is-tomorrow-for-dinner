@@ -25,10 +25,9 @@ public class NutritionPlanController {
         this.nutritionPlanService = nutritionPlanService;
     }
 
-    @PutMapping("/nutrition-plan/create")
+    @RequestMapping(value = "/nutrition-plan/create", method = RequestMethod.PUT, consumes="application/json")
     public ResponseEntity<Long> createNutritionPlan(@RequestBody NutritionPlanData nutritionPlanData,
                                                     @AuthenticationPrincipal UserEntity userEntity) {
-
         DayPlans dayPlans = nutritionPlanService
                 .generateNutritionPlan(userEntity.getUser().recipeBook(), nutritionPlanData);
 
@@ -84,27 +83,37 @@ public class NutritionPlanController {
         List<Item> itemList = nutritionPlanService.createShoppingList(idPlan, userEntity);
         return new ResponseEntity<>(itemList, HttpStatus.OK);
     }
+
+//    @GetMapping("/your-plans/{idPlan}/description-meal-plan")
+//    public ResponseEntity<List<DescriptionDayPlan>> getDescriptionMealPlan(@PathVariable long idPlan,
+//                                                      @AuthenticationPrincipal UserEntity userEntity) {
+//
+//        List<DescriptionDayPlan> descriptionDayPlans; // = nutritionPlanService.
+//
+//
+//        return new ResponseEntity<>(descriptionDayPlans, HttpStatus.OK);
+//    }
+
 }
 
 
 
 /* todo
-lista zakupów
-ten drugi przycisk
-
 17.sierpnia zzzacznij głownie pisemna
-w przyszłości mądrzejsze generowanie, uwzględniający "świażość"
-zrób testy dla wyliczania ration i dobierania do kategorii chyba  są źle więc napraw
+
+dodaj wiecej uzytkowników do nutriplan / tmp zmien formulaż kcal
+plansze (ten drugi przycisk
+algorytm uwgledniający świeżość
+
+
 dodaj przepisy do ksiażki kucharskiej
-dodaj wiecej uzytkowników do nutriplan
-lewo -> sensowne generowanie planu (categorie troche inaczej bo main meal itp)
-srodek -> sztusczna lista przepisów
-prawo -> działająca lista zakupów, ten drugi przycisk
+zrób testy
+srodek -> dodaj liste zakupów pokazową
 zmiana headera w zależności od zalogowania
 profil też pobierający dan z bazy
-praca pisemna
 prezentacja
 gcp??
 autouzup kcal
-uzależnienie od świeżości
+
+upełnienie danymi
  */

@@ -8,7 +8,7 @@ import axios from "axios";
 
 interface Plan {
     planName: String,
-    kcal: number,
+    kcal: Array<[string, number]>,
     numberOfDays: number,
     breakfast: boolean,
     lunch: boolean,
@@ -33,7 +33,8 @@ function EditNutritionPlanHeader({plan}: props) {
         if (token) {
             axios.put(`http://localhost:8080/nutrition-plan/create`, plan, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             })
                 .then((response) => {

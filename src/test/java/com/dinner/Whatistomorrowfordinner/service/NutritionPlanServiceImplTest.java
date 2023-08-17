@@ -1,8 +1,6 @@
 package com.dinner.Whatistomorrowfordinner.service;
 
-import com.dinner.Whatistomorrowfordinner.model.DayPlans;
-import com.dinner.Whatistomorrowfordinner.model.Item;
-import com.dinner.Whatistomorrowfordinner.model.NutritionPlanData;
+import com.dinner.Whatistomorrowfordinner.model.*;
 import com.dinner.Whatistomorrowfordinner.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -29,7 +27,7 @@ class NutritionPlanServiceImplTest {
     void generatePlan() {
         NutritionPlanData nutritionPlanData = new NutritionPlanData(
                 "plan1",
-                1000,
+                List.of(List.of("jan", 1000l)),
                 5,
                 false,
                 true,
@@ -69,4 +67,60 @@ class NutritionPlanServiceImplTest {
 
         assertEquals(expectedResult, nutritionPlanService.addUpSameIngredients(items));
     }
+
+//    @Test
+//    void createShoppingListTest() {
+//
+//        UserEntity userEntity = new UserEntity("", "", new UserInfo(
+//                List.of(),
+//                List.of(new DayPlans(
+//                        1,
+//                        "",
+//                        List.of(
+//                                new DayPlan(
+//                                        1,
+//                                        1,
+//                                        List.of(
+//                                                new Meal(1, "", "nalesniki",
+//                                                        new Recipe(1,
+//                                                                "nalesniki",
+//                                                                1,
+//                                                                "",
+//                                                                145,
+//                                                                List.of(
+//                                                                        new Ingredient(1,
+//                                                                                "mąka",
+//                                                                                123,
+//                                                                                "g",
+//                                                                                123),
+//                                                                        new Ingredient(2,
+//                                                                                "mleko",
+//                                                                                123,
+//                                                                                "g",
+//                                                                                123),
+//                                                                        new Ingredient(3,
+//                                                                                "cukier",
+//                                                                                123,
+//                                                                                "g",
+//                                                                                123),
+//                                                                ))
+//                                                        List.of())
+//                                        )),
+//                                new DayPlan(
+//                                        2,
+//                                        2,
+//                                        List.of()
+//                                ))))
+//        ));
+//        long idPlan = 1;
+//
+//
+//        List<Item> result = List.of();
+//
+//        List<Item> items = nutritionPlanService.createShoppingList(idPlan, userEntity);
+//
+//        assertEquals(result, items);
+//    }
+
+
 }

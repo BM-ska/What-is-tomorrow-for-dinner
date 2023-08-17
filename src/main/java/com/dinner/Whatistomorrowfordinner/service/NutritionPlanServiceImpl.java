@@ -125,16 +125,14 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     private List<Occupant> calculatePortions(NutritionPlanData nutritionPlanData, Recipe recipe, Pair<String, Long> category) {
-        //todo zmień aby w nutritionPlanData była lista Occupant zawierająca name i kcal
-
         //todo tymczasowe id
         Random random = new Random();
 
-        return List.of(new Occupant(
-                random.nextInt(1000000),
-                "Jan",
-                calculateRations(nutritionPlanData.kcal(), category, recipe)
-        ));
+        return nutritionPlanData.kcal().stream()
+                .map(pair -> new Occupant(
+                        random.nextInt(1000000),
+                        (String) pair.get(0),
+                        calculateRations((Integer) pair.get(1), category, recipe))).toList();
     }
 
     private DayPlan createDayPlan(long dayNumber, List<Recipe> recipeBook, NutritionPlanData nutritionPlanData,
@@ -178,7 +176,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
 
 
     @Override
-     public List<Item> addUpSameIngredients(List<Item> shoppingList) {
+    public List<Item> addUpSameIngredients(List<Item> shoppingList) {
         Map<String, Item> ingredientMap = new HashMap<>();
 
         for (Item item : shoppingList) {
@@ -196,21 +194,21 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return new ArrayList<>(ingredientMap.values());
     }
 
-    long ingredientGram(Ingredient ingredient, long proportion){
-//todo
-        return 10000;
+    long ingredientGram(Ingredient ingredient, double proportion) {
+        return (long) (ingredient.amount() * proportion);
     }
+
     private List<Item> itemsOneMealOneOccupant(Ration ration, Recipe recipe) {
-        //ration - ile gram Recipe zjada
-        //recipe przepis
-//todo
 
-        long proportion = 10000;
+        double proportion = ((double) ration.amount()) /
+                recipe.ingredient().stream().mapToLong(Ingredient::amount).sum();
 
+
+        //todo zmien id
         return recipe.ingredient().stream()
                 .map(ingredient ->
                         new Item(
-                              0,
+                                0,
                                 ingredient.name(),
                                 ingredientGram(ingredient, proportion),
                                 ingredient.unit(),
@@ -229,7 +227,6 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
 
         List<Item> shoppingList = new ArrayList<>();
 
-        //todo tmp póki narazie jest jeden occupant
         plans.get().dayPlanList()
                 .forEach(dayPlan -> {
                     dayPlan.meal()

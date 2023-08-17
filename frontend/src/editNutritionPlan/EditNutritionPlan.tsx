@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 
 interface Plan {
     planName: String,
-    kcal: number,
+    kcal: Array<[string, number]>,
     numberOfDays: number,
     breakfast: boolean,
     lunch: boolean,
@@ -19,11 +19,11 @@ interface Plan {
     meal4: number,
     meal5: number
 }
-
+//tmp zmien formulaż kcal
 function EditNutritionPlan() {
     const [planData, setPlanData] = React.useState<Plan>({
         planName: "",
-        kcal: 0,
+        kcal: [["Basia", 1800], ["Piotr", 3000]],
         numberOfDays: 0,
         breakfast: false,
         lunch: false,
@@ -42,6 +42,7 @@ function EditNutritionPlan() {
     const [meal3Disabled, setMeal3Disabled] = useState<boolean>(false);
     const [meal4Disabled, setMeal4Disabled] = useState<boolean>(false);
     const [meal5Disabled, setMeal5Disabled] = useState<boolean>(false);
+
 
     // @ts-ignore
     const Data = ({plan}) => (
@@ -63,17 +64,32 @@ function EditNutritionPlan() {
                            }}/>
                 </Form.Item>
 
+                {/*todo*/}
+                {/*<Form.Item label="Daily calorific value">*/}
+                {/*    <InputNumber defaultValue={plan.kcal === 0 ? 0 : plan.kcal}*/}
+                {/*                 onChange={(e: number | null) => {*/}
+                {/*                     if (e == null)*/}
+                {/*                         plan.kcal = 0*/}
+                {/*                     else*/}
+                {/*                         plan.kcal = e.valueOf()*/}
+                {/*                 }}/>*/}
 
-                <Form.Item label="Daily calorific value">
-                    <InputNumber defaultValue={plan.kcal === 0 ? 0 : plan.kcal}
-                                 onChange={(e: number | null) => {
-                                     if (e == null)
-                                         plan.kcal = 0
-                                     else
-                                         plan.kcal = e.valueOf()
-                                 }}/>
+                {/*</Form.Item>*/}
 
-                </Form.Item>
+                {/*<Form.Item label="Daily calorific value">*/}
+                {/*    <Row gutter={8}>*/}
+                {/*        <Col span={12}>*/}
+                {/*            <Input*/}
+                {/*                id="kcalInput"*/}
+                {/*                placeholder="name"*/}
+                {/*            />*/}
+                {/*        </Col>*/}
+                {/*        <Col span={6}>*/}
+                {/*            <InputNumber defaultValue={0} />*/}
+                {/*        </Col>*/}
+                {/*    </Row>*/}
+                {/*</Form.Item>*/}
+
                 <Form.Item label="How many days plan">
                     <InputNumber defaultValue={plan.numberOfDays === 0 ? 0 : plan.numberOfDays}
                                  onChange={(e: number | null) => {

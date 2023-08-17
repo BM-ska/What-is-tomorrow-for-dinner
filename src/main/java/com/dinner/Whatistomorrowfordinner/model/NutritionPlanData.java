@@ -1,8 +1,10 @@
 package com.dinner.Whatistomorrowfordinner.model;
 
+import java.util.List;
+
 public record NutritionPlanData(
         String planName,
-        long kcal,
+        List<List<Object>> kcal,
         long numberOfDays,
         boolean breakfast,
         boolean lunch,
