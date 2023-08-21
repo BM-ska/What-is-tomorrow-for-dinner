@@ -23,7 +23,7 @@ interface Plan {
 function EditNutritionPlan() {
     const [planData, setPlanData] = React.useState<Plan>({
         planName: "",
-        kcal: [["Basia", 1800], ["Piotr", 3000]],
+        kcal: [["Asia", 1800], ["Bartek", 3000]],
         numberOfDays: 0,
         breakfast: false,
         lunch: false,

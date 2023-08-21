@@ -13,7 +13,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
 // @ts-ignore
-import logo from './title.png';
+import logo from './logo.png';
 
 import PersonSharpIcon from '@mui/icons-material/PersonSharp';
 

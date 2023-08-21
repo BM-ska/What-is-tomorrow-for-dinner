@@ -14,29 +14,6 @@ function ShoppingList() {
 
     const [shoppingList, setShoppingList] = useState<Item[]>([]);
 
-    const allItemsTMP: Item[] = [
-        {
-            idItem: 1,
-            name: "jajo",
-            amount: 4,
-            unit: "sztuki",
-            checked: false
-        },
-        {
-            idItem: 2,
-            name: "mąka",
-            amount: 300,
-            unit: "g",
-            checked: false
-        },
-        {
-            idItem: 3,
-            name: "makaron",
-            amount: 200,
-            unit: "g",
-            checked: false
-        },
-    ];
     const idPlan = Number(window.location.pathname.split('/')[2]);
 
     useEffect(() => {
