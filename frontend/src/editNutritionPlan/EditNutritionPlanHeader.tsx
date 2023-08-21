@@ -28,10 +28,16 @@ interface props {
 
 function EditNutritionPlanHeader({plan}: props) {
 
+    const deleteUndeclaredUsers = (p: Plan): Plan => {
+        const filteredKcal = p.kcal.filter(([stringValue, numberValue]) => stringValue !== "" && numberValue !== 0);
+        return {...p, kcal: filteredKcal};
+    }
+
     const saveSettings = (plan: Plan) => {
+        const newPlan = deleteUndeclaredUsers(plan)
         const token = localStorage.getItem('token');
         if (token) {
-            axios.put(`http://localhost:8080/nutrition-plan/create`, plan, {
+            axios.put(`http://localhost:8080/nutrition-plan/create`, newPlan, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'

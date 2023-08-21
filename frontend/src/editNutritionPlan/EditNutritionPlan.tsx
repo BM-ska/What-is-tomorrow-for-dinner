@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useState} from "react";
 import EditNutritionPlanHeader from "./EditNutritionPlanHeader";
-import {Checkbox, Form, Input, InputNumber} from "antd";
+import {Checkbox, Col, Form, Input, InputNumber, Row} from "antd";
 import Box from "@mui/material/Box";
 
 interface Plan {
@@ -19,11 +19,11 @@ interface Plan {
     meal4: number,
     meal5: number
 }
-//tmp zmien formulaż kcal
+
 function EditNutritionPlan() {
     const [planData, setPlanData] = React.useState<Plan>({
         planName: "",
-        kcal: [["Asia", 1800], ["Bartek", 3000]],
+        kcal: [["", 0], ["", 0], ["", 0], ["", 0], ["", 0]],
         numberOfDays: 0,
         breakfast: false,
         lunch: false,
@@ -43,7 +43,6 @@ function EditNutritionPlan() {
     const [meal4Disabled, setMeal4Disabled] = useState<boolean>(false);
     const [meal5Disabled, setMeal5Disabled] = useState<boolean>(false);
 
-
     // @ts-ignore
     const Data = ({plan}) => (
 
@@ -62,33 +61,108 @@ function EditNutritionPlan() {
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                plan.planName = e.target.value
                            }}/>
+
                 </Form.Item>
 
-                {/*todo*/}
-                {/*<Form.Item label="Daily calorific value">*/}
-                {/*    <InputNumber defaultValue={plan.kcal === 0 ? 0 : plan.kcal}*/}
-                {/*                 onChange={(e: number | null) => {*/}
-                {/*                     if (e == null)*/}
-                {/*                         plan.kcal = 0*/}
-                {/*                     else*/}
-                {/*                         plan.kcal = e.valueOf()*/}
-                {/*                 }}/>*/}
+                <Form.Item label="Daily calorific value, person 1">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            <Input defaultValue={plan.kcal[0][0] === "" ? "" : plan.kcal[0][0]}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                       plan.kcal[0][0] = e.target.value
+                                   }}/>
+                        </Col>
+                        <Col span={6}>
+                            <InputNumber defaultValue={plan.kcal[0][1] === 0 ? 0 : plan.kcal[0][1]}
+                                         onChange={(e: number | null) => {
+                                             if (e == null)
+                                                 plan.kcal[0][1] = 0
+                                             else
+                                                 plan.kcal[0][1] = e.valueOf()
+                                         }}/>
+                        </Col>
+                    </Row>
+                </Form.Item>
 
-                {/*</Form.Item>*/}
+                <Form.Item label="Daily calorific value, person 2">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            <Input defaultValue={plan.kcal[1][0] === "" ? "" : plan.kcal[1][0]}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                       plan.kcal[1][0] = e.target.value
+                                   }}/>
+                        </Col>
+                        <Col span={6}>
+                            <InputNumber defaultValue={plan.kcal[1][1] === 0 ? 0 : plan.kcal[1][1]}
+                                         onChange={(e: number | null) => {
+                                             if (e == null)
+                                                 plan.kcal[1][1] = 0
+                                             else
+                                                 plan.kcal[1][1] = e.valueOf()
+                                         }}/>
+                        </Col>
+                    </Row>
+                </Form.Item>
 
-                {/*<Form.Item label="Daily calorific value">*/}
-                {/*    <Row gutter={8}>*/}
-                {/*        <Col span={12}>*/}
-                {/*            <Input*/}
-                {/*                id="kcalInput"*/}
-                {/*                placeholder="name"*/}
-                {/*            />*/}
-                {/*        </Col>*/}
-                {/*        <Col span={6}>*/}
-                {/*            <InputNumber defaultValue={0} />*/}
-                {/*        </Col>*/}
-                {/*    </Row>*/}
-                {/*</Form.Item>*/}
+                <Form.Item label="Daily calorific value, person 3">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            <Input defaultValue={plan.kcal[2][0] === "" ? "" : plan.kcal[2][0]}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                       plan.kcal[2][0] = e.target.value
+                                   }}/>
+                        </Col>
+                        <Col span={6}>
+                            <InputNumber defaultValue={plan.kcal[2][1] === 0 ? 0 : plan.kcal[2][1]}
+                                         onChange={(e: number | null) => {
+                                             if (e == null)
+                                                 plan.kcal[2][1] = 0
+                                             else
+                                                 plan.kcal[2][1] = e.valueOf()
+                                         }}/>
+                        </Col>
+                    </Row>
+                </Form.Item>
+
+                <Form.Item label="Daily calorific value, person 4">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            <Input defaultValue={plan.kcal[3][0] === "" ? "" : plan.kcal[3][0]}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                       plan.kcal[3][0] = e.target.value
+                                   }}/>
+                        </Col>
+                        <Col span={6}>
+                            <InputNumber defaultValue={plan.kcal[3][1] === 0 ? 0 : plan.kcal[3][1]}
+                                         onChange={(e: number | null) => {
+                                             if (e == null)
+                                                 plan.kcal[3][1] = 0
+                                             else
+                                                 plan.kcal[3][1] = e.valueOf()
+                                         }}/>
+                        </Col>
+                    </Row>
+                </Form.Item>
+
+                <Form.Item label="Daily calorific value, person 5">
+                    <Row gutter={8}>
+                        <Col span={12}>
+                            <Input defaultValue={plan.kcal[4][0] === "" ? "" : plan.kcal[4][0]}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                       plan.kcal[4][0] = e.target.value
+                                   }}/>
+                        </Col>
+                        <Col span={6}>
+                            <InputNumber defaultValue={plan.kcal[4][1] === 0 ? 0 : plan.kcal[4][1]}
+                                         onChange={(e: number | null) => {
+                                             if (e == null)
+                                                 plan.kcal[4][1] = 0
+                                             else
+                                                 plan.kcal[4][1] = e.valueOf()
+                                         }}/>
+                        </Col>
+                    </Row>
+                </Form.Item>
 
                 <Form.Item label="How many days plan">
                     <InputNumber defaultValue={plan.numberOfDays === 0 ? 0 : plan.numberOfDays}
