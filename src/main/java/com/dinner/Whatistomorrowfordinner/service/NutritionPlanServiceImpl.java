@@ -246,6 +246,27 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
     @Override
+    public List<DescriptionDay> createDescriptionDayPlan(long idPlan, UserEntity userEntity) {
+        Optional<DayPlans> plans = userEntity.getUser().plansList()
+                .stream()
+                .filter(dayPlans -> dayPlans.idDayPlans() == idPlan)
+                .findFirst();
+
+        List<DescriptionDay> days = new ArrayList<>();
+
+        plans.get().dayPlanList().stream().forEach(dayPlan -> {
+            List<DescriptionMeal> meals = new ArrayList<>();
+
+            //todo napisz
+
+            days.add(new DescriptionDay(dayPlan.number(), meals));
+        });
+
+
+        return days;
+    }
+
+    @Override
     public void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans) {
         userRepository.deleteByUsername(userEntity.getUsername());
 

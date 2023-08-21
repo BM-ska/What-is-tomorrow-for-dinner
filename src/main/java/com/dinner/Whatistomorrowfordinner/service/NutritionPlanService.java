@@ -9,6 +9,8 @@ public interface NutritionPlanService {
 
     List<Item> createShoppingList(long idPlan, UserEntity userEntity);
 
+    List<DescriptionDay> createDescriptionDayPlan(long idPlan, UserEntity userEntity);
+
     void addDayPlansToUser(UserEntity userEntity, DayPlans newDayPlans);
 
     void addDayPlansToUser(UserEntity userEntity, List<DayPlan> dayPlans, long idPlan);
