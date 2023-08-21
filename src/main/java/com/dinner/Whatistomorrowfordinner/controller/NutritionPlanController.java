@@ -88,45 +88,9 @@ public class NutritionPlanController {
     public ResponseEntity<List<DescriptionDay>> getDescriptionMealPlan(@PathVariable long idPlan,
                                                                        @AuthenticationPrincipal UserEntity userEntity) {
 
-        //List<DescriptionDay> descriptionDays = nutritionPlanService.createDescriptionDayPlan(idPlan, userEntity);
+        List<DescriptionDay> descriptionDays = nutritionPlanService.createDescriptionDayPlan(idPlan, userEntity);
 
-        Recipe recipe = new Recipe(1, "naleśniki", 100, "", 123, List.of(
-                new Ingredient(1, "a", 1, "g", 1234),
-                new Ingredient(2, "a", 54, "g", 4321),
-                new Ingredient(3, "a", 223, "g", 3),
-                new Ingredient(4, "a", 71, "g", 88)
-        ));
-        Recipe recipe2 = new Recipe(2, "jajecznica", 100, "", 123, List.of(
-                new Ingredient(1, "a", 1, "g", 1234),
-                new Ingredient(2, "a", 54, "g", 4321),
-                new Ingredient(3, "a", 223, "g", 3),
-                new Ingredient(4, "a", 71, "g", 88)
-        ));
-
-        List<Item> items = List.of(
-                new Item(1, "mleko", 100, "g", false),
-                new Item(2, "majonez", 100, "g", false),
-                new Item(3, "mleko", 212, "kg", false),
-                new Item(4, "mleko", 111, "g", false),
-                new Item(5, "majonez", 1, "g", false));
-
-
-        List<DescriptionDay> descriptionDaysTMP = List.of(
-                new DescriptionDay(
-                        1,
-                        List.of(
-                                new DescriptionMeal(
-                                        1,
-                                        recipe,
-                                        2,
-                                        items),
-                                new DescriptionMeal(
-                                        2,
-                                        recipe2,
-                                        1,
-                                        items
-                                ))));
-        return new ResponseEntity<>(descriptionDaysTMP, HttpStatus.OK);
+        return new ResponseEntity<>(descriptionDays, HttpStatus.OK);
     }
 
 }

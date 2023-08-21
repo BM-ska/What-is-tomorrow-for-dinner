@@ -245,6 +245,54 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return addUpSameIngredients(shoppingList);
     }
 
+    List<DescriptionDay> minimizeNumberOfCookingDays(List<DescriptionDay> days) {
+        List<DescriptionDay> reducedListOfDays = new ArrayList<>();
+
+        //todo !!!
+        reducedListOfDays = days;
+
+        return reducedListOfDays;
+    }
+
+    List<DescriptionDay> recalculateIngredients(DayPlans plans) {
+        Random random = new Random();
+        List<DescriptionDay> days = new ArrayList<>();
+        plans.dayPlanList()
+                .forEach(dayPlan -> {
+
+                    List<DescriptionMeal> meals = new ArrayList<>();
+
+                    dayPlan.meal()
+                            .forEach(meal -> {
+
+                                List<Item> items = new ArrayList<>();
+
+                                meal.occupant()
+                                        .forEach(occupant -> {
+                                            items.addAll(
+                                                    //todo narazie racje maja jednen składnik
+                                                    itemsOneMealOneOccupant(occupant.ration().get(0),
+                                                            meal.recipe()));
+                                        });
+
+                                meals.add(new DescriptionMeal(
+                                        random.nextInt(10000),
+                                        meal.recipe(),
+                                        1,
+                                        addUpSameIngredients(items)
+                                ));
+                            });
+
+
+                    days.add(new DescriptionDay(
+                            dayPlan.number(),
+                            meals
+                    ));
+                });
+
+        return days;
+    }
+
     @Override
     public List<DescriptionDay> createDescriptionDayPlan(long idPlan, UserEntity userEntity) {
         Optional<DayPlans> plans = userEntity.getUser().plansList()
@@ -252,18 +300,9 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                 .filter(dayPlans -> dayPlans.idDayPlans() == idPlan)
                 .findFirst();
 
-        List<DescriptionDay> days = new ArrayList<>();
+        List<DescriptionDay> days = recalculateIngredients(plans.get());
 
-        plans.get().dayPlanList().stream().forEach(dayPlan -> {
-            List<DescriptionMeal> meals = new ArrayList<>();
-
-            //todo napisz
-
-            days.add(new DescriptionDay(dayPlan.number(), meals));
-        });
-
-
-        return days;
+        return minimizeNumberOfCookingDays(days);
     }
 
     @Override
