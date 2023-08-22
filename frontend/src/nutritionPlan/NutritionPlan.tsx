@@ -108,8 +108,13 @@ function NutritionPlan() {
     };
 
     const MealCollapse: React.FC<MealCollapseProps> = ({meal}) => {
+        const [activeKey, setActiveKey] = useState<string | string[] | undefined>([]);
+
+        const handlePanelChange = (key: string | string[]) => {
+            setActiveKey(key);
+        };
         return (
-            <Collapse defaultActiveKey={[`${meal.idMeal}`]} accordion>
+            <Collapse activeKey={activeKey} onChange={handlePanelChange} accordion>
                 <Panel header={`${meal.category}:  ${meal.recipeName}`} key={`${meal.idMeal}`}>
                     <ul>
                         {meal.occupant.map((occupant) => (
