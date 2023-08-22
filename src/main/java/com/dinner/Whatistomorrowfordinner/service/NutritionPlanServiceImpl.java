@@ -77,6 +77,65 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return selectedRecipes;
     }
 
+    private List<Recipe> selectRecipes(List<Recipe> recipeBook,
+                                       List<Pair<String, Long>> categories,
+                                       List<DayPlan> dayPlanList,
+                                       NutritionPlanData nutritionPlanData) {
+
+        List<Recipe> selectedRecipes = new ArrayList<>();
+
+        if (dayPlanList.isEmpty()) {
+            categories.forEach(category -> {
+                selectedRecipes.add(
+                        selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
+            });
+
+            return selectedRecipes;
+        }
+
+        long repeat = 0;
+
+        if (nutritionPlanData.dinner()) {
+
+
+        }
+        if (nutritionPlanData.lunch()) {
+
+
+        }
+        if (nutritionPlanData.snack()) {
+
+
+        }
+        if (nutritionPlanData.supper() && repeat < 3) {
+
+
+        }
+        if (nutritionPlanData.breakfast() && repeat < 3) {
+
+
+        }
+
+
+
+        /*
+        patrzymy na obiad do tyłu jeżeli świeżośći jest = 1 wtdy losowo inne niż tamto
+        jeżeli świeżość>1 to patrzymy do tyłu i zakładamy ze patrzymy na maks 3 do tyłu
+
+         */
+
+
+        //todo
+
+
+        categories.forEach(category -> {
+            selectedRecipes.add(
+                    selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
+        });
+
+        return selectedRecipes;
+    }
+
     private List<Pair<String, Long>> selectCategories(NutritionPlanData nutritionPlanData) {
 
         List<Pair<String, Long>> categories = new ArrayList<>();
@@ -135,10 +194,8 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                         calculateRations((Integer) pair.get(1), category, recipe))).toList();
     }
 
-    private DayPlan createDayPlan(long dayNumber, List<Recipe> recipeBook, NutritionPlanData nutritionPlanData,
-                                  List<Pair<String, Long>> categories) {
-
-        List<Recipe> selectedRecipes = selectRecipes(recipeBook, categories);
+    private DayPlan createDayPlan(long dayNumber, NutritionPlanData nutritionPlanData,
+                                  List<Pair<String, Long>> categories, List<Recipe> selectedRecipes) {
 
         //todo tymczasowe id
         Random random = new Random();
@@ -158,20 +215,63 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                         ).toList());
     }
 
+    DayPlans generateNutritionPlanThatMinimizesAmountOfCooking(List<Recipe> recipeBook,
+                                                               NutritionPlanData nutritionPlanData,
+                                                               List<Pair<String, Long>> categories) {
+
+        List<DayPlan> dayPlanList = new ArrayList<>();
+
+        //todo cos źle coś
+        for (int dayNumber = 0; dayNumber < (int) nutritionPlanData.numberOfDays(); dayNumber++) {
+            dayPlanList.add(createDayPlan(
+                    dayNumber + 1,
+                    nutritionPlanData,
+                    categories,
+                    selectRecipes(recipeBook, categories, dayPlanList, nutritionPlanData)));
+        }
+
+        //todo zmien id
+        Random random = new Random();
+
+        return new DayPlans(random.nextInt(100000),
+                nutritionPlanData.planName(),
+                dayPlanList);
+
+    }
+
+    DayPlans generateRandomNutritionPlan(List<Recipe> recipeBook,
+                                         NutritionPlanData nutritionPlanData,
+                                         List<Pair<String, Long>> categories) {
+        //todo zmien id
+        Random random = new Random();
+        return new DayPlans(random.nextInt(100000),
+                nutritionPlanData.planName(),
+                IntStream.range(0, (int) nutritionPlanData.numberOfDays())
+                        .mapToObj(dayNumber -> createDayPlan(dayNumber + 1,
+                                nutritionPlanData,
+                                categories,
+                                selectRecipes(recipeBook, categories)))
+                        .toList());
+
+    }
+
     @Override
     public DayPlans generateNutritionPlan(List<Recipe> recipeBook, NutritionPlanData nutritionPlanData) {
 
         List<Pair<String, Long>> categories = selectCategories(nutritionPlanData);
 
-        //todo w przyszłości mądrzejsze generowanie, uwzględniający "świażość"
-        //todo zmien id
-        Random random = new Random();
-        DayPlans dayPlans = new DayPlans(random.nextInt(100000),
-                nutritionPlanData.planName(),
-                IntStream.range(0, (int) nutritionPlanData.numberOfDays())
-                        .mapToObj(dayNumber -> createDayPlan(dayNumber + 1, recipeBook, nutritionPlanData, categories))
-                        .toList());
-        return dayPlans;
+        if (categories.size() > 2 && nutritionPlanData.numberOfDays() > 1) {
+            return generateNutritionPlanThatMinimizesAmountOfCooking(
+                    recipeBook,
+                    nutritionPlanData,
+                    categories);
+        }
+
+        return generateRandomNutritionPlan(
+                recipeBook,
+                nutritionPlanData,
+                categories);
+
     }
 
 
@@ -245,13 +345,62 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return addUpSameIngredients(shoppingList);
     }
 
+
+    List<Item> itemsSum(List<Item> i1, List<Item> i2) {
+
+        List<Item> items = new ArrayList<>();
+
+        for (int i = 0; i < i1.size(); i++) {
+            items.add(new Item(
+                    i1.get(i).idItem(),
+                    i1.get(i).name(),
+                    i1.get(i).amount() + i2.get(i).amount(),
+                    i1.get(i).unit(),
+                    i1.get(i).checked()));
+        }
+
+        return items;
+    }
+
     List<DescriptionDay> minimizeNumberOfCookingDays(List<DescriptionDay> days) {
-        List<DescriptionDay> reducedListOfDays = new ArrayList<>();
 
-        //todo !!!
-        reducedListOfDays = days;
+        for (int numberOfDay = 0; numberOfDay < days.size(); numberOfDay++) {
 
-        return reducedListOfDays;
+            for (int m = 0; m < days.get(numberOfDay).meals().size(); m++) {
+                long fresh = days.get(numberOfDay).meals().get(m).recipe().fresh();
+
+                for (int f = 1; f < fresh; f++) {
+                    if (numberOfDay + f < days.size()) {
+                        //todo narazie zakładam że nazwy dań są unikalne więc posiadają te same składniki tylko w różnych proporcjach
+
+                        for (int numberOfMeal = 0; numberOfMeal < days.get(numberOfDay + f).meals().size(); numberOfMeal++) {
+
+                            if (days.get(numberOfDay + f).meals().get(numberOfMeal).recipe().name()
+                                    .equals(days.get(numberOfDay).meals().get(m).recipe().name())) {
+
+                                List<Item> summedUpItems = itemsSum(days.get(numberOfDay).meals().get(m).items(),
+                                        days.get(numberOfDay + f).meals().get(numberOfMeal).items());
+
+                                for (int s = 0; s < summedUpItems.size(); s++) {
+                                    days.get(numberOfDay).meals().get(m).items().set(s, summedUpItems.get(s));
+                                }
+
+                                days.get(numberOfDay + f).meals().remove(numberOfMeal);
+
+                                days.get(numberOfDay).meals().set(m, new DescriptionMeal(
+                                        days.get(numberOfDay).meals().get(m).idMeal(),
+                                        days.get(numberOfDay).meals().get(m).recipe(),
+                                        days.get(numberOfDay).meals().get(m).numberOfDays() + 1,
+                                        days.get(numberOfDay).meals().get(m).items()
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return days;
     }
 
     List<DescriptionDay> recalculateIngredients(DayPlans plans) {

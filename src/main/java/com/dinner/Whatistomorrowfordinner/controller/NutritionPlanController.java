@@ -104,8 +104,6 @@ public class NutritionPlanController {
 /* todo
 17.sierpnia zzzacznij głownie pisemna
 
-dodaj wiecej uzytkowników do nutriplan / tmp zmien formulaż kcal
-plansze (ten drugi przycisk) algorytm sumujący zeby było naj mniej gotowania
 algorytm uwgledniający świeżość (do generowania planu)
 https://fdc.nal.usda.gov/api-guide.html autouzupkcal
 responsywność
