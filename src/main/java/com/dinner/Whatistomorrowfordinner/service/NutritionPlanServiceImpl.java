@@ -161,15 +161,19 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         int lastDayFresh = (int) lastDay.get(category).fresh();
         String lastDayName = lastDay.get(category).name();
 
-        int freeFresh = Math.min(lastDayFresh, 3) - 1;
+        int freeFresh = Math.min(lastDayFresh, 3);
 
-        for (int i = 1; i <= lastDayFresh && dayPlanList.size() - i > 0; i++) {
+        for (int i = 1; i <= lastDayFresh && dayPlanList.size() - i >= 0; i++) {
             lastDay = mealPlanForDay(dayPlanList, i, nutritionPlanData);
 
             if (lastDay.get(category).name().equals(lastDayName)) {
                 freeFresh--;
             }
+            else
+                break;
         }
+
+
         return freeFresh;
     }
 
@@ -209,6 +213,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         Recipe recipe = randomlySelectRecipeThatIsNotOnListOfRecipesUsed(
                 categoryRecipeBook,
                 selectedRecipes.stream().distinct().toList());
+
 
         return recipe.idRecipe() == 0 && !categoryRecipeBook.isEmpty() ? categoryRecipeBook.get(0) : recipe;
 
