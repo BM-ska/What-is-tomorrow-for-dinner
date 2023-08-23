@@ -4,68 +4,12 @@ import {Button, Col, Row} from "antd";
 import {SaveOutlined} from "@ant-design/icons";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 
+function saveToDB() {
 
-interface Recipe {
-    idRecipe: number;
-    name: string;
-    fresh: number;
-    category: string;
-    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
 }
 
-interface Ingredient {
-    idIngredient: number;
-    name: string;
-    amount: number;
-    unit: string;
-    kcal: number;
-}
-
-interface props {
-    recipe: Recipe
-    ingredient: Ingredient[]
-    idRecipe: number
-}
-
-function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
-
-    function saveRecipe(recipe: Recipe, ingredient: Ingredient[]) {
-
-        //todo id
-        const updatedRecipeData: Recipe = {
-            idRecipe: (recipe.idRecipe === 0 ? Math.random() * Number.MAX_SAFE_INTEGER : recipe.idRecipe),
-            name: recipe.name,
-            fresh: recipe.fresh,
-            category: recipe.category,
-            ingredient: ingredient
-        }
-
-        updateRecipeData(updatedRecipeData);
-    }
-
-    const updateRecipeData = (updatedRecipeData: Recipe) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then((response) => {
-                    console.log('Recipe data updated successfully:', response.data);
-                })
-                .catch((error) => {
-                    console.error('Failed to update recipe data:', error);
-                });
-        } else {
-            console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
-        }
-
-
-    };
+function ProfileHeader() {
 
     return (
         <div className="App">
@@ -91,7 +35,7 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
                                     fontSize: 14
                                 }}
                             >
-                                Edit the recipe
+                                Your profile
                             </Typography></Box>
                         </Col>
                         <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
@@ -101,7 +45,7 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
                         </Col>
                         <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
                             <Button shape="circle" icon={<SaveOutlined/>}
-                                    onClick={() => saveRecipe(recipe, ingredient)}/>
+                                    onClick={() => saveToDB()}/>
                         </Col>
                     </Row>
 
@@ -111,4 +55,4 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
     );
 }
 
-export default EditRecipeHeader;
+export default ProfileHeader;

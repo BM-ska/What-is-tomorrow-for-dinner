@@ -8,20 +8,21 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import EditRecipeHeader from "./EditRecipeHeader"
 import {useLocation} from "react-router-dom"
+import axios from "axios";
 
 
 interface Recipe {
-    id: string;
+    idRecipe: number;
     name: string;
     fresh: number;
     category: string;
-    ingredient: { id: string, name: string, amount: string, unit: string, kcal: number }[];
+    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
 }
 
 interface Ingredient {
-    id: string;
+    idIngredient: number;
     name: string;
-    amount: string;
+    amount: number;
     unit: string;
     kcal: number;
 }
@@ -29,7 +30,7 @@ interface Ingredient {
 function EditRecipePage() {
 
     const [recipeData, setRecipeData] = React.useState<Recipe>({
-        id: "",
+        idRecipe: 0,
         name: "",
         fresh: 1,
         category: "",
@@ -37,7 +38,7 @@ function EditRecipePage() {
     });
     const [ingredientList, setIngredientList] = React.useState<Ingredient[]>([]);
 
-    const id: string = useLocation().pathname.slice(13);
+    const idRecipe: number = Number(useLocation().pathname.slice(13));
     let defaultNameValue: String = "-1";
 
     const [loading, setLoading] = useState(false);
@@ -48,19 +49,31 @@ function EditRecipePage() {
 
     const fetchData = () => {
         setLoading(true);
-        if (id !== "0") {
-            //todo popraw kiedys wysylanie nie w adresie
-            fetch(`http://localhost:8080/recipe-book/${id}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setRecipeData(data)
-                    setIngredientList(data.ingredient)
-                    setLoading(false);
+        if (idRecipe !== 0) {
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                fetch(`http://localhost:8080/recipe-book/${idRecipe}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 })
-                .catch((error) => {
-                    console.log(error);
-                    setLoading(false);
-                });
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setRecipeData(data)
+                        setIngredientList(data.ingredient)
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        setLoading(false);
+                    });
+            } else {
+                console.log('Token not found in localStorage');
+                window.location.href = "http://localhost:3000/sign-in";
+            }
+
+
         }
     };
 
@@ -70,20 +83,46 @@ function EditRecipePage() {
         defaultNameValue = "";
         //todo zmien id
         const newList = ingredientList.concat({
-            id: Math.random().toString(16),
+            idIngredient: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
             name: '',
-            amount: '',
-            unit: '',
+            amount: 0,
+            unit: 'g',
             kcal: 0
         })
 
         setIngredientList(newList);
     }
 
-    function deleteIngredient(id: string) {
-        const newList = ingredientList.filter((item) => item.id !== id);
+    const deleteIngredient = (id: number) => {
+        const newList = ingredientList.filter((item) => item.idIngredient !== id);
         setIngredientList(newList);
-    }
+
+        const updatedRecipeData = {...recipeData, ingredient: newList};
+        updateRecipeData(updatedRecipeData);
+    };
+
+    const updateRecipeData = (updatedRecipeData: Recipe) => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    console.log('Recipe data updated successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Failed to update recipe data:', error);
+                });
+        } else {
+            console.log('Token not found in localStorage');
+            window.location.href = "http://localhost:3000/sign-in";
+        }
+
+
+    };
 
 //todo
 // @ts-ignore
@@ -106,7 +145,8 @@ function EditRecipePage() {
                            }}/>
                 </Form.Item>
 
-                <Form.Item label="świeżość">
+
+                <Form.Item label="Meal storage duration days">
                     <InputNumber defaultValue={recipe.fresh === 0 ? 0 : recipe.fresh}
                                  onChange={(e: number | null) => {
                                      if (e == null)
@@ -153,8 +193,8 @@ function EditRecipePage() {
             <Form
                 layout="horizontal"
             >
-                {list.map((item: { id: React.Key | null | undefined; }) => (
-                    <Item key={item.id} item={item} onRemove={onRemove || newIngredient}/>
+                {list.map((item: { idIngredient: React.Key | null | undefined; }) => (
+                    <Item key={item.idIngredient} item={item} onRemove={onRemove || newIngredient}/>
                 ))}
             </Form>
         </Box>
@@ -172,7 +212,7 @@ function EditRecipePage() {
                        }}/>
             </Form.Item>
             <Form.Item label="Amount:">
-                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : ""}
+                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : 0}
                              onChange={(e: number | null) => {
                                  if (e == null)
                                      item.amount = 0
@@ -187,8 +227,6 @@ function EditRecipePage() {
                             item.unit = e.valueOf()
                         }}>
                     <Select.Option value="g">g</Select.Option>
-                    <Select.Option value="ml">ml</Select.Option>
-                    <Select.Option value="teaspoon">teaspoon</Select.Option>
                 </Select>
             </Form.Item>
             <Form.Item label="Kcal:">
@@ -202,7 +240,7 @@ function EditRecipePage() {
             </Form.Item>
             <Form.Item>
                 <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                    onRemove(item.id)
+                    onRemove(item.idIngredient)
                 }}/>
             </Form.Item>
 
@@ -212,7 +250,7 @@ function EditRecipePage() {
     return (
 
         <div className="App">
-            <EditRecipeHeader recipe={recipeData} ingredient={ingredientList} id={id}/>
+            <EditRecipeHeader recipe={recipeData} ingredient={ingredientList} idRecipe={idRecipe}/>
 
             <Data recipe={recipeData}/>
 
@@ -238,7 +276,7 @@ function EditRecipePage() {
                                     fontSize: 14
                                 }}
                             >
-                                Recipes
+                                Ingredients
                             </Typography></Box>
                         </Col>
                         <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
