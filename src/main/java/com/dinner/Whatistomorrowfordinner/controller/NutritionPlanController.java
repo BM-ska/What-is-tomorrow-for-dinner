@@ -103,22 +103,20 @@ public class NutritionPlanController {
 
 /* todo
 17.sierpnia zzzacznij głownie pisemna
-
 algorytm uwgledniający świeżość (do generowania planu)
-https://fdc.nal.usda.gov/api-guide.html autouzupkcal
 responsywność
+odpalanie aplikcaji, docker/gradle/gcpp??
+dodaj przepisy do ksiażki kucharskiej
+prezentacja
+github
+
+
+https://fdc.nal.usda.gov/api-guide.html autouzupkcal
 możliwość zmian pojedyńczych elementów wygenerowanego już planu
 procentowy podział posiłku nie tylko w g
-
 rejestracja
-dodaj przepisy do ksiażki kucharskiej
 zrób testy
-srodek -> dodaj liste zakupów pokazową
 zmiana headera w zależności od zalogowania
 profil też pobierający dan z bazy
-prezentacja
-gcp??
 
-
-upełnienie danymi
  */

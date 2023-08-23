@@ -19,7 +19,8 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
     }
 
 
-    private Recipe selectRecipe(List<Recipe> oneCategoryRecipeBook, List<Recipe> selectedRecipes) {
+    private Recipe randomlySelectRecipeThatIsNotOnListOfRecipesUsed(List<Recipe> oneCategoryRecipeBook,
+                                                                    List<Recipe> recipesUsed) {
         if (oneCategoryRecipeBook.isEmpty()) {
             return new Recipe(0, "", 0, "", 0, List.of());
         }
@@ -30,7 +31,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         }
 
         List<Recipe> availableRecipes = new ArrayList<>(oneCategoryRecipeBook);
-        availableRecipes.removeAll(selectedRecipes);
+        availableRecipes.removeAll(recipesUsed);
 
         if (availableRecipes.isEmpty()) {
             return new Recipe(0, "", 0, "", 0, List.of());
@@ -65,16 +66,152 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
         return recipes;
     }
 
-    private List<Recipe> selectRecipes(List<Recipe> recipeBook, List<Pair<String, Long>> categories) {
+    private List<Recipe> randomSelectRecipes(List<Recipe> recipeBook, List<Pair<String, Long>> categories) {
 
         List<Recipe> selectedRecipes = new ArrayList<>();
 
         categories.forEach(category -> {
-            selectedRecipes.add(
-                    selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
+            List<Recipe> oneCategoryRecipeBook = selectAllRecipesOneCategory(recipeBook, category.getFirst());
+
+            Recipe recipe = randomlySelectRecipeThatIsNotOnListOfRecipesUsed(oneCategoryRecipeBook, selectedRecipes);
+
+            selectedRecipes.add(recipe.idRecipe() == 0 && !oneCategoryRecipeBook.isEmpty() ?
+                    oneCategoryRecipeBook.get(0) : recipe);
         });
 
         return selectedRecipes;
+    }
+
+
+    private Map<String, Recipe> putItemsInCorrectOrder(String category, Recipe recipe, Map<String, Recipe> selectedRecipes) {
+        Map<String, Recipe> recipes = new LinkedHashMap<>();
+
+        if (selectedRecipes.containsKey("breakfast")) {
+            recipes.put("breakfast", selectedRecipes.get("breakfast"));
+        } else if (category.equals("breakfast")) {
+            recipes.put("breakfast", recipe);
+        }
+
+        if (selectedRecipes.containsKey("lunch")) {
+            recipes.put("lunch", selectedRecipes.get("lunch"));
+        } else if (category.equals("lunch")) {
+            recipes.put("lunch", recipe);
+        }
+
+        if (selectedRecipes.containsKey("dinner")) {
+            recipes.put("dinner", selectedRecipes.get("dinner"));
+        } else if (category.equals("dinner")) {
+            recipes.put("dinner", recipe);
+        }
+
+        if (selectedRecipes.containsKey("snack")) {
+            recipes.put("snack", selectedRecipes.get("snack"));
+        } else if (category.equals("snack")) {
+            recipes.put("snack", recipe);
+        }
+
+        if (selectedRecipes.containsKey("supper")) {
+            recipes.put("supper", selectedRecipes.get("supper"));
+        } else if (category.equals("supper")) {
+            recipes.put("supper", recipe);
+        }
+
+        return recipes;
+    }
+
+    Map<String, Recipe> mealPlanForDay(List<DayPlan> dayPlanList,
+                                       int numberOfDaysBack,
+                                       NutritionPlanData nutritionPlanData) {
+
+        Map<String, Recipe> plan = new HashMap<>();
+        int c = 0;
+
+        if (nutritionPlanData.breakfast()) {
+            plan.put("breakfast", dayPlanList.get(dayPlanList.size() - numberOfDaysBack).meal().get(c).recipe());
+            c++;
+        }
+        if (nutritionPlanData.lunch()) {
+            plan.put("lunch", dayPlanList.get(dayPlanList.size() - numberOfDaysBack).meal().get(c).recipe());
+            c++;
+        }
+        if (nutritionPlanData.dinner()) {
+            plan.put("dinner", dayPlanList.get(dayPlanList.size() - numberOfDaysBack).meal().get(c).recipe());
+            c++;
+        }
+        if (nutritionPlanData.snack()) {
+            plan.put("snack", dayPlanList.get(dayPlanList.size() - numberOfDaysBack).meal().get(c).recipe());
+            c++;
+        }
+        if (nutritionPlanData.supper()) {
+            plan.put("supper", dayPlanList.get(dayPlanList.size() - numberOfDaysBack).meal().get(c).recipe());
+        }
+
+        return plan;
+    }
+
+    private List<Recipe> mapToListRecipe(Map<String, Recipe> selectedRecipes) {
+        List<Recipe> list = new ArrayList<>();
+        selectedRecipes.forEach((category, recipe) -> list.add(recipe));
+        return list;
+    }
+
+    private int remainingFreshDay(String category, List<DayPlan> dayPlanList, NutritionPlanData nutritionPlanData) {
+        Map<String, Recipe> lastDay = mealPlanForDay(dayPlanList, 1, nutritionPlanData);
+
+        int lastDayFresh = (int) lastDay.get(category).fresh();
+        String lastDayName = lastDay.get(category).name();
+
+        int freeFresh = Math.min(lastDayFresh, 3) - 1;
+
+        for (int i = 1; i <= lastDayFresh && dayPlanList.size() - i > 0; i++) {
+            lastDay = mealPlanForDay(dayPlanList, i, nutritionPlanData);
+
+            if (lastDay.get(category).name().equals(lastDayName)) {
+                freeFresh--;
+            }
+        }
+        return freeFresh;
+    }
+
+    private int numberOfRepetitions(NutritionPlanData nutritionPlanData) {
+        int numberOfMeals = 0;
+        if (nutritionPlanData.breakfast())
+            numberOfMeals++;
+        if (nutritionPlanData.lunch())
+            numberOfMeals++;
+        if (nutritionPlanData.dinner())
+            numberOfMeals++;
+        if (nutritionPlanData.snack())
+            numberOfMeals++;
+        if (nutritionPlanData.supper())
+            numberOfMeals++;
+
+        if (numberOfMeals == 5)
+            return 3;
+        else if (numberOfMeals == 4)
+            return 2;
+        return 1;
+    }
+
+    private Recipe chooseRecipe(int freeFresh, String category, List<DayPlan> dayPlanList,
+                                NutritionPlanData nutritionPlanData, List<Recipe> recipeBook,
+                                List<Recipe> selectedRecipes, int repeat) {
+
+        if (freeFresh > 0 && repeat > 0) {
+            return mealPlanForDay(dayPlanList, 1, nutritionPlanData).get(category);
+        }
+
+        List<Recipe> categoryRecipeBook = selectAllRecipesOneCategory(recipeBook, category);
+        List<Recipe> yesterdayRecipes = mapToListRecipe(mealPlanForDay(dayPlanList, 1, nutritionPlanData));
+
+        selectedRecipes.addAll(yesterdayRecipes);
+
+        Recipe recipe = randomlySelectRecipeThatIsNotOnListOfRecipesUsed(
+                categoryRecipeBook,
+                selectedRecipes.stream().distinct().toList());
+
+        return recipe.idRecipe() == 0 && !categoryRecipeBook.isEmpty() ? categoryRecipeBook.get(0) : recipe;
+
     }
 
     private List<Recipe> selectRecipes(List<Recipe> recipeBook,
@@ -82,58 +219,67 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                                        List<DayPlan> dayPlanList,
                                        NutritionPlanData nutritionPlanData) {
 
-        List<Recipe> selectedRecipes = new ArrayList<>();
-
         if (dayPlanList.isEmpty()) {
-            categories.forEach(category -> {
-                selectedRecipes.add(
-                        selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
-            });
-
-            return selectedRecipes;
+            return randomSelectRecipes(recipeBook, categories);
         }
 
-        long repeat = 0;
+        Map<String, Recipe> selectedRecipes = new LinkedHashMap<>();
+        int repeat = numberOfRepetitions(nutritionPlanData);
 
         if (nutritionPlanData.dinner()) {
+            int freeFresh = remainingFreshDay("dinner", dayPlanList, nutritionPlanData);
+            Recipe dinnerRecipe = chooseRecipe(freeFresh, "dinner", dayPlanList, nutritionPlanData,
+                    recipeBook, mapToListRecipe(selectedRecipes), repeat);
 
+            if (freeFresh > 0) {
+                repeat--;
+            }
+
+            selectedRecipes = putItemsInCorrectOrder("dinner", dinnerRecipe, selectedRecipes);
 
         }
         if (nutritionPlanData.lunch()) {
+            int freeFresh = remainingFreshDay("lunch", dayPlanList, nutritionPlanData);
+            Recipe lunchRecipe = chooseRecipe(freeFresh, "lunch", dayPlanList, nutritionPlanData,
+                    recipeBook, mapToListRecipe(selectedRecipes), repeat);
 
+            if (freeFresh > 0) {
+                repeat--;
+            }
 
+            selectedRecipes = putItemsInCorrectOrder("lunch", lunchRecipe, selectedRecipes);
         }
         if (nutritionPlanData.snack()) {
+            int freeFresh = remainingFreshDay("snack", dayPlanList, nutritionPlanData);
+            Recipe snackRecipe = chooseRecipe(freeFresh, "snack", dayPlanList, nutritionPlanData,
+                    recipeBook, mapToListRecipe(selectedRecipes), repeat);
 
+            if (freeFresh > 0) {
+                repeat--;
+            }
 
+            selectedRecipes = putItemsInCorrectOrder("snack", snackRecipe, selectedRecipes);
         }
-        if (nutritionPlanData.supper() && repeat < 3) {
+        if (nutritionPlanData.supper()) {
+            int freeFresh = remainingFreshDay("supper", dayPlanList, nutritionPlanData);
+            Recipe supperRecipe = chooseRecipe(freeFresh, "supper", dayPlanList, nutritionPlanData,
+                    recipeBook, mapToListRecipe(selectedRecipes), repeat);
 
+            if (freeFresh > 0) {
+                repeat--;
+            }
 
+            selectedRecipes = putItemsInCorrectOrder("supper", supperRecipe, selectedRecipes);
         }
-        if (nutritionPlanData.breakfast() && repeat < 3) {
+        if (nutritionPlanData.breakfast()) {
+            int freeFresh = remainingFreshDay("breakfast", dayPlanList, nutritionPlanData);
+            Recipe breakfastRecipe = chooseRecipe(freeFresh, "breakfast", dayPlanList, nutritionPlanData,
+                    recipeBook, mapToListRecipe(selectedRecipes), repeat);
 
-
+            selectedRecipes = putItemsInCorrectOrder("breakfast", breakfastRecipe, selectedRecipes);
         }
 
-
-
-        /*
-        patrzymy na obiad do tyłu jeżeli świeżośći jest = 1 wtdy losowo inne niż tamto
-        jeżeli świeżość>1 to patrzymy do tyłu i zakładamy ze patrzymy na maks 3 do tyłu
-
-         */
-
-
-        //todo
-
-
-        categories.forEach(category -> {
-            selectedRecipes.add(
-                    selectRecipe(selectAllRecipesOneCategory(recipeBook, category.getFirst()), selectedRecipes));
-        });
-
-        return selectedRecipes;
+        return mapToListRecipe(selectedRecipes);
     }
 
     private List<Pair<String, Long>> selectCategories(NutritionPlanData nutritionPlanData) {
@@ -221,7 +367,8 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
 
         List<DayPlan> dayPlanList = new ArrayList<>();
 
-        //todo cos źle coś
+
+        //todo napraw
         for (int dayNumber = 0; dayNumber < (int) nutritionPlanData.numberOfDays(); dayNumber++) {
             dayPlanList.add(createDayPlan(
                     dayNumber + 1,
@@ -250,7 +397,7 @@ public class NutritionPlanServiceImpl implements NutritionPlanService {
                         .mapToObj(dayNumber -> createDayPlan(dayNumber + 1,
                                 nutritionPlanData,
                                 categories,
-                                selectRecipes(recipeBook, categories)))
+                                randomSelectRecipes(recipeBook, categories)))
                         .toList());
 
     }
