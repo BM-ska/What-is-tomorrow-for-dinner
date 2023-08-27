@@ -56,7 +56,8 @@ function EditNutritionPlan() {
                 wrapperCol={{span: 14}}
                 layout="horizontal"
             >
-                <Form.Item label="Recipe plan name">
+                <Form.Item>
+                    <span>Recipe plan name: </span>
                     <Input defaultValue={plan.planName === "" ? "" : plan.planName}
                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                plan.planName = e.target.value
@@ -64,7 +65,8 @@ function EditNutritionPlan() {
 
                 </Form.Item>
 
-                <Form.Item label="Daily calorific value, person 1">
+                <Form.Item>
+                    <span>Daily calorific value, person 1: </span>
                     <Row gutter={8}>
                         <Col span={12}>
                             <Input defaultValue={plan.kcal[0][0] === "" ? "" : plan.kcal[0][0]}
@@ -84,7 +86,8 @@ function EditNutritionPlan() {
                     </Row>
                 </Form.Item>
 
-                <Form.Item label="Daily calorific value, person 2">
+                <Form.Item>
+                    <span>Daily calorific value, person 2: </span>
                     <Row gutter={8}>
                         <Col span={12}>
                             <Input defaultValue={plan.kcal[1][0] === "" ? "" : plan.kcal[1][0]}
@@ -104,7 +107,8 @@ function EditNutritionPlan() {
                     </Row>
                 </Form.Item>
 
-                <Form.Item label="Daily calorific value, person 3">
+                <Form.Item>
+                    <span>Daily calorific value, person 3: </span>
                     <Row gutter={8}>
                         <Col span={12}>
                             <Input defaultValue={plan.kcal[2][0] === "" ? "" : plan.kcal[2][0]}
@@ -124,7 +128,8 @@ function EditNutritionPlan() {
                     </Row>
                 </Form.Item>
 
-                <Form.Item label="Daily calorific value, person 4">
+                <Form.Item>
+                    <span>Daily calorific value, person 4: </span>
                     <Row gutter={8}>
                         <Col span={12}>
                             <Input defaultValue={plan.kcal[3][0] === "" ? "" : plan.kcal[3][0]}
@@ -144,7 +149,8 @@ function EditNutritionPlan() {
                     </Row>
                 </Form.Item>
 
-                <Form.Item label="Daily calorific value, person 5">
+                <Form.Item>
+                    <span>Daily calorific value, person 5: </span>
                     <Row gutter={8}>
                         <Col span={12}>
                             <Input defaultValue={plan.kcal[4][0] === "" ? "" : plan.kcal[4][0]}
@@ -164,7 +170,8 @@ function EditNutritionPlan() {
                     </Row>
                 </Form.Item>
 
-                <Form.Item label="How many days plan">
+                <Form.Item >
+                    <span>How many days plan: </span>
                     <InputNumber defaultValue={plan.numberOfDays === 0 ? 0 : plan.numberOfDays}
                                  onChange={(e: number | null) => {
                                      if (e == null)

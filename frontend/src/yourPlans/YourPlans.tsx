@@ -65,23 +65,23 @@ function YourPlans() {
                         style={buttonStyle}
                         href={`/your-plans/${plan.planId}`}
                     >
-                        <Box><Typography
-                            variant="h6"
-                            noWrap
-                            sx={{
-                                mr: 2,
-                                display: {xs: 'none', md: 'flex'},
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'white',
-                                textDecoration: 'none',
-                                fontSize: 14
-                            }}
-                        >
-                            {plan.planName}
-                        </Typography></Box>
-
+                        <Box>
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                sx={{
+                                    fontFamily: 'monospace',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'white',
+                                    textDecoration: 'none',
+                                    fontSize: 14,
+                                    textAlign: 'center',
+                                }}
+                            >
+                                {plan.planName}
+                            </Typography>
+                        </Box>
                     </Button>
                 ))}
             </div>
