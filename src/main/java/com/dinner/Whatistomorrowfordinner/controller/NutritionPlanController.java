@@ -102,13 +102,14 @@ public class NutritionPlanController {
 
 
 /* todo
-17.sierpnia zzzacznij głownie pisemna
-algorytm uwgledniający świeżość (do generowania planu)
+
 responsywność
 odpalanie aplikcaji, docker/gradle/gcpp??
 dodaj przepisy do ksiażki kucharskiej
 prezentacja
-github
+github - zrób publiczny i licencje??
+praca pisemna
+wyślij do apd
 
 
 https://fdc.nal.usda.gov/api-guide.html autouzupkcal

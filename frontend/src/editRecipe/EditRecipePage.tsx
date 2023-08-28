@@ -138,36 +138,44 @@ function EditRecipePage() {
                 wrapperCol={{span: 14}}
                 layout="horizontal"
             >
-                <Form.Item label="Recipe name">
+                <Form.Item style={{ marginBottom: '12px' }}>
+                    <span>Recipe name: </span>
                     <Input defaultValue={recipe.name === "" ? "" : recipe.name}
-                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                               recipe.name = e.target.value
-                           }}/>
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            recipe.name = e.target.value
+                        }}
+                        style={{ width: '70%' }}
+                    />
                 </Form.Item>
 
-
-                <Form.Item label="Meal storage duration days">
+                <Form.Item style={{ marginBottom: '12px' }}>
+                    <span>Meal storage duration days: </span>
                     <InputNumber defaultValue={recipe.fresh === 0 ? 0 : recipe.fresh}
-                                 onChange={(e: number | null) => {
-                                     if (e == null)
-                                         recipe.fresh = 0
-                                     else
-                                         recipe.fresh = e.valueOf()
-                                 }}/>
-
+                        onChange={(e: number | null) => {
+                            if (e == null)
+                                recipe.fresh = 0
+                            else
+                                recipe.fresh = e.valueOf()
+                        }}
+                        style={{ width: '30%' }}
+                    />
                 </Form.Item>
 
-                <Form.Item label="Category">
+                <Form.Item style={{ marginBottom: '12px' }}>
+                    <span>Category: </span>
                     <Select
                         defaultValue={recipe.category === "" ? "" : recipe.category}
                         onChange={(e: string) => {
                             recipe.category = e.valueOf()
-                        }}>
+                        }}
+                        style={{ width: '50%' }}
+                    >
                         <Select.Option value="snack">snack</Select.Option>
                         <Select.Option value="main meal">main meal</Select.Option>
                         <Select.Option value="small meal">small meal</Select.Option>
                     </Select>
                 </Form.Item>
+
 
                 <Checkbox
                     checked={componentDisabled}
@@ -205,13 +213,15 @@ function EditRecipePage() {
     const Item = ({item, onRemove}) => (
         <Space>
 
-            <Form.Item label="Name:">
+            <Form.Item >
+                <span>Name: </span>
                 <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                            item.name = e.target.value
                        }}/>
             </Form.Item>
-            <Form.Item label="Amount:">
+            <Form.Item>
+                <span>Amount: </span>
                 <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : 0}
                              onChange={(e: number | null) => {
                                  if (e == null)
@@ -219,9 +229,9 @@ function EditRecipePage() {
                                  else
                                      item.amount = e.valueOf()
                              }}/>
-
             </Form.Item>
-            <Form.Item label="Unit:">
+            <Form.Item>
+                <span>Unit: </span>
                 <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
                         onChange={(e: string) => {
                             item.unit = e.valueOf()
@@ -229,7 +239,8 @@ function EditRecipePage() {
                     <Select.Option value="g">g</Select.Option>
                 </Select>
             </Form.Item>
-            <Form.Item label="Kcal:">
+            <Form.Item>
+                <span>Kcal: </span>
                 <Input disabled={componentDisabled}
                     // todo autouzupełnianie kalorii z bazy
                        defaultValue={defaultNameValue === "-1" ? item.kcal : ""}

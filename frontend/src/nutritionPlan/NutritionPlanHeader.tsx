@@ -28,10 +28,11 @@ function NutritionPlanHeader() {
                         <Col span={10} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
                         </Col>
                         <Col span={1} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                            <Button shape="circle" icon={<ReadOutlined/>} onClick={() => showDescription()}/>
-                        </Col>
-                        <Col span={1} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                            <Button shape="circle" icon={<ShoppingCartOutlined/>} onClick={() => showShoppingList()}/>
+                            <Box display="flex" justifyContent="center" alignItems="center">
+                                <Button shape="circle" icon={<ReadOutlined/>} onClick={() => showDescription()}/>
+                                <Button shape="circle" icon={<ShoppingCartOutlined/>}
+                                        onClick={() => showShoppingList()}/>
+                            </Box>
                         </Col>
                     </Row>
                 </Container>

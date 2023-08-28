@@ -96,34 +96,14 @@ function RecipeBookPage() {
         <Box boxShadow={20}>
             <Collapse onChange={onChange}>
                 {list.map((item: RecipeBook) => (
-                    <Panel header={calories(item.name, item.calories)}
-                           key={item.idRecipe}
-                           extra={genExtra(item)}>
-
+                    <Panel header={calories(item.name, item.calories)} key={item.idRecipe} extra={genExtra(item)}>
                         <Box>
-
                             {item.ingredient.map((i: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }) => (
-
-                                <ListItem
-                                    key={i.idIngredient}
-                                    disableGutters>
-
-                                    <Col span={1} xs={{order: 1}} sm={{order: 1}} md={{order: 1}} lg={{order: 1}}>
-                                        <ArrowRightIcon/>
-                                    </Col>
-                                    <Col span={2} xs={{order: 2}} sm={{order: 2}} md={{order: 2}} lg={{order: 2}}>
-
-                                        <ListItemText primary={i.name}/>
-
-                                    </Col>
-                                    <Col span={2} xs={{order: 3}} sm={{order: 3}} md={{order: 3}} lg={{order: 3}}>
-                                        <ListItemText primary={i.amount}/>
-                                    </Col>
-                                    <Col span={18} xs={{order: 4}} sm={{order: 4}} md={{order: 4}} lg={{order: 4}}>
-                                        <ListItemText primary={i.unit}/>
-                                    </Col>
-
-
+                                <ListItem key={i.idIngredient} disableGutters style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <ArrowRightIcon style={{ marginRight: '5px' }} />
+                                        <span>{i.name} {i.amount} {i.unit}</span>
+                                    </div>
                                 </ListItem>
                             ))}
                         </Box>
