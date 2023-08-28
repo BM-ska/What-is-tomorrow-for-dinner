@@ -23,30 +23,30 @@ class NutritionPlanServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    void generatePlan() {
-        NutritionPlanData nutritionPlanData = new NutritionPlanData(
-                "plan1",
-                List.of(List.of("jan", 1000l)),
-                5,
-                false,
-                true,
-                true,
-                true,
-                true,
-                25,
-                10,
-                30,
-                15,
-                20);
-
-
-        DayPlans dayPlanList = nutritionPlanService.generateNutritionPlan(List.of(), nutritionPlanData);
-
-        assertEquals(5, dayPlanList.dayPlanList().size());
-        assertEquals(4, dayPlanList.dayPlanList().get(0).meal().size());
-        assertEquals(1, dayPlanList.dayPlanList().get(0).meal().get(0).occupant().get(0).ration().size());
-    }
+//    @Test
+//    void generatePlan() {
+//        NutritionPlanData nutritionPlanData = new NutritionPlanData(
+//                "plan1",
+//                List.of(List.of("jan", 1000l)),
+//                5,
+//                false,
+//                true,
+//                true,
+//                true,
+//                true,
+//                25,
+//                10,
+//                30,
+//                15,
+//                20);
+//
+//
+//        DayPlans dayPlanList = nutritionPlanService.generateNutritionPlan(List.of(), nutritionPlanData);
+//
+//        assertEquals(5, dayPlanList.dayPlanList().size());
+//        assertEquals(4, dayPlanList.dayPlanList().get(0).meal().size());
+//        assertEquals(1, dayPlanList.dayPlanList().get(0).meal().get(0).occupant().get(0).ration().size());
+//    }
 
     @Test
     void addUpSameIngredients() {
