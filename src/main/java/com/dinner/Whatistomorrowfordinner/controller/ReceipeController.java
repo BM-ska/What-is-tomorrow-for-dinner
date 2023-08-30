@@ -69,7 +69,7 @@ public class ReceipeController {
                 updatedRecipe.fresh(),
                 updatedRecipe.category(),
                 recipeService.countCaloriesPer100g(updatedRecipe),
-                updatedRecipe.ingredient());
+                recipeService.normalizeIngredientsNames(updatedRecipe.ingredient()));
 
         userRepository.deleteByUsername(userEntity.getUsername());
 

@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {Button, Col, Collapse, Row} from 'antd';
 import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
-import {ListItem, ListItemText} from "@mui/material";
+import {ListItem} from "@mui/material";
 import RecipeBookHeader from "./RecipeBookHeader"
 import axios from "axios";
 
@@ -99,9 +99,10 @@ function RecipeBookPage() {
                     <Panel header={calories(item.name, item.calories)} key={item.idRecipe} extra={genExtra(item)}>
                         <Box>
                             {item.ingredient.map((i: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }) => (
-                                <ListItem key={i.idIngredient} disableGutters style={{ display: 'flex', alignItems: 'center' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <ArrowRightIcon style={{ marginRight: '5px' }} />
+                                <ListItem key={i.idIngredient} disableGutters
+                                          style={{display: 'flex', alignItems: 'center'}}>
+                                    <div style={{display: 'flex', alignItems: 'center'}}>
+                                        <ArrowRightIcon style={{marginRight: '5px'}}/>
                                         <span>{i.name} {i.amount} {i.unit}</span>
                                     </div>
                                 </ListItem>

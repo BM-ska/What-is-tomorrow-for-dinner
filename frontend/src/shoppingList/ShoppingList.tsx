@@ -38,7 +38,7 @@ function ShoppingList() {
         }
 
 
-    }, []);
+    }, [idPlan]);
 
 
     const handleCheckboxChange = (itemId: number) => {

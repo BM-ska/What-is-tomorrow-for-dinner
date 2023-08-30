@@ -3,7 +3,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 
 import {DeleteOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select, Space,} from 'antd';
+import {Button, Checkbox, Col, Form, Input, InputNumber, Row, Select,} from 'antd';
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import EditRecipeHeader from "./EditRecipeHeader"
@@ -41,14 +41,7 @@ function EditRecipePage() {
     const idRecipe: number = Number(useLocation().pathname.slice(13));
     let defaultNameValue: String = "-1";
 
-    const [loading, setLoading] = useState(false);
-
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = () => {
-        setLoading(true);
         if (idRecipe !== 0) {
 
             const token = localStorage.getItem('token');
@@ -62,11 +55,9 @@ function EditRecipePage() {
                     .then((data) => {
                         setRecipeData(data)
                         setIngredientList(data.ingredient)
-                        setLoading(false);
                     })
                     .catch((error) => {
                         console.log(error);
-                        setLoading(false);
                     });
             } else {
                 console.log('Token not found in localStorage');
@@ -75,7 +66,8 @@ function EditRecipePage() {
 
 
         }
-    };
+    }, [idRecipe]);
+
 
     const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
 
@@ -138,37 +130,37 @@ function EditRecipePage() {
                 wrapperCol={{span: 14}}
                 layout="horizontal"
             >
-                <Form.Item style={{ marginBottom: '12px' }}>
+                <Form.Item style={{marginBottom: '12px'}}>
                     <span>Recipe name: </span>
                     <Input defaultValue={recipe.name === "" ? "" : recipe.name}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            recipe.name = e.target.value
-                        }}
-                        style={{ width: '70%' }}
+                           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                               recipe.name = e.target.value
+                           }}
+                           style={{width: '70%'}}
                     />
                 </Form.Item>
 
-                <Form.Item style={{ marginBottom: '12px' }}>
+                <Form.Item style={{marginBottom: '12px'}}>
                     <span>Meal storage duration days: </span>
                     <InputNumber defaultValue={recipe.fresh === 0 ? 0 : recipe.fresh}
-                        onChange={(e: number | null) => {
-                            if (e == null)
-                                recipe.fresh = 0
-                            else
-                                recipe.fresh = e.valueOf()
-                        }}
-                        style={{ width: '30%' }}
+                                 onChange={(e: number | null) => {
+                                     if (e == null)
+                                         recipe.fresh = 0
+                                     else
+                                         recipe.fresh = e.valueOf()
+                                 }}
+                                 style={{width: '30%'}}
                     />
                 </Form.Item>
 
-                <Form.Item style={{ marginBottom: '12px' }}>
+                <Form.Item style={{marginBottom: '12px'}}>
                     <span>Category: </span>
                     <Select
                         defaultValue={recipe.category === "" ? "" : recipe.category}
                         onChange={(e: string) => {
                             recipe.category = e.valueOf()
                         }}
-                        style={{ width: '50%' }}
+                        style={{width: '50%'}}
                     >
                         <Select.Option value="snack">snack</Select.Option>
                         <Select.Option value="main meal">main meal</Select.Option>
@@ -189,73 +181,63 @@ function EditRecipePage() {
         </Box>
     );
 
-//todo
-// @ts-ignore
-    const List = ({list, onRemove}) => (
-
-        <Box
-            boxShadow={20}
-            px={{xs: 3, sm: 1}}
-            py={{xs: 3, sm: 1}}
-            bgcolor="#white">
-            <Form
-                layout="horizontal"
-            >
-                {list.map((item: { idIngredient: React.Key | null | undefined; }) => (
-                    <Item key={item.idIngredient} item={item} onRemove={onRemove || newIngredient}/>
-                ))}
-            </Form>
+    const List = ({list, onRemove}: { list: Ingredient[]; onRemove: any }) => (
+        <Box boxShadow={20} px={{xs: 3, sm: 1}} py={{xs: 3, sm: 1}} bgcolor="#white" className="flex-container">
+            {list.map((item: Ingredient) => (
+                <Item key={item.idIngredient} item={item} onRemove={onRemove || newIngredient}/>
+            ))}
         </Box>
     );
 
-    //todo
-    // @ts-ignore
-    const Item = ({item, onRemove}) => (
-        <Space>
-
-            <Form.Item >
+    const Item = ({item, onRemove}: { item: Ingredient; onRemove: any }) => (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <Form.Item style={{marginBottom: '8px', marginRight: '8px'}}>
                 <span>Name: </span>
-                <Input defaultValue={defaultNameValue === "-1" ? item.name : ""}
-                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                           item.name = e.target.value
-                       }}/>
+                <Input
+                    defaultValue={defaultNameValue === "-1" ? item.name : ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        item.name = e.target.value;
+                    }}
+                />
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: '8px', marginRight: '8px'}}>
                 <span>Amount: </span>
-                <InputNumber defaultValue={defaultNameValue === "-1" ? item.amount : 0}
-                             onChange={(e: number | null) => {
-                                 if (e == null)
-                                     item.amount = 0
-                                 else
-                                     item.amount = e.valueOf()
-                             }}/>
+                <InputNumber
+                    defaultValue={defaultNameValue === "-1" ? item.amount : 0}
+                    onChange={(e: number | null) => {
+                        item.amount = e === null ? 0 : e;
+                    }}
+                    style={{width: '100%'}}
+                />
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: '8px', marginRight: '8px'}}>
                 <span>Unit: </span>
-                <Select defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
-                        onChange={(e: string) => {
-                            item.unit = e.valueOf()
-                        }}>
+                <Select
+                    defaultValue={defaultNameValue === "-1" ? item.unit : "g"}
+                    onChange={(e: string) => {
+                        item.unit = e;
+                    }}
+                >
                     <Select.Option value="g">g</Select.Option>
                 </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: '8px', marginRight: '8px'}}>
                 <span>Kcal: </span>
-                <Input disabled={componentDisabled}
-                    // todo autouzupełnianie kalorii z bazy
-                       defaultValue={defaultNameValue === "-1" ? item.kcal : ""}
-                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-
-                           item.kcal = e.target.value
-                       }}/>
+                <InputNumber
+                    disabled={componentDisabled}
+                    defaultValue={defaultNameValue === "-1" ? item.kcal : 0}
+                    onChange={(e: number | null) => {
+                        item.kcal = e === null ? 0 : e;
+                    }}
+                    style={{width: '100%'}}
+                />
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: '8px', marginRight: '8px'}}>
                 <Button shape="circle" icon={<DeleteOutlined/>} onClick={() => {
-                    onRemove(item.idIngredient)
+                    onRemove(item.idIngredient);
                 }}/>
             </Form.Item>
-
-        </Space>
+        </div>
     );
 
     return (
@@ -302,8 +284,9 @@ function EditRecipePage() {
 
                 </Container>
             </Box>
-
-            <List list={ingredientList} onRemove={deleteIngredient}/>
+            <div className="flex-container">
+                <List list={ingredientList} onRemove={deleteIngredient}/>
+            </div>
         </div>
     );
 }

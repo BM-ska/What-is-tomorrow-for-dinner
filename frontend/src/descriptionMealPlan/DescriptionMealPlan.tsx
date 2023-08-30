@@ -68,7 +68,7 @@ function DescriptionMealPlan() {
         }
 
 
-    }, []);
+    }, [idPlan]);
 
     const DayCollapse: React.FC<descriptionDayCollapseProps> = ({day}) => {
         return (

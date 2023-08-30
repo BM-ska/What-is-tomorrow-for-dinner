@@ -33,7 +33,7 @@ interface Recipe {
     name: string;
     fresh: number;
     category: string;
-    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
+    ingredient: Ingredient[];
 }
 
 interface Ingredient {

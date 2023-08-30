@@ -94,30 +94,3 @@ public class NutritionPlanController {
     }
 
 }
-
-
-
-
-
-
-
-/* todo
-
-responsywność
-odpalanie aplikcaji, docker/gradle/gcpp??
-dodaj przepisy do ksiażki kucharskiej
-prezentacja
-github - zrób publiczny i licencje??
-praca pisemna
-wyślij do apd
-
-
-https://fdc.nal.usda.gov/api-guide.html autouzupkcal
-możliwość zmian pojedyńczych elementów wygenerowanego już planu
-procentowy podział posiłku nie tylko w g
-rejestracja
-zrób testy
-zmiana headera w zależności od zalogowania
-profil też pobierający dan z bazy
-
- */

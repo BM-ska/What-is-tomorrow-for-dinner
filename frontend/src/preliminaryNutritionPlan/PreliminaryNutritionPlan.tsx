@@ -35,7 +35,7 @@ interface Recipe {
     name: string;
     fresh: number;
     category: string;
-    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
+    ingredient: Ingredient[];
 }
 
 interface Ingredient {
@@ -87,11 +87,8 @@ function PreliminaryNutritionPlan() {
             window.location.href = "http://localhost:3000/sign-in";
         }
 
-    }, []);
+    }, [idPlan]);
 
-    const onChange = (key: string | string[]) => {
-        //  console.log(key);
-    };
 
     const genExtra = (meal: Meal) => (
         <Box>

@@ -13,7 +13,7 @@ interface Recipe {
     name: string;
     fresh: number;
     category: string;
-    ingredient: { idIngredient: number, name: string, amount: number, unit: string, kcal: number }[];
+    ingredient: Ingredient[];
 }
 
 interface Ingredient {
@@ -88,11 +88,7 @@ function NutritionPlan() {
         }
 
 
-    }, []);
-
-    const onChange = (key: string | string[]) => {
-        //  console.log(key);
-    };
+    }, [idPlan]);
 
 
     const DayCollapse: React.FC<DayCollapseProps> = ({day}) => {
