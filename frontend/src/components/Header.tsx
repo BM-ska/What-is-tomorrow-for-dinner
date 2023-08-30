@@ -60,30 +60,30 @@ const ResponsiveAppBar = () => {
 
     return (
         <>
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
             <AppBar position="static" style={headerStyle}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Link href="/" underline="none">
-                            <img  alt="Logo" src={logo} />
+                            <img alt="Logo" src={logo}/>
                         </Link>
 
-                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{flexGrow: 1}}/>
 
-                        <Box sx={{ flexGrow: 0 }}>
+                        <Box sx={{flexGrow: 0}}>
                             <Tooltip title="Open settings">
                                 <IconButton
                                     onClick={handleOpenUserMenu}
                                     sx={headerIconStyle}
                                 >
                                     <Avatar>
-                                        <PersonSharpIcon />
+                                        <PersonSharpIcon/>
                                     </Avatar>
                                 </IconButton>
                             </Tooltip>
                             <Menu
-                                sx={{ mt: '45px' }}
+                                sx={{mt: '45px'}}
                                 id="menu-appbar"
                                 anchorEl={anchorElUser}
                                 anchorOrigin={{
@@ -103,7 +103,7 @@ const ResponsiveAppBar = () => {
                                         <Typography textAlign="center">
                                             <RouterLink
                                                 to={setting === 'Profile' ? '/profile' : '/logout'}
-                                                style={{ textDecoration: 'none', color: 'inherit' }}
+                                                style={{textDecoration: 'none', color: 'inherit'}}
                                             >
                                                 {setting}
                                             </RouterLink>
