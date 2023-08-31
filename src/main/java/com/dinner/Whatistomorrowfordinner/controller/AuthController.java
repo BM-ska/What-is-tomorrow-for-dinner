@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://34.116.180.131:3000", allowedHeaders = "*")
 public class AuthController {
 
     private final UserRepository userRepository;

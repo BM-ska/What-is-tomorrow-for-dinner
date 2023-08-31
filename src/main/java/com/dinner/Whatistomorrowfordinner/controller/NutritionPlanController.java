@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://34.116.180.131:3000", allowedHeaders = "*")
 public class NutritionPlanController {
     private final UserRepository userRepository;
     private final NutritionPlanService nutritionPlanService;

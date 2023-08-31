@@ -48,7 +48,7 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
     const updateRecipeData = (updatedRecipeData: Recipe) => {
         const token = localStorage.getItem('token');
         if (token) {
-            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
+            axios.put(`http://34.116.180.131:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -61,7 +61,7 @@ function EditRecipeHeader({recipe, ingredient, idRecipe}: props) {
                 });
         } else {
             console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
+            window.location.href = "http://34.116.180.131:3000/sign-in";
         }
 
 

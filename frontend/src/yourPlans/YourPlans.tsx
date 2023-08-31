@@ -23,7 +23,7 @@ function YourPlans() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            fetch(`http://localhost:8080/your-plans`, {
+            fetch(`http://34.116.180.131:8080/your-plans`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -38,7 +38,7 @@ function YourPlans() {
                 });
         } else {
             console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
+            window.location.href = "http://34.116.180.131:3000/sign-in";
         }
 
     }, []);

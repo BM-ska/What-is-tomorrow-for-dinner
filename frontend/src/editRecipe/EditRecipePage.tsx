@@ -46,7 +46,7 @@ function EditRecipePage() {
 
             const token = localStorage.getItem('token');
             if (token) {
-                fetch(`http://localhost:8080/recipe-book/${idRecipe}`, {
+                fetch(`http://34.116.180.131:8080/recipe-book/${idRecipe}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -61,7 +61,7 @@ function EditRecipePage() {
                     });
             } else {
                 console.log('Token not found in localStorage');
-                window.location.href = "http://localhost:3000/sign-in";
+                window.location.href = "http://34.116.180.131:3000/sign-in";
             }
 
 
@@ -97,7 +97,7 @@ function EditRecipePage() {
         const token = localStorage.getItem('token');
 
         if (token) {
-            axios.put(`http://localhost:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
+            axios.put(`http://34.116.180.131:8080/recipe-book/update/recipe/${idRecipe}`, updatedRecipeData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -110,7 +110,7 @@ function EditRecipePage() {
                 });
         } else {
             console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
+            window.location.href = "http://34.116.180.131:3000/sign-in";
         }
 
 

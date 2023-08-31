@@ -62,7 +62,7 @@ function PreliminaryNutritionPlanHeader({dayPlanList}: props) {
     const savePlan = (dayPlanList: DayPlan[]) => {
         const token = localStorage.getItem('token');
         if (token) {
-            axios.put(`http://localhost:8080/nutrition-plan/preliminary/${idPlan}/save`, dayPlanList, {
+            axios.put(`http://34.116.180.131:8080/nutrition-plan/preliminary/${idPlan}/save`, dayPlanList, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -75,7 +75,7 @@ function PreliminaryNutritionPlanHeader({dayPlanList}: props) {
                 });
         } else {
             console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
+            window.location.href = "http://34.116.180.131:3000/sign-in";
         }
 
 

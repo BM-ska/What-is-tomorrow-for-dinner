@@ -11,11 +11,11 @@ function NutritionPlanHeader() {
     const idPlan: number = Number(useLocation().pathname.slice(12));
 
     const showDescription = () => {
-        window.location.href = `http://localhost:3000/your-plans/${idPlan}/description`
+        window.location.href = `http://34.116.180.131:3000/your-plans/${idPlan}/description`
     };
 
     const showShoppingList = () => {
-        window.location.href = `http://localhost:3000/your-plans/${idPlan}/shopping-list`
+        window.location.href = `http://34.116.180.131:3000/your-plans/${idPlan}/shopping-list`
     };
 
     return (

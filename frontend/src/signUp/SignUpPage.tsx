@@ -30,7 +30,7 @@ export default function SignUp() {
             };
 
             const response = await axios.post(
-                'http://localhost:8080/sign-up',
+                'http://34.116.180.131:8080/sign-up',
                 credentials,
                 {
                     headers: {
@@ -41,7 +41,7 @@ export default function SignUp() {
 
             if (response.status === 200) {
                 console.log('Zarejestrowano poprawnie');
-                window.location.href = "http://localhost:3000";
+                window.location.href = "http://34.116.180.131:3000";
             } else {
                 console.error('Użytkownik już istnieje');
             }

@@ -31,7 +31,7 @@ export default function SignIn() {
             };
 
             const response = await axios.post(
-                'http://localhost:8080/sign-in',
+                'http://34.116.180.131:8080/sign-in',
                 credentials,
                 {
                     headers: {
@@ -46,7 +46,7 @@ export default function SignIn() {
                 localStorage.setItem('token', authToken);
                 console.log("wysłano post z tokenem:" + authToken);
                 console.log('Zalogowano');
-                window.location.href = "http://localhost:3000";
+                window.location.href = "http://34.116.180.131:3000";
             } else {
                 console.error('Błąd logowania: Brak nagłówka "Authorization" w odpowiedzi.');
             }

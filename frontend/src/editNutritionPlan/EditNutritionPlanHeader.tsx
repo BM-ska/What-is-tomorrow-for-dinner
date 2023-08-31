@@ -37,7 +37,7 @@ function EditNutritionPlanHeader({plan}: props) {
         const newPlan = deleteUndeclaredUsers(plan)
         const token = localStorage.getItem('token');
         if (token) {
-            axios.put(`http://localhost:8080/nutrition-plan/create`, newPlan, {
+            axios.put(`http://34.116.180.131:8080/nutrition-plan/create`, newPlan, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ function EditNutritionPlanHeader({plan}: props) {
             })
                 .then((response) => {
                     console.log('New nutrition-plan data updated successfully:', response.data);
-                    window.location.href = `http://localhost:3000/edit-preliminary-plan/${response.data}`;
+                    window.location.href = `http://34.116.180.131:3000/edit-preliminary-plan/${response.data}`;
                 })
                 .catch((error) => {
                     console.error('Failed to update new nutrition-plan:', error);
@@ -53,7 +53,7 @@ function EditNutritionPlanHeader({plan}: props) {
 
         } else {
             console.log('Token not found in localStorage');
-            window.location.href = "http://localhost:3000/sign-in";
+            window.location.href = "http://34.116.180.131:3000/sign-in";
         }
 
 

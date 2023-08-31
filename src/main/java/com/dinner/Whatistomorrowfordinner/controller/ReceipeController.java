@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://34.116.180.131:3000", allowedHeaders = "*")
 public class ReceipeController {
 
     private final UserRepository userRepository;
