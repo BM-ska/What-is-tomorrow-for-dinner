@@ -43,19 +43,19 @@ Follow these steps to set up a Docker container for MongoDB:
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/fcd9c776-6275-45ae-baf6-321a5770debe)
 
 
-###
+### Individual recipe book
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/46622252-c722-4edf-9c2e-d85daacc17d1)
 
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/5bf37f4e-f710-49cd-9571-e42fb18a875b)
 
-###
+### Diet plan generator
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/4cbdc944-249d-4d1f-8637-a48b66a1108d)
 
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/28fbc6a4-c60f-4bb7-a3b2-f07f4de23861)
-###
+### Shopping list
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/4f0a84b5-5fea-4bf6-a694-b56a2f48cb8a)
 
-###
+### Cooking plan
 ![image](https://github.com/BM-ska/What-is-tomorrow-for-dinner/assets/58348985/1406e712-23cb-4065-8d56-3473eda04dae)
 
 
